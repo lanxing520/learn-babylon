@@ -14,8 +14,8 @@ export default defineConfig({
     },
   },
   server: {
-    host:'0,0,0,0',
-    port:5200,
+    host: '0.0.0.0',
+    port: 5170,
     headers: {
       // 确保 iframe 可以正常加载
       'Cross-Origin-Embedder-Policy': 'require-corp',

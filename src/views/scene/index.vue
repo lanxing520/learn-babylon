@@ -1,9 +1,9 @@
 <template>
   <canvas id="renderCanvas" touch-action="none"></canvas>
 </template>
-<script setup>
+<script setup lang="ts">
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera'
-import * as BABYLON from "@babylonjs/core/Legacy/legacy";
+import * as BABYLON from '@babylonjs/core/Legacy/legacy'
 
 import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight'
 import { Vector3 } from '@babylonjs/core/Maths/math.vector'
@@ -14,10 +14,10 @@ import { GridMaterial } from '@babylonjs/materials/grid/gridMaterial'
 import { onMounted } from 'vue'
 
 onMounted(async () => {
-  const canvas = document.getElementById('renderCanvas')
+  const canvas = document.getElementById('renderCanvas') as HTMLCanvasElement
   // // Associate a Babylon Engine to it.
-
-  const engine = await BABYLON.EngineFactory.CreateAsync(canvas)
+  if (!canvas) return
+  const engine = await BABYLON.EngineFactory.CreateAsync(canvas, {})
 
   // Create our first scene.
   const scene = new Scene(engine)
