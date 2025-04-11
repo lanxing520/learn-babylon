@@ -1,10 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import Scene from './views/scene/index.vue'
+import DeepSeek from './views/scene/DeepSeek.vue'
 </script>
 
 <template>
   <main class="main">
-    <Scene />
+    <DeepSeek />
+    <!-- <Scene /> -->
   </main>
 </template>
 <style scoped lang="scss">

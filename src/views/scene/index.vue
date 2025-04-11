@@ -2,16 +2,12 @@
   <canvas id="renderCanvas" touch-action="none"></canvas>
 </template>
 <script setup lang="ts">
-import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera'
 import * as BABYLON from '@babylonjs/core/Legacy/legacy'
-
-import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight'
-import { Vector3 } from '@babylonjs/core/Maths/math.vector'
-import { CreateGround } from '@babylonjs/core/Meshes/Builders/groundBuilder'
-import { CreateSphere } from '@babylonjs/core/Meshes/Builders/sphereBuilder'
-import { Scene } from '@babylonjs/core/scene'
-import { GridMaterial } from '@babylonjs/materials/grid/gridMaterial'
+import { registerBuiltInLoaders } from '@babylonjs/loaders/dynamic'
 import { onMounted } from 'vue'
+
+const PI = Math.PI
+registerBuiltInLoaders()
 
 onMounted(async () => {
   const canvas = document.getElementById('renderCanvas') as HTMLCanvasElement
@@ -20,31 +16,40 @@ onMounted(async () => {
   const engine = await BABYLON.EngineFactory.CreateAsync(canvas, {})
 
   // Create our first scene.
-  const scene = new Scene(engine)
+  const scene = new BABYLON.Scene(engine)
   // This creates and positions a free camera (non-mesh)
-  const camera = new FreeCamera('camera1', new Vector3(0, 5, -10), scene)
+  // const camera = new FreeCamera('camera1', new Vector3(0, 5, -10), scene)
+  const camera = new BABYLON.ArcRotateCamera(
+    'camera',
+    -PI / 2,
+    PI / 2.5,
+    10,
+    new BABYLON.Vector3(0, 0, 0),
+    scene,
+  )
   // This targets the camera to scene origin
-  camera.setTarget(Vector3.Zero())
+  camera.setTarget(BABYLON.Vector3.Zero())
   // This attaches the camera to the canvas
   camera.attachControl(canvas, true)
   // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-  const light = new HemisphericLight('light2', new Vector3(0, 1, 0), scene)
+  const light = new BABYLON.HemisphericLight('light2', new BABYLON.Vector3(0, 1, 0), scene)
   // Default intensity is 1. Let's dim the light a small amount
   light.intensity = 0.7
   // Create a grid material
-  const material = new GridMaterial('grid', scene)
+  const material = new BABYLON.StandardMaterial('mat', scene)
   // Our built-in 'sphere' shape.
-  const sphere = CreateSphere('sphere1', { segments: 16, diameter: 2 }, scene)
+  const sphere = BABYLON.CreateSphere('sphere1', { segments: 16, diameter: 2 }, scene)
   // Move the sphere upward 1/2 its height
   sphere.position.y = 2
   // Affect a material
   sphere.material = material
 
   // Our built-in 'ground' shape.
-  const ground = CreateGround('ground1', { width: 6, height: 6, subdivisions: 2 }, scene)
+  const ground = BABYLON.CreateGround('ground1', { width: 6, height: 6, subdivisions: 2 }, scene)
 
   // Affect a material
   ground.material = material
+  await BABYLON.AppendSceneAsync('/test.glb', scene)
 
   // Render every frame
   engine.runRenderLoop(() => {
