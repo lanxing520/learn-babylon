@@ -111,7 +111,7 @@ function createParticleFlow(sourceBottle: any, targetBottle: any) {
   // 配置粒子
   particleSystem.particleTexture = new BABYLON.Texture('textures/waterbump.png', scene)
 
-  particleSystem.emitter = sourceBottle
+  particleSystem.emitter = sourceBottle.position.add(new BABYLON.Vector3(0, 0.1, 0))
 
   // particleSystem.emitter = pointEmitter
 

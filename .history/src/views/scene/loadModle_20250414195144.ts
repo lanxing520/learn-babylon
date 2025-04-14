@@ -58,7 +58,7 @@ export async function loadItems() {
       false,
       1,
       () => {
-        createParticleFlow(liquid, liquid2)
+        createParticleFlow(saltWater.meshes[0], pfp.meshes[0])
         scene.beginDirectAnimation(
           saltWater.meshes[0],
           [rotateAni('rotation.z')],
@@ -104,43 +104,30 @@ function createLiquid(bottle: any, height = 0.12) {
 }
 // 使用 粒子系统(动态流动效果)
 function createParticleFlow(sourceBottle: any, targetBottle: any) {
-  particleSystem = new BABYLON.ParticleSystem('water', 2000, scene)
+  particleSystem = new BABYLON.ParticleSystem('water', 200, scene)
   //  particleSystem.emitRate = 100;
   //  particleSystem.minLifeTime = 2;
   //  particleSystem.manualEmitCount = 40000;
   // 配置粒子
   particleSystem.particleTexture = new BABYLON.Texture('textures/waterbump.png', scene)
-
-  particleSystem.emitter = sourceBottle
-
-  // particleSystem.emitter = pointEmitter
+  particleSystem.emitter = sourceBottle.position.add(new BABYLON.Vector3(0, 0.1, 0))
 
   // particleSystem.minEmitBox = new BABYLON.Vector3(-0.01, 0, -0.01)
   // particleSystem.maxEmitBox = new BABYLON.Vector3(0.01, 0, 0.01)
   particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0)
   particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0)
-
-  particleSystem.minScaleX = 0.001
-  particleSystem.maxScaleX = 0.002
-  particleSystem.minScaleY = 0.001
-  particleSystem.maxScaleY = 0.003
-
-  particleSystem.minSize = 0.05
-  particleSystem.maxSize = 0.1
-
+  particleSystem.minSize = 0.01
+  particleSystem.maxSize = 0.02
   particleSystem.minLifeTime = 1
   particleSystem.maxLifeTime = 5
-  particleSystem.emitRate = 100
-  particleSystem.updateSpeed = 0.6
-
-  particleSystem.addSizeGradient(0, 1) //size at start of particle lifetime
-  particleSystem.addSizeGradient(1, 0.5) //size at end of particle lifetime
+  particleSystem.emitRate = 20
+  particleSystem.updateSpeed = 0.06
   //  particleSystem.direction1 = new BABYLON.Vector3(0, -1, 0)
   //  particleSystem.direction2 = new BABYLON.Vector3(0, -1, 0)
   // 物理行为
   particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0)
   particleSystem.direction1 = targetBottle.position.subtract(sourceBottle.position)
-  // particleSystem.direction2 = particleSystem.direction1.clone()
+  particleSystem.direction2 = particleSystem.direction1.clone()
 
   const fluidRenderer = scene.enableFluidRenderer()
   fluidRenderer.addParticleSystem(particleSystem)

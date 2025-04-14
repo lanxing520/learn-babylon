@@ -58,7 +58,7 @@ export async function loadItems() {
       false,
       1,
       () => {
-        createParticleFlow(liquid, liquid2)
+        createParticleFlow(saltWater.meshes[0], pfp.meshes[0])
         scene.beginDirectAnimation(
           saltWater.meshes[0],
           [rotateAni('rotation.z')],
@@ -111,9 +111,7 @@ function createParticleFlow(sourceBottle: any, targetBottle: any) {
   // 配置粒子
   particleSystem.particleTexture = new BABYLON.Texture('textures/waterbump.png', scene)
 
-  particleSystem.emitter = sourceBottle
-
-  // particleSystem.emitter = pointEmitter
+  particleSystem.emitter = sourceBottle.position.add(new BABYLON.Vector3(0, 0.1, 0))
 
   // particleSystem.minEmitBox = new BABYLON.Vector3(-0.01, 0, -0.01)
   // particleSystem.maxEmitBox = new BABYLON.Vector3(0.01, 0, 0.01)

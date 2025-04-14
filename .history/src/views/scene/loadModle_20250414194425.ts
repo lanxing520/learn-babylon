@@ -58,7 +58,7 @@ export async function loadItems() {
       false,
       1,
       () => {
-        createParticleFlow(liquid, liquid2)
+        // createParticleFlow(saltWater.meshes[0], pfp.meshes[0])
         scene.beginDirectAnimation(
           saltWater.meshes[0],
           [rotateAni('rotation.z')],
@@ -110,47 +110,25 @@ function createParticleFlow(sourceBottle: any, targetBottle: any) {
   //  particleSystem.manualEmitCount = 40000;
   // 配置粒子
   particleSystem.particleTexture = new BABYLON.Texture('textures/waterbump.png', scene)
+  particleSystem.emitter = sourceBottle.position.add(new BABYLON.Vector3(0, 0.1, 0))
 
-  particleSystem.emitter = sourceBottle
+  particleSystem.minEmitBox = new BABYLON.Vector3(-0.01, 0, -0.01)
+  particleSystem.maxEmitBox = new BABYLON.Vector3(0.01, 0, 0.01)
 
-  // particleSystem.emitter = pointEmitter
-
-  // particleSystem.minEmitBox = new BABYLON.Vector3(-0.01, 0, -0.01)
-  // particleSystem.maxEmitBox = new BABYLON.Vector3(0.01, 0, 0.01)
-  particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0)
-  particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0)
-
-  particleSystem.minScaleX = 0.001
-  particleSystem.maxScaleX = 0.002
-  particleSystem.minScaleY = 0.001
-  particleSystem.maxScaleY = 0.003
-
-  particleSystem.minSize = 0.05
-  particleSystem.maxSize = 0.1
-
-  particleSystem.minLifeTime = 1
-  particleSystem.maxLifeTime = 5
-  particleSystem.emitRate = 100
-  particleSystem.updateSpeed = 0.6
-
-  particleSystem.addSizeGradient(0, 1) //size at start of particle lifetime
-  particleSystem.addSizeGradient(1, 0.5) //size at end of particle lifetime
-  //  particleSystem.direction1 = new BABYLON.Vector3(0, -1, 0)
-  //  particleSystem.direction2 = new BABYLON.Vector3(0, -1, 0)
   // 物理行为
   particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0)
   particleSystem.direction1 = targetBottle.position.subtract(sourceBottle.position)
-  // particleSystem.direction2 = particleSystem.direction1.clone()
+  particleSystem.direction2 = particleSystem.direction1.clone()
 
   const fluidRenderer = scene.enableFluidRenderer()
   fluidRenderer.addParticleSystem(particleSystem)
   // 启动粒子
-  particleSystem.start()
-  // particleSystem.start(2000) //time in milliseconds
+  // particleSystem.start()
+  particleSystem.start(2000) //time in milliseconds
 
-  // particleSystem.startDelay = 2000
-  // particleSystem.targetStopDuration = 2
-  // particleSystem.updateSpeed = 0.1
+  particleSystem.startDelay = 2000
+  particleSystem.targetStopDuration = 2
+  particleSystem.updateSpeed = 0.1
   particleSystem.disposeOnStop = true
 }
 // 倒水动画
