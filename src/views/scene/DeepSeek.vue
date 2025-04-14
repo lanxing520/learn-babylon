@@ -11,13 +11,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, useTemplateRef } from 'vue'
-
-import * as BABYLON from '@babylonjs/core/Legacy/legacy'
-import { registerBuiltInLoaders } from '@babylonjs/loaders/dynamic'
-// import '@babylonjs/loaders/glTF' // 启用GLTF加载器
-import { loadScene, loadItems } from './loadModle'
-import { loadLight } from './loadLight'
-import HavokPhysics from "@babylonjs/havok";
+import { initScene } from './initScene'
 
 const animationList = [
   { name: '步骤一' },
@@ -27,58 +21,15 @@ const animationList = [
   { name: '步骤五' },
 ]
 const renderCanvas = useTemplateRef<HTMLCanvasElement>('renderCanvas')
-registerBuiltInLoaders()
+
 onMounted(async () => {
-  // 1. 初始化引擎和场景
   if (!renderCanvas.value) return
-  const engine = await BABYLON.EngineFactory.CreateAsync(renderCanvas.value, {})
-  //  const enginIns = new BABYLON.EngineInstrumentation(engine)
-  //  enginIns.captureGPUFrameTime = true
-  //  enginIns.captureShaderCompilationTime = true
-  const scene = new BABYLON.Scene(engine)
-
-  // const havokInstance = await HavokPhysics();
-  // const hk = new BABYLON.HavokPlugin(true, havokInstance);
-  // scene.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk);
-
-  scene.autoClear = false // Color buffer
-  scene.freezeActiveMeshes()
-  scene.blockMaterialDirtyMechanism = true
-  scene.performancePriority = BABYLON.ScenePerformancePriority.Aggressive
-
-  // 2. 设置相机和灯光
-  const camera = new BABYLON.ArcRotateCamera(
-    'camera',
-    -Math.PI / 2,
-    0.95,
-    4,
-    new BABYLON.Vector3(1, 0, 0),
-    scene,
-  )
-
-  // window.camera = camera
-  camera.attachControl(renderCanvas.value, true)
-
-  loadLight(scene)
-
-  // 3. 加载GLTF模型
-  await loadScene(scene)
-  await loadItems(scene)
-
-  // 4. 启动渲染循环
-  engine.runRenderLoop(() => {
-    scene.render()
-  })
-
-  // 窗口大小调整
-  const resize = () => engine.resize()
-  window.addEventListener('resize', resize)
-
-  onUnmounted(() => {
-    engine.dispose()
-    window.removeEventListener('resize', resize)
-  })
+  await initScene(renderCanvas.value)
 })
+onUnmounted(() => {
+
+})
+
 </script>
 
 <style scoped lang="scss">
