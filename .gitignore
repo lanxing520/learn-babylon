@@ -47,3 +47,35 @@ Thumbs.db
 # 其他
 *.log
 *.tmp
+
+# 依赖目录
+
+.pnpm-store/
+
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 编辑器目录和文件
+
+# 测试相关
+coverage/
+.nyc_output/
+
+# 类型Script 编译输出
+*.js.map
+*.d.ts
+
+# Vite 特定文件
+*.env
+
+# 本地历史文件
+.history/
+
+# 调试文件
+debug.log
+package-lock.json
+
