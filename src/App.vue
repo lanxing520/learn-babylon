@@ -1,24 +1,42 @@
-<script setup>
-import Scene from './views/scene/index.vue'
-import DeepSeek from './views/scene/DeepSeek.vue'
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
 
-import TrueWater from './views/text/TrueWater.vue'
+const routerList = [
+  { name: '首页', route: '/' },
+  { name: '实验', route: '/experiment-page' },
+]
+const router = useRouter()
+const goTo = (route: string) => {
+  router.push(route)
+}
 </script>
 
 <template>
   <main class="main">
-    <!-- <TrueWater /> -->
-    <DeepSeek />
-    <!-- <Scene /> -->
+    <div v-if="0" class="top-container">
+      <el-button
+        type="primary"
+        v-for="(item, i) in routerList"
+        :key="i"
+        @click="goTo(item.route)"
+        >{{ item.name }}</el-button
+      >
+    </div>
+    <router-view></router-view>
   </main>
 </template>
 <style scoped lang="scss">
 .main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  .top-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
 }
 </style>
