@@ -44,34 +44,35 @@ export async function loadItems() {
     jtdg.meshes[0].position = new BABYLON.Vector3(op.x + 0.6, op.y + 0.02, op.z)
     // jtdg.meshes[0].rotation = new BABYLON.Vector3(1, 0, 0)
     customRotate(jtdg.meshes[0], [0, op.y + 2, 0])
+    createWaterStream(liquid)
+    // createParticleFlow(liquid, liquid2)
+    // scene.beginDirectAnimation(
+    //   saltWater.meshes[0],
+    //   [
+    //     moveAni('position', [
+    //       [op.x, op.y, op.z],
+    //       [op.x, op.y + 0.4, op.z],
+    //     ]),
+    //   ],
+    //   0,
+    //   2 * frameRate,
+    //   false,
+    //   1,
+    //   () => {
+    //     createParticleFlow(liquid, liquid2)
+    //     scene.beginDirectAnimation(
+    //       saltWater.meshes[0],
+    //       [rotateAni('rotation.z')],
+    //       0,
+    //       2 * frameRate,
+    //       true,
+    //       1,
+    //     )
+    //   },
+    // )
 
-    scene.beginDirectAnimation(
-      saltWater.meshes[0],
-      [
-        moveAni('position', [
-          [op.x, op.y, op.z],
-          [op.x, op.y + 0.4, op.z],
-        ]),
-      ],
-      0,
-      2 * frameRate,
-      false,
-      1,
-      () => {
-        createParticleFlow(liquid, liquid2)
-        scene.beginDirectAnimation(
-          saltWater.meshes[0],
-          [rotateAni('rotation.z')],
-          0,
-          2 * frameRate,
-          true,
-          1,
-        )
-      },
-    )
-
-    scene.beginDirectAnimation(liquid, [pourAnimation()], 0, 6 * frameRate, true, 1)
-    scene.beginDirectAnimation(liquid2, [addWaterAnimation()], 0, 6 * frameRate, true, 1)
+    // scene.beginDirectAnimation(liquid, [pourAnimation()], 0, 6 * frameRate, true, 1)
+    // scene.beginDirectAnimation(liquid2, [addWaterAni()], 0, 6 * frameRate, true, 1)
   } catch (error) {
     console.error('物品加载失败:', error)
   }
@@ -111,7 +112,12 @@ function createParticleFlow(sourceBottle: any, targetBottle: any) {
   // 配置粒子
   particleSystem.particleTexture = new BABYLON.Texture('textures/waterbump.png', scene)
 
-  particleSystem.emitter = sourceBottle
+  // const pointEmitter = particleSystem.createPointEmitter(
+  //   new BABYLON.Vector3(0, -2, 0),
+  //   new BABYLON.Vector3(0, 0, 0),
+  // )
+
+  particleSystem.emitter = sourceBottle.absolutePosition
 
   // particleSystem.emitter = pointEmitter
 
@@ -120,26 +126,27 @@ function createParticleFlow(sourceBottle: any, targetBottle: any) {
   particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0)
   particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0)
 
-  particleSystem.minScaleX = 0.001
-  particleSystem.maxScaleX = 0.002
-  particleSystem.minScaleY = 0.001
-  particleSystem.maxScaleY = 0.003
+  // particleSystem.minScaleX = 0.1
+  // particleSystem.maxScaleX = 0.2
+  // particleSystem.minScaleY = 0.1
+  // particleSystem.maxScaleY = 0.3
 
-  particleSystem.minSize = 0.05
-  particleSystem.maxSize = 0.1
+  particleSystem.minSize = 0.1 / 5
+  particleSystem.maxSize = 0.5 / 5
 
-  particleSystem.minLifeTime = 1
-  particleSystem.maxLifeTime = 5
+  particleSystem.minLifeTime = 0.01
+  particleSystem.maxLifeTime = 0.03
   particleSystem.emitRate = 100
-  particleSystem.updateSpeed = 0.6
+  particleSystem.updateSpeed = 0.06
 
-  particleSystem.addSizeGradient(0, 1) //size at start of particle lifetime
-  particleSystem.addSizeGradient(1, 0.5) //size at end of particle lifetime
-  //  particleSystem.direction1 = new BABYLON.Vector3(0, -1, 0)
-  //  particleSystem.direction2 = new BABYLON.Vector3(0, -1, 0)
+  // particleSystem.addSizeGradient(0, 1) //size at start of particle lifetime
+  // particleSystem.addSizeGradient(1, 0.5) //size at end of particle lifetime
+  particleSystem.direction1 = new BABYLON.Vector3(0, -2, 0)
+  particleSystem.direction2 = new BABYLON.Vector3(0, 0, 0)
   // 物理行为
-  particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0)
-  particleSystem.direction1 = targetBottle.position.subtract(sourceBottle.position)
+  // particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0)
+  // particleSystem.direction1 = targetBottle.absolutePosition.subtract(sourceBottle.absolutePosition)
+
   // particleSystem.direction2 = particleSystem.direction1.clone()
 
   const fluidRenderer = scene.enableFluidRenderer()
@@ -151,8 +158,48 @@ function createParticleFlow(sourceBottle: any, targetBottle: any) {
   // particleSystem.startDelay = 2000
   // particleSystem.targetStopDuration = 2
   // particleSystem.updateSpeed = 0.1
-  particleSystem.disposeOnStop = true
+  // particleSystem.disposeOnStop = true
 }
+
+const createWaterStream = function (position: BABYLON.AbstractMesh | BABYLON.Vector3) {
+  const particleSystem = new BABYLON.ParticleSystem('waterStream', 2000, scene)
+
+  // 发射器设置
+
+  particleSystem.particleEmitterType = particleSystem.createPointEmitter(
+    new BABYLON.Vector3(0, -1, 0),
+    new BABYLON.Vector3(0, 0, 0),
+  )
+  particleSystem.emitter = position
+
+  // 粒子参数
+  particleSystem.emitRate = 40
+  particleSystem.minEmitPower = 0.5
+  particleSystem.maxEmitPower = 0.7
+  particleSystem.minLifeTime = 1.2
+  particleSystem.maxLifeTime = 1.8
+
+  // 大小和外观
+  particleSystem.minSize = 0.04
+  particleSystem.maxSize = 0.08
+  particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 0.6)
+  particleSystem.color2 = new BABYLON.Color4(0.8, 0.9, 1.0, 0.3)
+  particleSystem.colorDead = new BABYLON.Color4(0.9, 0.95, 1.0, 0.0)
+
+  // 运动设置
+  // particleSystem.direction1 = new BABYLON.Vector3(-0.1, -1, -0.1)
+  // particleSystem.direction2 = new BABYLON.Vector3(0.1, -1, 0.1)
+  // particleSystem.gravity = new BABYLON.Vector3(0, -0.8, 0)
+
+  // 纹理和渲染
+  particleSystem.particleTexture = new BABYLON.Texture('textures/waterParticle.png', scene)
+  const fluidRenderer = scene.enableFluidRenderer()
+  fluidRenderer.addParticleSystem(particleSystem)
+
+  particleSystem.start()
+  // return particleSystem
+}
+
 // 倒水动画
 function pourAnimation() {
   // 2. 液体高度动画
@@ -175,7 +222,7 @@ function pourAnimation() {
 
   return liquidAnim
 }
-function addWaterAnimation() {
+function addWaterAni() {
   // 2. 液体高度动画
   const liquidAnim = new BABYLON.Animation(
     'liquidHeight',

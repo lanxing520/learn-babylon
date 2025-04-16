@@ -71,7 +71,7 @@ export async function loadItems() {
     )
 
     scene.beginDirectAnimation(liquid, [pourAnimation()], 0, 6 * frameRate, true, 1)
-    scene.beginDirectAnimation(liquid2, [addWaterAnimation()], 0, 6 * frameRate, true, 1)
+    scene.beginDirectAnimation(liquid2, [addWaterAni()], 0, 6 * frameRate, true, 1)
   } catch (error) {
     console.error('物品加载失败:', error)
   }
@@ -175,7 +175,7 @@ function pourAnimation() {
 
   return liquidAnim
 }
-function addWaterAnimation() {
+function addWaterAni() {
   // 2. 液体高度动画
   const liquidAnim = new BABYLON.Animation(
     'liquidHeight',
