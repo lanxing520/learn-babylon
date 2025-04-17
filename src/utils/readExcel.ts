@@ -11,21 +11,24 @@ export async function readExcelFile(file: File) {
 
     reader.onload = (e) => {
       try {
-        const data = new Uint8Array(e.target.result)
+        const data = new Uint8Array(e?.target?.result as any)
         const workbook = XLSX.read(data, { type: 'array' })
-
+        // console.log(workbook)
+        const dataObject = {} as any
         // 获取第一个工作表
-        const firstSheetName = workbook.SheetNames[0]
-        const worksheet = workbook.Sheets[firstSheetName]
-
-        // 转换为JSON
-        const jsonData = XLSX.utils.sheet_to_json(worksheet)
-        resolve(jsonData)
+        if (workbook.SheetNames.length) {
+          workbook.SheetNames.forEach((e) => {
+            const worksheet = workbook.Sheets[e]
+            const data = XLSX.utils.sheet_to_json(worksheet)
+            dataObject[e] = data
+          })
+          // console.log(dataObject)
+        }
+        resolve([dataObject])
       } catch (error) {
         reject(error)
       }
     }
-
     reader.onerror = (error) => reject(error)
     reader.readAsArrayBuffer(file)
   })

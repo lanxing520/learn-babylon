@@ -1,94 +1,79 @@
 <template>
   <div class="read-excel">
     <input type="file" class="m-b" accept=".xlsx, .xls" @change="handleFileUpload" />
+    <div class="tab-container">
+      <div v-for="(item, i) in tabList" class="tab-item" :key="i" @click="switchTab(item)">
+        {{ item }}
+      </div>
+    </div>
 
-    <table class="table" v-if="excelData.length">
-      <thead>
-        <tr>
-          <th v-for="(header,i) in Object.values(excelData[0])" :key="i">
-            {{ header }}
-          </th>
-        </tr>
-      </thead>
-      <tbody class="tbody">
-        <tr v-for="(row, index) in excelData.slice(1)" :key="index">
-          <td v-for="(value, i) in Object.values(row)" :key="i">
-            {{ value }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <el-table :data="tableData" height="350">
+      <el-table-column :prop="item" :label="item" v-for="(item, i) in tableColum" :key="i" />
+    </el-table>
   </div>
 </template>
 
 <script setup lang="ts">
 import { readExcelFile } from '@/utils/readExcel.ts'
-import { ref } from 'vue'
+
+import { ref, computed } from 'vue'
 const emit = defineEmits(['file-upload'])
-const excelData = ref<any>([])
+const excelData = ref<any>({})
+const tabList = ref<string[]>([])
+const activeTab = ref('')
+const tableData = ref([])
+
 const handleFileUpload = async (event: any) => {
   if (!event?.target?.files?.[0]) return
   const file = event.target.files[0]
 
   try {
-    excelData.value = await readExcelFile(file)
-    emit('file-upload', excelData.value)
+    const data = (await readExcelFile(file)) as any[]
+    excelData.value = data[0]
+    tabList.value = Object.keys(excelData.value) as string[]
+    activeTab.value = tabList.value[0]
+    tableData.value = excelData.value[tabList.value[0]]
+    emit('file-upload', data[0])
   } catch (error) {
     console.error('解析Excel失败:', error)
-    alert('文件解析失败，请检查文件格式')
+    // alert('文件解析失败，请检查文件格式')
   }
+}
+
+const tableColum = computed(() => {
+  const s = excelData?.value?.[activeTab.value]?.[0]
+  if (s) {
+    return Object.keys(s)
+  }
+  return []
+})
+
+const switchTab = (item: string) => {
+  activeTab.value = item
+  tableData.value = excelData.value[item]
 }
 </script>
 <style lang="scss" scoped>
 .read-excel {
   height: 450px;
 
-  .m-b{
+  .tab-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    .tab-item {
+      padding: 3px;
+      border: 1px solid #aeaeae;
+      background: #aeaeae;
+      cursor: pointer;
+      &:hover {
+        color: aqua;
+      }
+    }
+  }
+
+  .m-b {
     margin-bottom: 1rem;
   }
-
-  table,
-  th,
-  td {
-    border: 1px solid;
-  }
-
-  table {
-    width: 100%;
-
-    height: 400px;
-    margin: 0 auto;
-    display: block;
-    overflow-x: auto;
-    border-spacing: 0;
-    border-collapse: collapse;
-  }
-
-  tbody {
-    white-space: nowrap;
-  }
-
-  // th,
-  // td {
-  //   padding: 5px 10px;
-  //   border-top-width: 0;
-  //   border-left-width: 0;
-  // }
-
-  th {
-    position: sticky;
-    top: 0;
-    background: #fff;
-    vertical-align: bottom;
-  }
-
-  // th:last-child,
-  // td:last-child {
-  //   border-right-width: 0;
-  // }
-
-  // tr:last-child td {
-  //   border-bottom-width: 0;
-  // }
 }
 </style>

@@ -1,44 +1,50 @@
 <template>
   <section class="experiment-one">
     <canvas class="canvas" ref="renderCanvas"></canvas>
+    <div class="now-step">当前步骤:{{ active.name }}</div>
     <div class="left-button-wrapper">
       <div class="animation-list">
-        <div class="animation-item" v-for="item in animationList" :key="item.name">
+        <div
+          class="animation-item"
+          :class="{ finish: finishedStep.includes(item.name) }"
+          v-for="(item, i) in props.stepList"
+          :key="i"
+          @click="stepClick(i)"
+        >
           {{ item.name }}
         </div>
       </div>
     </div>
-    <div class="file-button" @click="dialogVisible = true">获取excel</div>
+    <div class="center-bottom-desc">{{ active.desc }}</div>
   </section>
-
-  <el-dialog v-model="dialogVisible" title="读取文件" align-center width="800">
-    <ReadExcel @file-upload="getFileData" />
-    <template #footer>
-      <el-button>确定</el-button>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, useTemplateRef } from 'vue'
+import { ref, onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue'
 import { initScene } from '../methods/initScene'
-import ReadExcel from '@/components/ReadExcel.vue'
 
-const dialogVisible = ref(false)
-const fileData = ref([])
-const animationList = ref([{ name: '步骤一' }])
-const renderCanvas = useTemplateRef<HTMLCanvasElement>('renderCanvas')
-
-const getFileData = (data: any) => {
-  fileData.value = data.map((e: any) => Object.values(e))
-  // animationList.value=
-  console.log(fileData.value)
+interface Step {
+  name: string
+  desc: string
 }
+
+const props = defineProps<{ stepList: Step[] }>()
+
+const active = ref<Step>({ name: '', desc: '' })
+const finishedStep = ref<string[]>([])
+// const animationList = ref([{ name: '步骤一', desc: '' }])
+const renderCanvas = useTemplateRef<HTMLCanvasElement>('renderCanvas')
 
 onMounted(async () => {
   if (!renderCanvas.value) return
-  // await initScene(renderCanvas.value)
+  await initScene(renderCanvas.value)
 })
+watchEffect(() => {
+  active.value = props.stepList[0]
+})
+const stepClick = (i: number) => {
+  active.value = props.stepList[i]
+}
 onUnmounted(() => {})
 </script>
 
@@ -47,31 +53,35 @@ onUnmounted(() => {})
   position: relative;
   width: 100%;
   height: 100vh;
-  .file-button {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 5px;
-    border: 1px solid #aeaeae;
-    background: rgba(0, 255, 255, 0.2);
-    cursor: pointer;
-  }
+
   .canvas {
     width: 100%;
     height: 100vh;
     display: block;
   }
-
+  .now-step {
+    position: absolute;
+    left: 1rem;
+    top: 4rem;
+    color: #fff;
+    background: no-repeat center url('src/assets/img/experiment/当前步骤.png');
+    background-size: 100% 100%;
+    width: 10rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+  }
   .left-button-wrapper {
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
     left: 0;
-    top: 0;
-    background-color: #fff;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: auto;
     width: 150px;
-    height: 100vh;
+    height: 65%;
 
     .animation-list {
       display: flex;
@@ -80,15 +90,38 @@ onUnmounted(() => {})
       justify-content: center;
       gap: 1rem;
       .animation-item {
-        padding: 1rem 2rem;
-        background-color: aqua;
+        width: 8rem;
+        height: 3rem;
+        line-height: 3rem;
+        text-align: center;
+
+        background: no-repeat center url('@/assets/img/experiment/步骤.png');
+        background-size: 100% 100%;
+        color: #75d2fa;
         cursor: pointer;
         border-radius: 15px;
         &:hover {
           background-color: rgba(0, 255, 255, 0.3);
         }
+
+        &.finish {
+          background-image: url('@/assets/img/experiment/步骤finish.png');
+        }
       }
     }
+  }
+
+  .center-bottom-desc {
+    position: absolute;
+    left: 50%;
+    width: 70%;
+    bottom: 1rem;
+    min-height: 8rem;
+    transform: translateX(-50%);
+    background: no-repeat center url('@/assets/img/experiment/文本框.png');
+    background-size: 100% 100%;
+    padding: 1rem;
+    color: #fff;
   }
 }
 </style>
