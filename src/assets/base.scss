@@ -1,4 +1,6 @@
 /* color palette from <https://github.com/vuejs/theme> */
+@use './styles/variables.scss';
+
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
@@ -60,7 +62,7 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--vt-c-white);
   background: var(--color-background);
   transition:
     color 0.5s,

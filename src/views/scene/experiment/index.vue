@@ -1,79 +1,35 @@
 <template>
-  <div class="experiment-page">
-    <ExperimentOne :stepList="experiment[0]" />
-    <div class="top-bg"></div>
-    <div class="file-button" @click="dialogVisible = true">获取excel</div>
-  </div>
-  <el-dialog v-model="dialogVisible" title="读取文件" align-center width="90%">
-    <ReadExcel class="excel" @file-upload="getFileData" />
-    <template #footer>
-      <el-button @click="onConfirm">确定</el-button>
-    </template>
-  </el-dialog>
+  <ExperimentLayout>
+    <div class="experiment-page">
+      <ExperimentIntroduction v-show="store.activeTab === '实验介绍'" />
+      <ExperimentalPrinciple v-show="store.activeTab === '实验原理'" />
+      <ExperimentOne v-show="store.activeTab === '实验模拟'" />
+
+      <div class="fps">{{ fps }}</div>
+    </div>
+  </ExperimentLayout>
 </template>
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import ExperimentLayout from '@/components/ExperimentLayout.vue'
+import ExperimentIntroduction from './ExperimentIntroduction.vue'
+import ExperimentalPrinciple from './ExperimentalPrinciple.vue'
 import ExperimentOne from './ExperimentOne.vue'
-import ReadExcel from '@/components/ReadExcel.vue'
-const dialogVisible = ref(false)
-const fileData = ref<any>([])
-const experiment = ref<{ name: string; desc: string }[][]>([])
-const localData = localStorage.getItem('fileData')
-if (localData) {
-  fileData.value = JSON.parse(localData)
-}
+import { fps } from '../methods/config'
+import { useExperimentStore } from '@/stores/experimentStore'
 
-const getFileData = (data: any) => {
-  fileData.value = data
-}
-const onConfirm = () => {
-  dialogVisible.value = false
-  localStorage.setItem('fileData', JSON.stringify(fileData.value))
-}
-
-watchEffect(() => {
-  experiment.value[0] = getStepList(fileData.value['实验模拟一'])
-  experiment.value[1] = getStepList(fileData.value['实验模拟二'])
-  experiment.value[2] = getStepList(fileData.value['实验模拟三'])
-  experiment.value[3] = getStepList(fileData.value['实验模拟四'])
-  experiment.value[4] = getStepList(fileData.value['实验模拟五'])
-})
-
-function getStepList(arr: any) {
-  const empty = [] as { name: string; desc: string }[]
-  if (!arr.length) return []
-  arr.forEach((e: any) => {
-    if (e['步骤Name']) {
-      empty.push({
-        name: e['步骤Name'],
-        desc: e['描述'],
-      })
-    }
-  })
-  return empty
-}
+const store = useExperimentStore()
 </script>
 <style scoped lang="scss">
 .experiment-page {
   position: relative;
+  height: calc(100vh - 5rem);
 
-  .top-bg {
+  .fps {
     position: absolute;
+    right: 0;
     top: 0;
-    width: 100%;
-    height: 3rem;
-    background: no-repeat center url('@/assets/img/标题22.png');
-    background-size: 100% 100%;
-  }
-  .file-button {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 5px;
-    border: 1px solid #aeaeae;
-    background: rgba(0, 255, 255, 0.2);
-    cursor: pointer;
-    z-index: 9;
+    font-size: 2rem;
+    z-index: 9999;
   }
 }
 </style>

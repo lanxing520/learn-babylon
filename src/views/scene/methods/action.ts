@@ -9,18 +9,13 @@ export function addMouseOverInfo(mesh: any) {
   // 初始化ActionManager
   mesh.actionManager = mesh.actionManager || new BABYLON.ActionManager(scene)
 
-  // 存储原始材质
-  let originalMaterial: any
-
+  //高亮效果
+  const hl = new BABYLON.HighlightLayer('hl1', scene)
   // 鼠标悬停事件
   mesh.actionManager.registerAction(
     new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function () {
       // 高亮效果
-      originalMaterial = mesh.material
-      const highlightMaterial = new BABYLON.StandardMaterial('highlight', scene, true)
-      highlightMaterial.emissiveColor = new BABYLON.Color3(170, 169, 174)
-      mesh.material = highlightMaterial
-
+      hl.addMesh(mesh, new BABYLON.Color3(151 / 255, 1, 1))
       // 显示信息
       showMeshInfo(mesh, scene.pointerX, scene.pointerY)
     }),
@@ -29,16 +24,12 @@ export function addMouseOverInfo(mesh: any) {
   // 鼠标移出事件
   mesh.actionManager.registerAction(
     new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, () => {
-      // 恢复材质
-      if (originalMaterial) {
-        mesh.material = originalMaterial
-      }
+      hl.removeMesh(mesh)
 
       // 隐藏信息
       hideMeshInfo()
     }),
   )
-
 
   function showMeshInfo(mesh: any, x: number, y: number) {
     infoPanel.style.position = 'absolute'

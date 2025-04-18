@@ -1,2 +1,22 @@
 $primary-color: #42b983;
 $font-size: 16px;
+
+@mixin img_bg {
+  background: no-repeat center;
+  background-size: 100% 100%;
+}
+
+.back_icon {
+  @include img_bg();
+  display: inline-block;
+  width: 3rem;
+  height: 1rem;
+  background-image: url('@/assets/img/返回.png');
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

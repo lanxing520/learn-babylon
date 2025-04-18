@@ -8,7 +8,8 @@ const frameRate = 30
 
 export async function loadScene() {
   try {
-    const mesh = await BABYLON.ImportMeshAsync('/model/scene/lab.glb', scene)
+    const res = await BABYLON.ImportMeshAsync('/model/scene/lab.glb', scene)
+    optimizeMesh(res.meshes)
     // mesh.meshes[0].scaling = new BABYLON.Vector3(3,3,3)
   } catch (error) {
     console.error('场景加载失败:', error)
@@ -185,3 +186,24 @@ const createWaterStream = (position: BABYLON.AbstractMesh | BABYLON.Vector3) => 
 }
 
 const createGlassWater = () => {}
+
+function optimizeMesh(meshes: BABYLON.AbstractMesh[]) {
+  const rootMesh = meshes[0]
+
+  // 情况 1：根节点是空容器 → 冻结所有子网格
+  if (rootMesh.getChildMeshes().length > 0) {
+    rootMesh.getChildMeshes().forEach((child) => {
+      child.freezeWorldMatrix()
+      child.material?.freeze()
+      child.doNotSyncBoundingInfo = true
+      // child?.material?.needDepthPrePass = true
+    })
+  }
+  // 情况 2：根节点是实际网格 → 直接冻结
+  else {
+    rootMesh.freezeWorldMatrix()
+    // rootMesh?.material?.needDepthPrePass = true
+    rootMesh.material?.freeze()
+    rootMesh.doNotSyncBoundingInfo = true
+  }
+}

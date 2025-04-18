@@ -12,6 +12,7 @@ export async function initScene(canvasDom: HTMLCanvasElement) {
   // 1. 初始化引擎和场景
   engine = await BABYLON.EngineFactory.CreateAsync(canvasDom, {
     GPUPowerPreference: 'high-performance',
+    stencil: true,
   })
   scene = new BABYLON.Scene(engine)
 

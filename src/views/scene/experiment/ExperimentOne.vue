@@ -1,13 +1,13 @@
 <template>
   <section class="experiment-one">
     <canvas class="canvas" ref="renderCanvas"></canvas>
-    <div class="now-step">当前步骤:{{ active.name }}</div>
+    <div class="now-step">当前步骤:{{ active?.name }}</div>
     <div class="left-button-wrapper">
       <div class="animation-list">
         <div
           class="animation-item"
           :class="{ finish: finishedStep.includes(item.name) }"
-          v-for="(item, i) in props.stepList"
+          v-for="(item, i) in store.getExperiment[0]"
           :key="i"
           @click="stepClick(i)"
         >
@@ -15,35 +15,33 @@
         </div>
       </div>
     </div>
-    <div class="center-bottom-desc">{{ active.desc }}</div>
+    <div class="center-bottom-desc">{{ active?.desc }}</div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue'
 import { initScene } from '../methods/initScene'
+import { useExperimentStore } from '@/stores/experimentStore'
 
 interface Step {
   name: string
   desc: string
 }
 
-const props = defineProps<{ stepList: Step[] }>()
-
 const active = ref<Step>({ name: '', desc: '' })
 const finishedStep = ref<string[]>([])
-// const animationList = ref([{ name: '步骤一', desc: '' }])
 const renderCanvas = useTemplateRef<HTMLCanvasElement>('renderCanvas')
-
+const store = useExperimentStore()
 onMounted(async () => {
   if (!renderCanvas.value) return
-  await initScene(renderCanvas.value)
+  // await initScene(renderCanvas.value)
 })
 watchEffect(() => {
-  active.value = props.stepList[0]
+  active.value = store.getExperiment[0][0]
 })
 const stepClick = (i: number) => {
-  active.value = props.stepList[i]
+  active.value = store.getExperiment[0][i]
 }
 onUnmounted(() => {})
 </script>
@@ -52,13 +50,14 @@ onUnmounted(() => {})
 .experiment-one {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 5rem);
 
   .canvas {
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 5rem);
     display: block;
   }
+
   .now-step {
     position: absolute;
     left: 1rem;
