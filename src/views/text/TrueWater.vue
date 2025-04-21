@@ -5,7 +5,7 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy'
 import { onMounted } from 'vue'
 import HavokPhysics from '@babylonjs/havok'
-import { loadLight } from '../scene/methods/loadLight'
+import { loadLight } from '../scene/experiment-methods/loadLight'
 
 onMounted(async () => {
   // 创建引擎和场景

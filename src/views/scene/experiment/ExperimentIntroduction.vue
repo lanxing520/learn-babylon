@@ -1,6 +1,6 @@
 <template>
   <div class="experiment-introduction">
-    <div class="exp-intro">{{ store.experimentInfo['实验简介'][0].ExpArticlesText }}</div>
+    <div class="exp-intro">{{ store?.experimentInfo?.['实验简介']?.[0]?.ExpArticlesText }}</div>
     <div class="bottom-pic-wrapper">
       <img src="@/assets/img/experiment/one/图片1.png" alt="" />
       <img src="@/assets/img/experiment/one/图片2.jpg" alt="" />

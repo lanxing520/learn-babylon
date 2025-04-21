@@ -13,7 +13,7 @@ const goTo = (route: string) => {
 
 <template>
   <main class="main">
-    <div v-if="0" class="top-container">
+    <!-- <div  class="top-container">
       <el-button
         type="primary"
         v-for="(item, i) in routerList"
@@ -21,7 +21,7 @@ const goTo = (route: string) => {
         @click="goTo(item.route)"
         >{{ item.name }}</el-button
       >
-    </div>
+    </div> -->
     <router-view></router-view>
   </main>
 </template>

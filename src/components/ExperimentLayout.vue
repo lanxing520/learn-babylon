@@ -8,6 +8,7 @@
           :class="{ active: item === store.activeTab }"
           v-for="(item, i) in tabs"
           :key="i"
+          @click="clickTab(item)"
         >
           {{ item }}
         </div>
@@ -72,13 +73,18 @@ const router = useRouter()
 const back = () => {
   router.push('/')
 }
-
+const clickTab = (item: string) => {
+  store.activeTab = item
+}
 onMounted(() => {})
 </script>
 
 <style scoped lang="scss">
 .experiment-layout {
   padding-top: 3rem;
+  background: no-repeat center url('@/assets/img/experiment_bg_black.png');
+  background-size: 100% 100%;
+
   .top-bg {
     position: absolute;
     display: grid;
