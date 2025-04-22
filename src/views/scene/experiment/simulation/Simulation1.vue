@@ -1,5 +1,10 @@
 <template>
-  <section class="experiment-one">
+  <section
+    v-loading="loading"
+    element-loading-background="rgba(35, 39, 46, 0.7)"
+    element-loading-text="Loading..."
+    class="experiment-one"
+  >
     <canvas class="canvas" ref="renderCanvas"></canvas>
     <div class="now-step">当前步骤:{{ active?.name }}</div>
     <div class="left-button-wrapper">
@@ -21,7 +26,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue'
-import { initScene,dispose } from '../../experiment-methods/initScene'
+import { initScene, dispose, loading } from './methods/initScene'
 import { useExperimentStore } from '@/stores/experimentStore'
 
 interface Step {
@@ -55,9 +60,10 @@ onUnmounted(() => {
   height: calc(100vh - 5rem);
 
   .canvas {
-    width: 100%;
-    height: calc(100vh - 5rem);
+    width: 100vw;
+    height: calc(100vh - 3rem);
     display: block;
+    transform: translate(-1rem, -1rem);
   }
 
   .now-step {

@@ -3,7 +3,7 @@
     <div class="experiment-page">
       <ExperimentIntroduction v-show="store.activeTab === '实验介绍'" />
       <ExperimentalPrinciple v-show="store.activeTab === '实验原理'" />
-      <Simulation v-show="store.activeTab === '实验模拟'" />
+      <Simulation v-if="store.activeTab === '实验模拟'" />
 
       <div class="fps">{{ fps }}</div>
     </div>
@@ -14,7 +14,7 @@ import ExperimentLayout from '@/components/ExperimentLayout.vue'
 import ExperimentIntroduction from './ExperimentIntroduction.vue'
 import ExperimentalPrinciple from './ExperimentalPrinciple.vue'
 import Simulation from './simulation/index.vue'
-import { fps } from '../experiment-methods/config'
+import { fps } from './simulation/methods/config.ts'
 import { useExperimentStore } from '@/stores/experimentStore'
 
 const store = useExperimentStore()

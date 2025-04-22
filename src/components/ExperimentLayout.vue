@@ -82,6 +82,7 @@ onMounted(() => {})
 <style scoped lang="scss">
 .experiment-layout {
   padding-top: 3rem;
+  height: 100vh;
   background: no-repeat center url('@/assets/img/experiment_bg_black.png');
   background-size: 100% 100%;
 
@@ -94,7 +95,7 @@ onMounted(() => {})
     height: 4rem;
     background: no-repeat center url('@/assets/img/标题22.png');
     background-size: 100% 100%;
-
+    z-index: 2;
     .exp-name {
       font-size: 1.6rem;
       font-weight: bold;

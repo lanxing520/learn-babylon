@@ -1,7 +1,7 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy'
-import { scene } from './initScene'
-import { addMouseOverInfo } from './action'
-import { createAnimeGroup, changeSizeAni, moveAni, rotateAni, customRotate } from './animation'
+import { scene } from '../initScene'
+import { addMouseOverInfo } from '../action'
+import { createAnimeGroup, changeSizeAni, moveAni, rotateAni, customRotate } from '../animation'
 
 const PI = Math.PI
 const frameRate = 30
