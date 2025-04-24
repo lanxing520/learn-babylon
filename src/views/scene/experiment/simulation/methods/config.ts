@@ -33,10 +33,10 @@ export default async () => {
     scene?.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk)
   }
   if (config.sceneOptimize) {
-    scene.autoClear = false // Color buffer
-    scene.freezeActiveMeshes()
-    scene.blockMaterialDirtyMechanism = true
-    scene.blockfreeActiveMeshesAndRenderingGroups = true
+    // scene.autoClear = false // Color buffer
+    // scene.freezeActiveMeshes()
+    // scene.blockMaterialDirtyMechanism = true
+    // scene.blockfreeActiveMeshesAndRenderingGroups = true
 
     //激进性能模式,会禁用鼠标事件
     // scene.performancePriority = BABYLON.ScenePerformancePriority.Aggressive

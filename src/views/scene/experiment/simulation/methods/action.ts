@@ -1,21 +1,18 @@
-import { scene } from './initScene'
-import * as BABYLON from '@babylonjs/core/Legacy/legacy'
+import { scene } from "./initScene"
+import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 
-
-
-const infoPanel = document.createElement('div')
+const infoPanel = document.createElement("div")
 document.body.appendChild(infoPanel)
 export function addMouseOverInfo(mesh: any) {
-
   if (!scene) return
   // 确保mesh有名称
-  mesh.name = mesh.name || '未命名Mesh'
+  mesh.name = mesh.name || "未命名Mesh"
 
   // 初始化ActionManager
   mesh.actionManager = mesh.actionManager || new BABYLON.ActionManager(scene)
 
   //高亮效果
-  const hl = new BABYLON.HighlightLayer('hl1', scene)
+  const hl = new BABYLON.HighlightLayer("hl1", scene)
   // 鼠标悬停事件
   mesh.actionManager.registerAction(
     new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function () {
@@ -38,28 +35,28 @@ export function addMouseOverInfo(mesh: any) {
   )
 
   function showMeshInfo(mesh: any, x: number, y: number) {
-    infoPanel.style.position = 'absolute'
-    infoPanel.style.backgroundColor = 'rgba(0,0,0,0.7)'
-    infoPanel.style.color = 'white'
-    infoPanel.style.padding = '10px'
-    infoPanel.style.borderRadius = '5px'
-    infoPanel.style.pointerEvents = 'none'
-    infoPanel.style.zIndex = '1000'
-    infoPanel.style.maxWidth = '300px'
+    infoPanel.style.position = "absolute"
+    infoPanel.style.backgroundColor = "rgba(0,0,0,0.7)"
+    infoPanel.style.color = "white"
+    infoPanel.style.padding = "10px"
+    infoPanel.style.borderRadius = "5px"
+    infoPanel.style.pointerEvents = "none"
+    infoPanel.style.zIndex = "1000"
+    infoPanel.style.maxWidth = "300px"
 
     // 收集mesh信息
     const info = `
-        <strong>${mesh.name || '未命名对象'}</strong><br>
+        <strong>${mesh.name || "未命名对象"}</strong><br>
         位置: X=${mesh.position.x.toFixed(2)}, Y=${mesh.position.y.toFixed(2)}, Z=${mesh.position.z.toFixed(2)}<br>
     `
-    infoPanel.style.left = x + 10 + 'px'
-    infoPanel.style.top = y + 10 + 'px'
+    infoPanel.style.left = x + 10 + "px"
+    infoPanel.style.top = y + 10 + "px"
     infoPanel.innerHTML = info
-    infoPanel.style.display = 'block'
+    infoPanel.style.display = "block"
   }
 
   function hideMeshInfo() {
-    infoPanel.style.display = 'none'
+    infoPanel.style.display = "none"
   }
 }
 export function move(mesh: any, position: [number, number, number]) {

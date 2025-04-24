@@ -75,7 +75,7 @@ export async function initScene(canvasDom: HTMLCanvasElement) {
   light.intensity = 0.5
   // 3. 加载GLTF模型
   await loadScene()
-  await loadItems()
+ 
   console.log(scene)
 
   // hide the loading screen when you want to

@@ -28,14 +28,16 @@
 import { ref, onMounted, onBeforeUnmount, useTemplateRef, watchEffect } from "vue"
 import { initScene, dispose, loading } from "./methods/initScene"
 import { useExperimentStore } from "@/stores/experimentStore"
-
+import { runStep1,stopStep } from "./methods/s1/step"
+import { loadItems } from "./methods/s1/loadModle"
 
 interface Step {
+  index: null | number
   name: string
   desc: string
 }
 
-const active = ref<Step>({ name: "", desc: "" })
+const active = ref<Step>({ index: null, name: "", desc: "" })
 const finishedStep = ref<string[]>([])
 const renderCanvas = useTemplateRef<HTMLCanvasElement>("renderCanvas")
 const store = useExperimentStore()
@@ -44,15 +46,36 @@ onMounted(async () => {
 
   try {
     await initScene(renderCanvas.value)
+    await loadItems()
   } catch (error) {
     console.error("初始化 Babylon 场景失败:", error)
   }
 })
 watchEffect(() => {
-  active.value = store.getExperiment[0][0]
+  // active.value = store.getExperiment[0][0]
 })
 const stepClick = (i: number) => {
-  active.value = store.getExperiment[0][i]
+  if (active.value.index === i) return
+  active.value.name = store.getExperiment[0][i].name
+  active.value.desc = store.getExperiment[0][i].desc
+  active.value.index = i
+  switch (i) {
+    case 0:
+      runStep1()
+      break
+    case 1:
+      stopStep()
+      break
+    case 2:
+      stopStep()
+      break
+    case 3:
+      stopStep()
+      break
+    case 4:
+      stopStep()
+      break
+  }
 }
 onBeforeUnmount(() => {
   // 通过 import.meta.hot 判断是否是热重载环境

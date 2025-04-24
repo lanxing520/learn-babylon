@@ -16,7 +16,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: "node_modules/@babylonjs/havok/dist/*.wasm",
+          src: "node_modules/@babylonjs/havok/lib/esm/*.wasm",
           dest: "assets",
         },
       ],
@@ -57,6 +57,6 @@ export default defineConfig({
       "Cross-Origin-Embedder-Policy": "require-corp",
       "Cross-Origin-Opener-Policy": "same-origin",
     },
-  
+    hmr: false, //禁用热更新,每次热更新刷新页面
   },
 })
