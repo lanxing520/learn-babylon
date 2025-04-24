@@ -1,8 +1,13 @@
 import { scene } from './initScene'
 import * as BABYLON from '@babylonjs/core/Legacy/legacy'
+
+
+
 const infoPanel = document.createElement('div')
 document.body.appendChild(infoPanel)
 export function addMouseOverInfo(mesh: any) {
+
+  if (!scene) return
   // 确保mesh有名称
   mesh.name = mesh.name || '未命名Mesh'
 
@@ -14,6 +19,7 @@ export function addMouseOverInfo(mesh: any) {
   // 鼠标悬停事件
   mesh.actionManager.registerAction(
     new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function () {
+      if (!scene) return
       // 高亮效果
       hl.addMesh(mesh, new BABYLON.Color3(151 / 255, 1, 1))
       // 显示信息
@@ -55,4 +61,7 @@ export function addMouseOverInfo(mesh: any) {
   function hideMeshInfo() {
     infoPanel.style.display = 'none'
   }
+}
+export function move(mesh: any, position: [number, number, number]) {
+  mesh.position = new BABYLON.Vector3(...position)
 }

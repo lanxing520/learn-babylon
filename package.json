@@ -19,6 +19,7 @@
     "@babylonjs/loaders": "^8.2.0",
     "@babylonjs/materials": "^8.2.0",
     "element-plus": "^2.9.7",
+    "lodash": "^4.17.21",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",
     "three": "^0.175.0",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.1",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.0",
     "@types/three": "^0.175.0",
     "@vitejs/plugin-vue": "^5.2.3",

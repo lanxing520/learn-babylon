@@ -6,8 +6,8 @@
       </div>
     </div>
 
-    <!-- <Simulation1 v-else/> -->
-    <component v-else :is="currentComponent"></component>
+    <Simulation1 />
+    <!-- <component v-else :is="currentComponent"></component> -->
   </div>
 </template>
 

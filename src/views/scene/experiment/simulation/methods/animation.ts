@@ -1,6 +1,7 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy'
 import { scene } from './initScene'
 
+
 const PI = Math.PI
 const frameRate = 30
 interface AnimationItem {
@@ -9,6 +10,7 @@ interface AnimationItem {
 }
 
 export function createAnimeGroup(groupName: string, list: AnimationItem[], option?: any) {
+
   const animeGroup = new BABYLON.AnimationGroup(groupName)
   list.forEach((e: AnimationItem, i) => {
     animeGroup.addTargetedAnimation(e.animation, e.mesh)
@@ -101,6 +103,8 @@ export function rotateAni(
 }
 
 export function customRotate(mesh: any, axis: number[]) {
+
+  if (!scene) return
   // 1. 定义自定义旋转轴（例如[1, 1, 0]）
   const customAxis = new BABYLON.Vector3(...axis).normalize()
 

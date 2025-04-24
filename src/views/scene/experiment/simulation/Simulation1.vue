@@ -25,22 +25,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, useTemplateRef, watchEffect } from 'vue'
-import { initScene, dispose, loading } from './methods/initScene'
-import { useExperimentStore } from '@/stores/experimentStore'
+import { ref, onMounted, onBeforeUnmount, useTemplateRef, watchEffect } from "vue"
+import { initScene, dispose, loading } from "./methods/initScene"
+import { useExperimentStore } from "@/stores/experimentStore"
+
 
 interface Step {
   name: string
   desc: string
 }
 
-const active = ref<Step>({ name: '', desc: '' })
+const active = ref<Step>({ name: "", desc: "" })
 const finishedStep = ref<string[]>([])
-const renderCanvas = useTemplateRef<HTMLCanvasElement>('renderCanvas')
+const renderCanvas = useTemplateRef<HTMLCanvasElement>("renderCanvas")
 const store = useExperimentStore()
 onMounted(async () => {
   if (!renderCanvas.value) return
-  await initScene(renderCanvas.value)
+
+  try {
+    await initScene(renderCanvas.value)
+  } catch (error) {
+    console.error("初始化 Babylon 场景失败:", error)
+  }
 })
 watchEffect(() => {
   active.value = store.getExperiment[0][0]
@@ -48,7 +54,8 @@ watchEffect(() => {
 const stepClick = (i: number) => {
   active.value = store.getExperiment[0][i]
 }
-onUnmounted(() => {
+onBeforeUnmount(() => {
+  // 通过 import.meta.hot 判断是否是热重载环境
   dispose()
 })
 </script>
@@ -71,7 +78,7 @@ onUnmounted(() => {
     left: 1rem;
     top: 4rem;
     color: #fff;
-    background: no-repeat center url('src/assets/img/experiment/当前步骤.png');
+    background: no-repeat center url("src/assets/img/experiment/当前步骤.png");
     background-size: 100% 100%;
     width: 10rem;
     height: 3rem;
@@ -102,7 +109,7 @@ onUnmounted(() => {
         line-height: 3rem;
         text-align: center;
 
-        background: no-repeat center url('@/assets/img/experiment/步骤.png');
+        background: no-repeat center url("@/assets/img/experiment/步骤.png");
         background-size: 100% 100%;
         color: #75d2fa;
         cursor: pointer;
@@ -112,7 +119,7 @@ onUnmounted(() => {
         }
 
         &.finish {
-          background-image: url('@/assets/img/experiment/步骤finish.png');
+          background-image: url("@/assets/img/experiment/步骤finish.png");
         }
       }
     }
@@ -125,7 +132,7 @@ onUnmounted(() => {
     bottom: 1rem;
     min-height: 8rem;
     transform: translateX(-50%);
-    background: no-repeat center url('@/assets/img/experiment/文本框.png');
+    background: no-repeat center url("@/assets/img/experiment/文本框.png");
     background-size: 100% 100%;
     padding: 1rem;
     color: #fff;

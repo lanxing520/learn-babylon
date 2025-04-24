@@ -16,16 +16,16 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'node_modules/@babylonjs/havok/dist/*.wasm',
-          dest: 'assets',
+          src: "node_modules/@babylonjs/havok/dist/*.wasm",
+          dest: "assets",
         },
       ],
     }),
     AutoImport({
       imports: [
-        'vue',
-        'vue-router',
-        'pinia',
+        "vue",
+        "vue-router",
+        "pinia",
         // 可以添加其他需要的自动导入
       ],
       dts: true, // 生成自动导入的TypeScript声明文件
@@ -37,25 +37,26 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    exclude: ['@babylonjs/havok'],
+    exclude: ["@babylonjs/havok"],
   },
-  assetsInclude: ['**/*.gltf', '**/*.glb', '**/*.bin', '**/*.wasm'], // 包含GLTF相关文件
+  assetsInclude: ["**/*.gltf", "**/*.glb", "**/*.bin", "**/*.wasm"], // 包含GLTF相关文件
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@assets': resolve(__dirname, 'src/assets'),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@assets": resolve(__dirname, "src/assets"),
     },
   },
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 5170,
     fs: {
       strict: false, // 允许从public目录外加载文件
     },
     headers: {
       // 确保 iframe 可以正常加载
-      'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Cross-Origin-Opener-Policy': 'same-origin',
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Opener-Policy": "same-origin",
     },
+  
   },
 })

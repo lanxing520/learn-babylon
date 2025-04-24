@@ -7,6 +7,11 @@ import router from './router'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+
+import { registerBuiltInLoaders } from "@babylonjs/loaders/dynamic"
+// 注册loaders
+registerBuiltInLoaders()
+//log
 const app = createApp(App)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate) // 注入插件
