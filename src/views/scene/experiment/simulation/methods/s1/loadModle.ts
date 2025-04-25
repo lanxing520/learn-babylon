@@ -1,6 +1,8 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 import { scene, camera } from "../initScene"
 import { addMouseOverInfo, move } from "../action"
+import { itemData } from "./itemData"
+import type { DynamicObject } from "./itemData"
 
 const PI = Math.PI
 
@@ -8,77 +10,18 @@ export const origin = { x: 4.3, y: 1.1, z: -2.4 }
 export async function loadScene() {
   if (!scene) return
   try {
-    // const res = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
-    // optimizeMesh(res.meshes)
+    const res = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
+    optimizeMesh(res.meshes)
     // mesh.meshes[0].scaling = new BABYLON.Vector3(3,3,3)
   } catch (error) {
     console.error("场景加载失败:", error)
   }
 }
-type DynamicObject = {
-  [key: string]: {
-    name: string
-    position: [number, number, number]
-    rotate?: [number, number, number]
-    scaling?: [number, number, number]
-  } // 任意字符串 key
-}
+
 type DynamicLoaderResult = {
   [key: string]: BABYLON.ISceneLoaderAsyncResult // 任意字符串 key
 }
-export const itemData = {
-  sterileSwab: {
-    name: "无菌棉签",
-    position: [origin.x, origin.y, origin.z - 0.2],
-    rotate: [0, 0, PI / 2],
-  },
-  disinfectant: {
-    name: "消毒液",
-    position: [origin.x, origin.y, origin.z - 0.4],
-    rotate: [0, PI / 2, 0],
-  },
 
-  sharpBox: {
-    name: "锐器盒",
-    position: [origin.x, origin.y - 0.02, origin.z - 0.8],
-    scaling: [3, 3, 3],
-  },
-  bloodNeedle: {
-    name: "一次性采血针",
-    position: [origin.x, origin.y, origin.z - 1.1],
-    scaling: [10, 10, 10],
-    // position:[0,0,0]
-    rotate: [PI / 2, 0, 0],
-  },
-  pen: {
-    name: "标记笔",
-    position: [origin.x, origin.y - 0.02, origin.z - 1.2],
-    scaling: [10, 10, 10],
-  },
-  centrifuge: {
-    name: "离心机",
-    position: [origin.x, origin.y - 0.02, origin.z - 2.8],
-  },
-  bloodTube: {
-    name: "真空采血管",
-    position: [origin.x - 0.1, origin.y, origin.z - 1.45],
-    scaling: [0.5, 0.5, 0.5],
-  },
-  testTubeRack: {
-    name: "试管架",
-    position: [origin.x, origin.y - 0.02, origin.z - 1.6],
-    rotate: [0, PI / 2, 0],
-  },
-  wasteBucket: {
-    name: "污物桶",
-    position: [origin.x - 1, origin.y - 0.02, origin.z - 2.5],
-    scaling: [8, 8, 8],
-  },
-  refrigerator: {
-    name: "冰箱",
-    position: [origin.x - 1.8, origin.y - 0.02, origin.z - 2.5],
-  },
-} as DynamicObject
 export const item = {} as DynamicLoaderResult
 async function loadAllItems() {
   if (!scene) return
@@ -90,7 +33,7 @@ async function loadAllItems() {
       if (!scene) return
       try {
         // 加载模型
-        const result = await BABYLON.ImportMeshAsync(url, scene)
+        const result = await BABYLON.ImportMeshAsync(url, scene, { name: data.name })
         const rootMesh = result.meshes[0]
         move(rootMesh, data.position)
 
@@ -105,7 +48,8 @@ async function loadAllItems() {
         }
 
         // 添加鼠标悬停信息
-        result.meshes.forEach((mesh) => {
+        result.meshes.forEach((mesh, i) => {
+          mesh.name = data.name
           addMouseOverInfo(mesh)
         })
 
@@ -141,7 +85,6 @@ export function disposeAllModle() {
 }
 export async function loadItems() {
   await loadAllItems()
-  console.log(item.bloodNeedle)
 
   // const tube = createTube(createSmoothPath(origin, { x: 4, y: 1.15, z: -2 }))
 

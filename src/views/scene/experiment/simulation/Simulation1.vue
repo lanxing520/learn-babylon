@@ -28,7 +28,7 @@
 import { ref, onMounted, onBeforeUnmount, useTemplateRef, watchEffect } from "vue"
 import { initScene, dispose, loading } from "./methods/initScene"
 import { useExperimentStore } from "@/stores/experimentStore"
-import { runStep1,stopStep } from "./methods/s1/step"
+import { runStep1, stopStep, runStep2, runStep3, runStep4, runStep5 } from "./methods/s1/step"
 import { loadItems } from "./methods/s1/loadModle"
 
 interface Step {
@@ -64,16 +64,20 @@ const stepClick = (i: number) => {
       runStep1()
       break
     case 1:
-      stopStep()
+      runStep2()
+      // stopStep()
       break
     case 2:
-      stopStep()
+      runStep3()
+      // stopStep()
       break
     case 3:
-      stopStep()
+      runStep4()
+      // stopStep()
       break
     case 4:
-      stopStep()
+      runStep5()
+      // stopStep()
       break
   }
 }

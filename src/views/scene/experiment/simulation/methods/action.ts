@@ -5,6 +5,10 @@ const infoPanel = document.createElement("div")
 document.body.appendChild(infoPanel)
 export function addMouseOverInfo(mesh: any) {
   if (!scene) return
+  // 确保只处理根节点
+  // if (mesh.parent) {
+  //   return
+  // }
   // 确保mesh有名称
   mesh.name = mesh.name || "未命名Mesh"
 
@@ -45,10 +49,7 @@ export function addMouseOverInfo(mesh: any) {
     infoPanel.style.maxWidth = "300px"
 
     // 收集mesh信息
-    const info = `
-        <strong>${mesh.name || "未命名对象"}</strong><br>
-        位置: X=${mesh.position.x.toFixed(2)}, Y=${mesh.position.y.toFixed(2)}, Z=${mesh.position.z.toFixed(2)}<br>
-    `
+    const info = `<strong>${mesh.name || "未命名对象"}</strong>`
     infoPanel.style.left = x + 10 + "px"
     infoPanel.style.top = y + 10 + "px"
     infoPanel.innerHTML = info
@@ -61,4 +62,10 @@ export function addMouseOverInfo(mesh: any) {
 }
 export function move(mesh: any, position: [number, number, number]) {
   mesh.position = new BABYLON.Vector3(...position)
+}
+export function rotate(mesh: any, rotation: [number, number, number]) {
+  mesh.rotation = new BABYLON.Vector3(...rotation)
+}
+export function scale(mesh: any, scale: [number, number, number]) {
+  mesh.scaling = new BABYLON.Vector3(...scale)
 }
