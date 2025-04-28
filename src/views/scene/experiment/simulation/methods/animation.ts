@@ -1,5 +1,5 @@
-import * as BABYLON from '@babylonjs/core/Legacy/legacy'
-import { scene } from './initScene'
+import * as BABYLON from "@babylonjs/core/Legacy/legacy"
+import { scene } from "./initScene"
 
 
 const PI = Math.PI
@@ -8,9 +8,11 @@ interface AnimationItem {
   animation: BABYLON.Animation
   mesh: BABYLON.AbstractMesh
 }
-
+interface Key {
+  frame: number
+  value: number | number[] | BABYLON.Vector3
+}
 export function createAnimeGroup(groupName: string, list: AnimationItem[], option?: any) {
-
   const animeGroup = new BABYLON.AnimationGroup(groupName)
   list.forEach((e: AnimationItem, i) => {
     animeGroup.addTargetedAnimation(e.animation, e.mesh)
@@ -24,13 +26,9 @@ export function createAnimeGroup(groupName: string, list: AnimationItem[], optio
  * @param key 关键帧
  * @returns 动画
  */
-export function changeSizeAni(
-  targetProperty: string,
-  key: { frame: number; value: number | number[] }[],
-) {
-
+export function changeSizeAni(targetProperty: string, key: Key[]) {
   const changeSize = new BABYLON.Animation(
-    'changeSize',
+    "changeSize",
     targetProperty,
     frameRate,
     BABYLON.Animation.ANIMATIONTYPE_FLOAT,
@@ -43,8 +41,8 @@ export function changeSizeAni(
 export function addWaterAni() {
   // 2. 液体高度动画
   const changeSize = new BABYLON.Animation(
-    'changeSize',
-    'scaling.y',
+    "changeSize",
+    "scaling.y",
     frameRate,
     BABYLON.Animation.ANIMATIONTYPE_FLOAT,
     BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
@@ -64,12 +62,10 @@ export function addWaterAni() {
  * @param key 关键帧
  * @returns 动画
  */
-export function moveAni(
-  targetProperty: string,
-  key: { frame: number; value: number | number[] }[],
-) {
+
+export function moveAni(targetProperty: string, key: Key[]) {
   const movein = new BABYLON.Animation(
-    'move',
+    "move",
     targetProperty,
     frameRate,
     BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
@@ -85,25 +81,20 @@ export function moveAni(
  * @param key 关键帧
  * @returns 动画
  */
-export function rotateAni(
-  targetProperty: string,
-  key: { frame: number; value: number | number[] }[],
-) {
+export function rotateAni(targetProperty: string, key: Key[]) {
   const rotate = new BABYLON.Animation(
-    'rotate',
+    "rotate",
     targetProperty,
     frameRate,
     BABYLON.Animation.ANIMATIONTYPE_FLOAT,
     BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
   )
 
-
   rotate.setKeys(getKey(key))
   return rotate
 }
 
 export function customRotate(mesh: any, axis: number[]) {
-
   if (!scene) return
   // 1. 定义自定义旋转轴（例如[1, 1, 0]）
   const customAxis = new BABYLON.Vector3(...axis).normalize()
@@ -129,8 +120,8 @@ export function customRotate(mesh: any, axis: number[]) {
 
   // 创建旋转动画
   const animation = new BABYLON.Animation(
-    'customRotation',
-    'rotationQuaternion',
+    "customRotation",
+    "rotationQuaternion",
     frameRate,
     BABYLON.Animation.ANIMATIONTYPE_QUATERNION,
     BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE,
@@ -168,12 +159,19 @@ export function customRotate(mesh: any, axis: number[]) {
   scene.beginAnimation(mesh, 0, totalFrames, true)
 }
 
-function getKey(key: { frame: number; value: number | number[] }[]) {
+
+function getKey(key: Key[]) {
   return key.map((e) => {
     if (Array.isArray(e.value)) {
       return {
         frame: e.frame,
         value: new BABYLON.Vector3(...e.value),
+      }
+    } else if (e.value instanceof BABYLON.Vector3) {
+      // 如果已经是 Vector3，直接返回
+      return {
+        frame: e.frame,
+        value: e.value,
       }
     }
     return e

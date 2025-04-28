@@ -12,6 +12,9 @@ export async function loadScene() {
   try {
     const res = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
     optimizeMesh(res.meshes)
+    res.meshes.forEach((mesh) => {
+      mesh.isPickable = false
+    })
     // mesh.meshes[0].scaling = new BABYLON.Vector3(3,3,3)
   } catch (error) {
     console.error("场景加载失败:", error)
@@ -46,11 +49,10 @@ async function loadAllItems() {
         if (data.scaling) {
           rootMesh.scaling = new BABYLON.Vector3(...data.scaling)
         }
-
         // 添加鼠标悬停信息
-        result.meshes.forEach((mesh, i) => {
-          mesh.name = data.name
-          addMouseOverInfo(mesh)
+        result.meshes.forEach((e) => {
+          e.name=data.name
+          addMouseOverInfo(e)
         })
 
         // 存储加载结果
