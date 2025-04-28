@@ -24,7 +24,7 @@ import { move, rotate, scale, addHighlight, click, addMouseOverInfo } from "../a
 import { ref, watch } from "vue"
 
 const PI = Math.PI
-export const stepIndex = ref(2)
+export const stepIndex = ref(1)
 const frameRate = 30
 let person = null as null | ISceneLoaderAsyncResult
 let anim: AnimationGroup | null = null
