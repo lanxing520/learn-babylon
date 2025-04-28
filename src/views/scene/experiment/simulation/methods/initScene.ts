@@ -55,16 +55,16 @@ export async function initScene(canvasDom: HTMLCanvasElement) {
     Math.PI / 2,
     0.95,
     2,
-    new BABYLON.Vector3(3.5, 1.2, -3),
+    new BABYLON.Vector3(3.5, 1.2, -3.3),
     scene,
   )
   // 调整滚轮缩放灵敏度 (默认值为3.0)
-  camera.wheelPrecision = 40 // 值越大，缩放越慢；值越小，缩放越快
+  camera.wheelPrecision = 100 // 值越大，缩放越慢；值越小，缩放越快
 
   // 可选：限制缩放距离
-  camera.lowerRadiusLimit = 1 // 最小距离
+  camera.lowerRadiusLimit = 1.6 // 最小距离
   camera.upperRadiusLimit = 4 // 最大距离
-  camera.lowerBetaLimit = 0.1 // 最小垂直角度(避免完全垂直向下看)
+  camera.lowerBetaLimit = 0.5 // 最小垂直角度(避免完全垂直向下看)
   camera.upperBetaLimit = 2 // 最大垂直角度(π/2是水平视角)
   camera.attachControl(canvasDom, true)
 

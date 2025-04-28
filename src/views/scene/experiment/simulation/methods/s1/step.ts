@@ -536,10 +536,13 @@ export async function loadStep() {
     return
   } else if (stepIndex.value === 9) {
     addHighlight(item.jtdg.meshes as Mesh[])
+
     click(item.jtdg.meshes as Mesh[], 1, () => {
       item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
       const bxm = item.refrigerator.meshes[1]
       bxm.rotation = Vector3.Zero()
+      const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05)
+
       const animationStep9 = createAnimeGroup("step4AnimationGroup", [
         //移动采血管
         {
@@ -620,7 +623,13 @@ export async function loadStep() {
             },
           ]),
         },
-
+        {
+          mesh: blood as Mesh,
+          animation: changeSizeAni("scaling.y", [
+            { frame: 1.5 * frameRate, value: 0 },
+            { frame: 2.5 * frameRate, value: 1 },
+          ]),
+        },
         {
           mesh: bxm,
           animation: rotateAni("rotation.y", [
@@ -708,23 +717,24 @@ export function stopStep() {
   // }
 }
 
-function createLiquid(bottle: any, height = 0.12) {
+function createLiquid(bottle: any, height = 0.12, diameter = 0.03, transformY = 0.05) {
   if (!scene) return
   // 创建圆柱体作为液体
   const liquid = MeshBuilder.CreateCylinder(
     "liquid",
     {
       height,
-      diameter: 0.03,
+      diameter,
       tessellation: 32,
     },
     scene,
   )
+
   // 将轴心点移动到圆柱体底部
   liquid.setPivotPoint(new Vector3(0, -height / 2, 0))
   // 对齐到瓶子底部
   liquid.parent = bottle
-  liquid.position.y = 0.05 // 调整Y轴位置
+  liquid.position.y = transformY // 调整Y轴位置
 
   // 设置半透明材质
   const mat = new StandardMaterial("liquidMat", scene)
