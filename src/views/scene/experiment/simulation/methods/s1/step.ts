@@ -24,7 +24,7 @@ import { move, rotate, scale, addHighlight, click, addMouseOverInfo } from "../a
 import { ref, watch } from "vue"
 
 const PI = Math.PI
-export const stepIndex = ref(1)
+export const stepIndex = ref(2)
 const frameRate = 30
 let person = null as null | ISceneLoaderAsyncResult
 let anim: AnimationGroup | null = null
@@ -156,6 +156,7 @@ export async function loadStep() {
           value: [-0.05, 0, 0],
         },
       ])
+      tube.isVisible = true
       scene.beginDirectAnimation(tube, [animations], 0, 1 * frameRate, false, 1, () => {
         stepIndex.value++
       })
@@ -386,6 +387,7 @@ export async function loadStep() {
     }
     return
   } else if (stepIndex.value === 6) {
+    //标记
     item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
     addHighlight(item.pen.meshes as Mesh[])
     click(item.pen.meshes as Mesh[], 1, () => {
@@ -456,6 +458,7 @@ export async function loadStep() {
     })
     return
   } else if (stepIndex.value === 7) {
+    // 处理采血针
     if (!tube) return
     addHighlight([tube] as Mesh[])
     click([tube] as Mesh[], 1, () => {
@@ -483,50 +486,53 @@ export async function loadStep() {
     return
   } else if (stepIndex.value === 8) {
     addHighlight(item.bloodTube.meshes as Mesh[])
-    item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
-    // 重置变换
-    const lxjg = item.centrifuge.meshes[1]
-    lxjg.rotation = Vector3.Zero()
-    const animationStep8 = createAnimeGroup("animationStep8", [
-      // 移动采血管
-      {
-        mesh: item.bloodTube.meshes[0],
-        animation: moveAni("position", [
-          {
-            frame: 0,
-            value: step2Position.bloodTube,
-          },
-          {
-            frame: 1 * frameRate,
-            value: step2Position.bloodTube,
-          },
-          {
-            frame: 1.5 * frameRate,
-            value: [
-              step2Position.bloodTube[0],
-              step2Position.bloodTube[1] + 0.3,
-              step2Position.bloodTube[2],
-            ],
-          },
-          {
-            frame: 2 * frameRate,
-            value: step4Position.bloodTube,
-          },
-        ]),
-      },
-      {
-        mesh: lxjg,
-        animation: rotateAni("rotation.x", [
-          { frame: 2 * frameRate, value: -0.6 }, // 起始状态
-          { frame: 3 * frameRate, value: 0 }, // 旋转0.6弧度
-        ]),
-      },
-    ])
-    animationStep8.normalize(0, 3 * frameRate)
-    animationStep8.start()
-    animationStep8.onAnimationGroupEndObservable.add(() => {
-      stepIndex.value++
+    click(item.bloodTube.meshes as Mesh[], 1, () => {
+      item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
+      // 重置变换
+      const lxjg = item.centrifuge.meshes[1]
+      lxjg.rotation = Vector3.Zero()
+      const animationStep8 = createAnimeGroup("animationStep8", [
+        // 移动采血管
+        {
+          mesh: item.bloodTube.meshes[0],
+          animation: moveAni("position", [
+            {
+              frame: 0,
+              value: step2Position.bloodTube,
+            },
+            {
+              frame: 1 * frameRate,
+              value: step2Position.bloodTube,
+            },
+            {
+              frame: 1.5 * frameRate,
+              value: [
+                step2Position.bloodTube[0],
+                step2Position.bloodTube[1] + 0.3,
+                step2Position.bloodTube[2],
+              ],
+            },
+            {
+              frame: 2 * frameRate,
+              value: step4Position.bloodTube,
+            },
+          ]),
+        },
+        {
+          mesh: lxjg,
+          animation: rotateAni("rotation.x", [
+            { frame: 2 * frameRate, value: -0.6 }, // 起始状态
+            { frame: 3 * frameRate, value: 0 }, // 旋转0.6弧度
+          ]),
+        },
+      ])
+      animationStep8.normalize(0, 3 * frameRate)
+      animationStep8.start()
+      animationStep8.onAnimationGroupEndObservable.add(() => {
+        stepIndex.value++
+      })
     })
+
     return
   } else if (stepIndex.value === 9) {
     addHighlight(item.jtdg.meshes as Mesh[])
@@ -627,12 +633,11 @@ export async function loadStep() {
       animationStep9.normalize(0, 5 * frameRate)
       animationStep9.start()
 
-      animationStep9.onAnimationGroupEndObservable.add(() => {
-        stepIndex.value++
-      })
+      // animationStep9.onAnimationGroupEndObservable.add(() => {
+      //   stepIndex.value++
+      // })
     })
   }
- 
 }
 
 async function createMyNeedle() {
@@ -642,6 +647,7 @@ async function createMyNeedle() {
   const transparentMaterial = new StandardMaterial("transparentMat", scene)
   transparentMaterial.alpha = 0.2 // 设置透明度（0-1，0为完全透明，1为完全不透明）
   tube.material = transparentMaterial
+  tube.isVisible = false // 隐藏管子
   const needle1Res = await ImportMeshAsync("/model/item/experiment6/一次性采血针1.glb", scene)
   const needle2Res = await ImportMeshAsync("/model/item/experiment6/一次性采血针2.glb", scene)
   const needle1 = needle1Res.meshes[0] //针尾插管
@@ -718,7 +724,7 @@ function createLiquid(bottle: any, height = 0.12) {
   liquid.setPivotPoint(new Vector3(0, -height / 2, 0))
   // 对齐到瓶子底部
   liquid.parent = bottle
-  liquid.position.y = 0.08 // 调整Y轴位置
+  liquid.position.y = 0.05 // 调整Y轴位置
 
   // 设置半透明材质
   const mat = new StandardMaterial("liquidMat", scene)

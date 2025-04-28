@@ -76,9 +76,9 @@ export type DynamicObject = Record<
 
 export const step1Position = {
   bloodTube: [
-    itemData.testTubeRack.position[0],
-    itemData.testTubeRack.position[1] + 0.2,
-    itemData.testTubeRack.position[2],
+    itemData.testTubeRack.position[0] - 0.1,
+    itemData.testTubeRack.position[1] + 0.25,
+    itemData.testTubeRack.position[2] + 0.13,
   ],
   tube: [0.6, 0.06, 0],
 }

@@ -33,10 +33,7 @@ import {
   stopStep,
   loadTester,
   stepIndex,
-  runStep2,
-  runStep3,
-  runStep4,
-  runStep5,
+ 
 } from "./methods/s1/step"
 import { loadItems } from "./methods/s1/loadModle"
 
@@ -66,8 +63,21 @@ watchEffect(() => {
   active.value.name = store.getExperiment[0][0].name
   active.value.desc = store.getExperiment[0][0].desc
 })
-watch(stepIndex, () => {
+watch(stepIndex, (newVal) => {
   console.log(stepIndex.value)
+  if (newVal === 6) {
+    active.value.name = store.getExperiment[0][1].name
+    active.value.desc = store.getExperiment[0][1].desc
+  } else if (newVal === 7) {
+    active.value.name = store.getExperiment[0][2].name
+    active.value.desc = store.getExperiment[0][2].desc
+  } else if (newVal === 8) {
+    active.value.name = store.getExperiment[0][3].name
+    active.value.desc = store.getExperiment[0][3].desc
+  } else if (newVal === 9) {
+    active.value.name = store.getExperiment[0][4].name
+    active.value.desc = store.getExperiment[0][4].desc
+  }
 
   loadStep()
 })
