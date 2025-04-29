@@ -57,6 +57,6 @@ export default defineConfig({
       "Cross-Origin-Embedder-Policy": "require-corp",
       "Cross-Origin-Opener-Policy": "same-origin",
     },
-    hmr: false, //禁用热更新,每次热更新刷新页面
+    // hmr: false, //禁用热更新,每次热更新刷新页面
   },
 })

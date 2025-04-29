@@ -1,6 +1,20 @@
 /* color palette from <https://github.com/vuejs/theme> */
 @use './styles/variables.scss';
 
+@font-face {
+  font-family: 'optimizeTitleBlack';
+  src: url('@/assets/font/optimize_the_title_black_rule.TTF');
+      
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* 控制字体加载期间的显示行为 */
+}
+.normal-title{
+  font-family: optimizeTitleBlack;
+}
+.english{
+  font-size: 0.75rem;
+}
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;

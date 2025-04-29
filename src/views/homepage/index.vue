@@ -13,19 +13,27 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { useExperimentStore } from '@/stores/experimentStore'
-import ReadExcel from '@/components/ReadExcel.vue'
-import { ref, watchEffect } from 'vue'
+import { useRouter } from "vue-router"
+import { useExperimentStore } from "@/stores/experimentStore"
+import ReadExcel from "@/components/ReadExcel.vue"
+import { ref, watchEffect } from "vue"
 interface Route {
   name: string
   route: string
+  EnglishName:string
 }
 const store = useExperimentStore()
 const router = useRouter()
-const routes = [{ name: '人类免疫缺陷病毒（HIV）的筛查', route: '/experiment-page' }]
+const routes = [
+  {
+    name: "人类免疫缺陷病毒（HIV）的筛查",
+    EnglishName: "Screening for Human Immunodeficiency Virus (HIV)",
+    route: "/experiment-page",
+  },
+]
 const goTo = (item: Route) => {
-  store.changeName(item.name)
+  store.name = item.name
+  store.EnglishName = item.EnglishName
   router.push(item.route)
 }
 
@@ -54,7 +62,7 @@ const onConfirm = () => {
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  background: no-repeat center url('@/assets/img/experiment_bg_black.png');
+  background: no-repeat center url("@/assets/img/experiment_bg_black.png");
   background-size: 100% 100%;
 
   .tab {
@@ -62,13 +70,13 @@ const onConfirm = () => {
     height: 5rem;
     line-height: 5rem;
     text-align: center;
-    background: no-repeat center url('@/assets/img/little-tab.png');
+    background: no-repeat center url("@/assets/img/little-tab.png");
     background-size: 100% 100%;
     font-size: 1.5rem;
     cursor: pointer;
 
     &:hover {
-      background-image: url('@/assets/img/little_tab_active.png') !important;
+      background-image: url("@/assets/img/little_tab_active.png") !important;
     }
   }
 

@@ -3,7 +3,7 @@
     v-loading="loading"
     element-loading-background="rgba(35, 39, 46, 0.7)"
     element-loading-text="Loading..."
-    class="experiment-one"
+    class="experiment-simulation"
   >
     <canvas class="canvas" ref="renderCanvas"></canvas>
     <div class="now-step">当前步骤:{{ active?.name }}</div>
@@ -28,13 +28,7 @@
 import { ref, watch, onMounted, onBeforeUnmount, useTemplateRef, watchEffect } from "vue"
 import { initScene, dispose, loading } from "./methods/initScene"
 import { useExperimentStore } from "@/stores/experimentStore"
-import {
-  loadStep,
-  stopStep,
-  loadTester,
-  stepIndex,
- 
-} from "./methods/s1/step"
+import { loadStep, stopStep, loadTester, stepIndex } from "./methods/s1/step"
 import { loadItems } from "./methods/s1/loadModle"
 
 interface Step {
@@ -63,21 +57,19 @@ watchEffect(() => {
   active.value.name = store.getExperiment[0][0].name
   active.value.desc = store.getExperiment[0][0].desc
 })
+// 定义映射关系
+const stepMapping = {
+  0: 1,
+  1: 6,
+  2: 7,
+  3: 8,
+  4: 9,
+} as any
 watch(stepIndex, (newVal) => {
-  console.log(stepIndex.value)
-  if (newVal === 6) {
-    active.value.name = store.getExperiment[0][1].name
-    active.value.desc = store.getExperiment[0][1].desc
-  } else if (newVal === 7) {
-    active.value.name = store.getExperiment[0][2].name
-    active.value.desc = store.getExperiment[0][2].desc
-  } else if (newVal === 8) {
-    active.value.name = store.getExperiment[0][3].name
-    active.value.desc = store.getExperiment[0][3].desc
-  } else if (newVal === 9) {
-    active.value.name = store.getExperiment[0][4].name
-    active.value.desc = store.getExperiment[0][4].desc
-  }
+  // 获取对应的索引
+  const mappedIndex = stepMapping[newVal]
+  active.value.name = store.getExperiment[0][mappedIndex].name
+  active.value.desc = store.getExperiment[0][mappedIndex].desc
 
   loadStep()
 })
@@ -86,6 +78,7 @@ const stepClick = (i: number) => {
   active.value.name = store.getExperiment[0][i].name
   active.value.desc = store.getExperiment[0][i].desc
   active.value.index = i
+  stepIndex.value = stepMapping[i] ?? stepIndex.value
 }
 onBeforeUnmount(() => {
   // 通过 import.meta.hot 判断是否是热重载环境
@@ -94,81 +87,5 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-.experiment-one {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 5rem);
-
-  .canvas {
-    width: 100vw;
-    height: calc(100vh - 3rem);
-    display: block;
-    transform: translate(-1rem, -1rem);
-  }
-
-  .now-step {
-    position: absolute;
-    left: 1rem;
-    top: 4rem;
-    color: #fff;
-    background: no-repeat center url("src/assets/img/experiment/当前步骤.png");
-    background-size: 100% 100%;
-    width: 10rem;
-    height: 3rem;
-    line-height: 3rem;
-    text-align: center;
-  }
-  .left-button-wrapper {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    overflow: auto;
-    width: 150px;
-    height: 65%;
-
-    .animation-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      .animation-item {
-        width: 8rem;
-        height: 3rem;
-        line-height: 3rem;
-        text-align: center;
-
-        background: no-repeat center url("@/assets/img/experiment/步骤.png");
-        background-size: 100% 100%;
-        color: #75d2fa;
-        cursor: pointer;
-        border-radius: 15px;
-        &:hover {
-          background-color: rgba(0, 255, 255, 0.3);
-        }
-
-        &.finish {
-          background-image: url("@/assets/img/experiment/步骤finish.png");
-        }
-      }
-    }
-  }
-
-  .center-bottom-desc {
-    position: absolute;
-    left: 50%;
-    width: 70%;
-    bottom: 1rem;
-    min-height: 8rem;
-    transform: translateX(-50%);
-    background: no-repeat center url("@/assets/img/experiment/文本框.png");
-    background-size: 100% 100%;
-    padding: 1rem;
-    color: #fff;
-  }
-}
+@use "./simualtion-style.scss";
 </style>
