@@ -1,3 +1,5 @@
+import type { DynamicObject } from "../common/interface"
+
 const PI = Math.PI
 
 export const origin = { x: 4.3, y: 1.1, z: -2.4 }
@@ -62,17 +64,9 @@ export const itemData = {
   },
 } as DynamicObject
 
-type Vector3 = [number, number, number]
 
-export type DynamicObject = Record<
-  string,
-  {
-    name: string
-    position: Vector3
-    rotate?: Vector3
-    scaling?: Vector3
-  }
->
+
+
 
 export const step1Position = {
   bloodTube: [

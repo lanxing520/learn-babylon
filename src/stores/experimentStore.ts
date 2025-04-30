@@ -28,13 +28,14 @@ export const useExperimentStore = defineStore(
       return empty
     }
     const getExperiment = computed(() => {
+      if (isSimulation.value === null) return []
       const arr = []
       arr[0] = getStepList(experimentInfo.value["实验模拟一"])
       arr[1] = getStepList(experimentInfo.value["实验模拟二"])
       arr[2] = getStepList(experimentInfo.value["实验模拟三"])
       arr[3] = getStepList(experimentInfo.value["实验模拟四"])
       arr[4] = getStepList(experimentInfo.value["实验模拟五"])
-      return arr
+      return arr[isSimulation.value]
     })
     return {
       name,

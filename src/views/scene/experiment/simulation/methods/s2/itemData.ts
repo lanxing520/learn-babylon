@@ -1,64 +1,111 @@
 const PI = Math.PI
 
-export const origin = { x: 4.3, y: 1.1, z: -2.4 }
+export const origin = { x: 4.3, y: 1.08, z: -2.2 }
 
 export const itemData = {
-  sterileSwab: {
-    name: "无菌棉签",
-    position: [origin.x, origin.y, origin.z - 0.2],
-    rotate: [0, 0, PI / 2],
+  sjh: {
+    name: "试剂盒",
+    position: [origin.x, origin.y, origin.z - 0.8],
+    scaling: [0.8, 0.6, 0.8],
+    rotate: [0, PI, 0],
   },
-  disinfectant: {
-    name: "消毒液",
-    position: [origin.x, origin.y, origin.z - 0.4],
+  fbm: {
+    name: "封板膜",
+    position: [origin.x + 0.1, origin.y + 0.02, origin.z - 1.2],
     rotate: [0, PI / 2, 0],
+    scaling: 5,
   },
 
-  sharpBox: {
-    name: "锐器盒",
-    position: [origin.x, origin.y - 0.02, origin.z - 0.8],
-    scaling: [3, 3, 3],
+  mbbbb: {
+    name: "酶标包被板",
+    position: [origin.x, origin.y + 0.02, origin.z - 1.2],
+    rotate: [0, PI / 2, 0],
+    scaling: 5,
   },
-  bloodNeedle: {
-    name: "一次性采血针",
-    position: [origin.x, origin.y, origin.z - 1.1],
-    scaling: [10, 10, 10],
+  dz1: {
+    name: "阴性对照",
+    position: [origin.x + 0.1, origin.y + 0.03, origin.z - 0.62],
+    scaling: [0.5, 0.8, 0.5],
     // position:[0,0,0]
-    rotate: [PI / 2, 0, 0],
-  },
-  pen: {
-    name: "标记笔",
-    position: [origin.x, origin.y - 0.02, origin.z - 1.2],
-    scaling: [10, 10, 10],
-    rotate: [0, 0, PI / 2],
-  },
-  centrifuge: {
-    name: "离心机",
-    position: [origin.x, origin.y - 0.02, origin.z - 2.8],
-  },
-  jtdg: {
-    name: "胶头滴管",
-    position: [origin.x, origin.y, origin.z - 2.2],
-  },
-  bloodTube: {
-    name: "真空采血管",
-    position: [origin.x, origin.y, origin.z - 2],
-    scaling: [0.5, 0.5, 0.5],
-    rotate: [0, 0, PI / 2],
-  },
-  testTubeRack: {
-    name: "试管架",
-    position: [origin.x, origin.y - 0.02, origin.z - 1.6],
     rotate: [0, PI / 2, 0],
   },
-  wasteBucket: {
-    name: "污物桶",
-    position: [origin.x - 1, origin.y - 0.02, origin.z - 2.5],
+  dz2: {
+    name: "阳性对照",
+    position: [origin.x + 0.1, origin.y + 0.03, origin.z - 0.66],
+    scaling: [0.5, 0.8, 0.5],
+    rotate: [0, PI / 2, 0],
+  },
+  xsjA: {
+    name: "显色剂A液",
+    position: [origin.x + 0.1, origin.y + 0.03, origin.z - 0.72],
+    rotate: [0, PI / 2, 0],
+  },
+  xsjB: {
+    name: "显色剂B液",
+    position: [origin.x + 0.1, origin.y + 0.03, origin.z - 0.8],
+    rotate: [0, PI / 2, 0],
+  },
+  zzy: {
+    name: "终止液",
+    position: [origin.x + 0.1, origin.y + 0.03, origin.z - 0.88],
+    rotate: [0, PI / 2, 0],
+  },
+  mbek: {
+    name: "酶标二抗",
+    position: [origin.x + 0.1, origin.y + 0.03, origin.z - 0.96],
+    rotate: [0, -PI / 2, 0],
+    scaling: 0.62,
+  },
+  xdy: {
+    name: "洗涤液",
+
+    scaling: 0.62,
+
+    position: [origin.x - 0.05, origin.y + 0.03, origin.z - 0.96],
+    rotate: [0, -PI / 2, 0],
+  },
+  ybxsy: {
+    name: "样本稀释液",
+
+    scaling: 0.62,
+    position: [origin.x - 0.05, origin.y + 0.03, origin.z - 0.66],
+    rotate: [0, -PI / 2, 0],
+  },
+  lt: {
+    name: "量筒",
+    position: [origin.x, origin.y, origin.z - 0.2],
+  },
+  lxg: {
+    name: "离心管",
+    position: [origin.x, origin.y, origin.z + 0.08],
+    rotate: [0, PI / 2, 0],
     scaling: [8, 8, 8],
   },
-  refrigerator: {
+
+  jyq: {
+    name: "加样器",
+    position: [origin.x, origin.y, origin.z - 0.45],
+    scaling: 0.3,
+  },
+
+  mby: {
+    name: "酶标仪",
+    position: [origin.x - 0.1, origin.y + 0.02, origin.z - 1.5],
+    rotate: [0, -PI / 2, 0],
+    scaling: 8,
+  },
+
+  bx: {
     name: "冰箱",
-    position: [origin.x - 1.8, origin.y - 0.02, origin.z - 2.5],
+    position: [origin.x - 0.1, origin.y + 0.02, origin.z - 2],
+    scaling: [0.7, 0.7, 0.7],
+    rotate: [0, -PI / 2, 0],
+  },
+  hwx: {
+    name: "恒温箱",
+    position: [origin.x - 0.1, origin.y + 0.02, origin.z - 2.6],
+    scaling: [0.7, 0.7, 0.7],
+    rotate: [0, -PI / 2, 0],
   },
 } as DynamicObject
 
@@ -70,40 +117,6 @@ export type DynamicObject = Record<
     name: string
     position: Vector3
     rotate?: Vector3
-    scaling?: Vector3
+    scaling?: Vector3 | number
   }
 >
-
-export const step1Position = {
-  bloodTube: [
-    itemData.testTubeRack.position[0] - 0.1,
-    itemData.testTubeRack.position[1] + 0.25,
-    itemData.testTubeRack.position[2] + 0.13,
-  ],
-  tube: [0.6, 0.06, 0],
-}
-export const step2Position = {
-  bloodTube: [
-    step1Position.bloodTube[0],
-    step1Position.bloodTube[1] - 0.2,
-    step1Position.bloodTube[2],
-  ],
-}
-export const step3Position = {}
-export const step4Position = {
-  bloodTube: [
-    itemData.centrifuge.position[0],
-    itemData.centrifuge.position[1] + 0.1,
-    itemData.centrifuge.position[2],
-  ],
-}
-export const step5Position = {}
-
-// 采血针管路径点
-export const tubePoints = [
-  [3.53, 1.182, -3.28], //手
-  [3.6, 1.19, -3.25],
-  [3.7, 1.165, -3.2],
-  [3.8, 1.165, -3.18],
-  [3.9, 1.16, -3.18],
-] as [number, number, number][]

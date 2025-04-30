@@ -1,6 +1,6 @@
-import { item } from "./loadModle"
+import { item } from "../common/loadModle"
 import { itemData, tubePoints, step1Position, step2Position, step4Position } from "./itemData"
-import { scene, camera } from "../initScene"
+import { scene, camera } from "../common/initScene"
 import {
   ImportMeshAsync,
   StandardMaterial,
@@ -8,20 +8,22 @@ import {
   Color3,
   MeshBuilder,
   Vector3,
-  Color4,
-  Texture,
-  ParticleSystem,
   AbstractMesh,
   AnimationGroup,
   AnimationEvent,
-  PointerEventTypes,
 } from "@babylonjs/core"
 import type { ISceneLoaderAsyncResult } from "@babylonjs/core"
-import { createAnimeGroup, changeSizeAni, moveAni, rotateAni, customRotate } from "../animation"
-import { createBezierPath } from "../curvePath"
+import {
+  createAnimeGroup,
+  changeSizeAni,
+  moveAni,
+  rotateAni,
+  customRotate,
+} from "../common/animation"
+import { createBezierPath } from "../common/curvePath"
 import { createTube } from "./tube"
-import { move, rotate, scale, addHighlight, click, addMouseOverInfo } from "../action"
-import { ref, watch } from "vue"
+import { move, rotate, scale, addHighlight, click, addMouseOverInfo } from "../common/action"
+import { ref } from "vue"
 import { AudioPlayer } from "@/utils/audioPlayer"
 import { getAssetUrl } from "@/utils/assetHelper"
 
@@ -60,17 +62,8 @@ const audioPlayer = new AudioPlayer()
 async function playAudio(index: number) {
   try {
     const url = getAssetUrl(`audio/${index}.mp3`)
-
     audioPlayer.setVolume(1) // 设置为50%音量
     audioPlayer.play(url)
-
-    // 添加监听器以处理播放结束等事件
-    // const interval = setInterval(() => {
-    //   if (!audioPlayer.isPlayingStatus()) {
-    //     clearInterval(interval)
-    //     console.log("音频播放结束")
-    //   }
-    // }, 1000)
   } catch (error) {
     console.error("音频播放错误", error)
   }
@@ -79,7 +72,7 @@ export async function loadStep() {
   if (!scene) return
   if (stepIndex.value === 1) {
     addHighlight(item.sterileSwab.meshes as Mesh[])
-    click(item.sterileSwab.meshes as Mesh[], 1, () => {
+    click(item.sterileSwab.meshes as Mesh[], () => {
       playAudio(6)
       const bottleCaps = item?.disinfectant?.meshes?.[2]
       bottleCaps.setParent(null)
@@ -164,7 +157,7 @@ export async function loadStep() {
   } else if (stepIndex.value === 2) {
     addHighlight(item.bloodNeedle.meshes as Mesh[])
 
-    click(item.bloodNeedle.meshes as Mesh[], 1, async () => {
+    click(item.bloodNeedle.meshes as Mesh[], async () => {
       if (!scene) return
       await createMyNeedle()
       if (!tube) return
@@ -189,7 +182,7 @@ export async function loadStep() {
     addHighlight(item.bloodTube.meshes as Mesh[])
 
     // 创建多个tube分段
-    click(item.bloodTube.meshes as Mesh[], 1, async () => {
+    click(item.bloodTube.meshes as Mesh[], async () => {
       if (!scene) return
       const moveBloodTubeAnim = moveAni("position", [
         {
@@ -298,7 +291,7 @@ export async function loadStep() {
     addHighlight([person?.meshes[3]] as Mesh[])
     console.log(person?.meshes[3])
 
-    click([person?.meshes[3]] as Mesh[], 1, () => {
+    click([person?.meshes[3]] as Mesh[], () => {
       if (person && person.meshes[3]) {
         // 检查 person 和 meshes[3] 是否存在
         person.meshes[3].setParent(null)
@@ -345,7 +338,7 @@ export async function loadStep() {
       mq2.position = new Vector3(mq.position[0], mq.position[1], mq.position[2] - 0.05)
       addHighlight([mq2] as Mesh[])
       addMouseOverInfo(mq2)
-      click([mq2] as Mesh[], 1, () => {
+      click([mq2] as Mesh[], () => {
         const animationStep5 = createAnimeGroup("step5AnimationGroup", [
           //移动棉签2
           {
@@ -415,7 +408,7 @@ export async function loadStep() {
     playAudio(7)
     item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
     addHighlight(item.pen.meshes as Mesh[])
-    click(item.pen.meshes as Mesh[], 1, () => {
+    click(item.pen.meshes as Mesh[], () => {
       const animationStep6 = createAnimeGroup("animationStep6", [
         //移动标记笔
         {
@@ -487,7 +480,7 @@ export async function loadStep() {
     // 处理采血针
     if (!tube) return
     addHighlight([tube] as Mesh[])
-    click([tube] as Mesh[], 1, () => {
+    click([tube] as Mesh[], () => {
       const animationStep7 = createAnimeGroup("animationStep7", [
         //移动针
         {
@@ -513,7 +506,7 @@ export async function loadStep() {
   } else if (stepIndex.value === 8) {
     playAudio(9)
     addHighlight(item.bloodTube.meshes as Mesh[])
-    click(item.bloodTube.meshes as Mesh[], 1, () => {
+    click(item.bloodTube.meshes as Mesh[], () => {
       item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
       // 重置变换
       const lxjg = item.centrifuge.meshes[1]
@@ -565,7 +558,7 @@ export async function loadStep() {
     playAudio(10)
     addHighlight(item.jtdg.meshes as Mesh[])
 
-    click(item.jtdg.meshes as Mesh[], 1, () => {
+    click(item.jtdg.meshes as Mesh[], () => {
       item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
       const bxm = item.refrigerator.meshes[1]
       bxm.rotation = Vector3.Zero()
@@ -685,8 +678,8 @@ async function createMyNeedle() {
   transparentMaterial.alpha = 0.2 // 设置透明度（0-1，0为完全透明，1为完全不透明）
   tube.material = transparentMaterial
   tube.isVisible = false // 隐藏管子
-  const needle1Res = await ImportMeshAsync("/model/item/experiment6/一次性采血针1.glb", scene)
-  const needle2Res = await ImportMeshAsync("/model/item/experiment6/一次性采血针2.glb", scene)
+  const needle1Res = await ImportMeshAsync("/model/item/一次性采血针1.glb", scene)
+  const needle2Res = await ImportMeshAsync("/model/item/一次性采血针2.glb", scene)
   const needle1 = needle1Res.meshes[0] //针尾插管
   const needle2 = needle2Res.meshes[0] //针头插手
   needle1.setParent(tube, true, true)
@@ -772,47 +765,3 @@ function createLiquid(bottle: any, height = 0.12, diameter = 0.03, transformY = 
 
   return liquid
 }
-//创建水流
-const createWaterStream = (position: AbstractMesh | Vector3) => {
-  if (!scene) return
-  const particleSystem = new ParticleSystem("waterStream", 2000, scene)
-
-  // 发射器设置
-
-  particleSystem.particleEmitterType = particleSystem.createPointEmitter(
-    new Vector3(0, -1, 0),
-    new Vector3(0, 0, 0),
-  )
-  particleSystem.emitter = position
-
-  // 粒子参数
-  particleSystem.emitRate = 80
-  particleSystem.minEmitPower = 0.5
-  particleSystem.maxEmitPower = 0.7
-  particleSystem.minLifeTime = 0.5
-  particleSystem.maxLifeTime = 0.5
-
-  // 大小和外观
-  particleSystem.minSize = 0.04
-  particleSystem.maxSize = 0.08
-  particleSystem.color1 = new Color4(0.7, 0.8, 1.0, 0.6)
-  particleSystem.color2 = new Color4(0.8, 0.9, 1.0, 0.3)
-  particleSystem.colorDead = new Color4(0.9, 0.95, 1.0, 0.0)
-
-  // 运动设置
-
-  // particleSystem.gravity = new Vector3(0, -0.8, 0)
-
-  // 纹理和渲染
-  particleSystem.particleTexture = new Texture("textures/waterParticle.png", scene)
-  const fluidRenderer = scene.enableFluidRenderer()
-  if (fluidRenderer) fluidRenderer.addParticleSystem(particleSystem)
-
-  particleSystem.targetStopDuration = 1.2 // 系统总运行时间（秒）
-
-  particleSystem.start()
-
-  // return particleSystem
-}
-
-const createGlassWater = () => {}

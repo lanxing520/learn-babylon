@@ -1,5 +1,5 @@
 import { Mesh, MeshBuilder, Vector3, Path3D } from "@babylonjs/core"
-import { scene } from "../initScene"
+import { scene } from "../common/initScene"
 
 // 创建 Tube
 export function createTube(path: Vector3[], radius = 0.01) {
