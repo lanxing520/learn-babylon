@@ -18,23 +18,28 @@ export function simulationMixin(
 
   const stepClick = (i: number) => {
     if (active.value.index === i) return
-    active.value.name = store.getExperiment[i].name
-    active.value.desc = store.getExperiment[i].desc
     active.value.index = i
     stepIndex.value = stepMapping[i] ?? stepIndex.value
   }
-  watchEffect(() => {
-    active.value.name = store.getExperiment[0].name
-    active.value.desc = store.getExperiment[0].desc
-  })
-  watch(stepIndex, (newVal) => {
-    // 获取对应的索引
-    const mappedIndex = stepMapping[newVal]
-    active.value.name = store.getExperiment[mappedIndex].name
-    active.value.desc = store.getExperiment[mappedIndex].desc
-    loadStep()
-  })
- 
+  watch(
+    stepIndex,
+    (newVal) => {
+      // 获取对应的索引
+      // const mappedIndex = stepMapping[newVal]
+      const mappedIndex = Object.keys(stepMapping).find((key) => stepMapping[key] === newVal)
+      if (mappedIndex === undefined) {
+        console.error("No mapping found for stepIndex:", newVal)
+        return
+      }
+      active.value.name = store.getExperiment[+mappedIndex].name
+      active.value.desc = store.getExperiment[+mappedIndex].desc
+      loadStep()
+    },
+    {
+      immediate: true,
+    },
+  )
+
   onBeforeUnmount(() => {
     dispose()
   })

@@ -7,8 +7,8 @@
   >
     <canvas class="canvas" ref="renderCanvas"></canvas>
     <div class="now-step">当前步骤:{{ active?.name }}</div>
-    <div class="left-button-wrapper hide-scrollbar">
-      <div class="animation-list">
+    <div class="left-button-wrapper">
+      <div class="animation-list hide-scrollbar">
         <div
           class="animation-item"
           :class="{ finish: finishedStep.includes(item.name) }"
@@ -53,13 +53,16 @@ onMounted(async () => {
   }
 })
 
-// 定义映射关系
+// 定义映射关系,左边animation-list的index和右边的stepIndex的index 一一对应
 const stepMapping = {
   0: 1,
-  1: 2,
-  2: 3,
-  3: 4,
-  4: 5,
+  1: 5,
+  2: 6,
+  3: 8,
+  4: 10,
+  5: 13,
+  6: 14,
+  7: 15,
 } as any
 const { active, finishedStep, stepClick } = simulationMixin(stepMapping, stepIndex, loadStep)
 </script>

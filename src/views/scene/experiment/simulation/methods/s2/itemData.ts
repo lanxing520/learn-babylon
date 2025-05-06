@@ -1,3 +1,6 @@
+import type { DynamicObject } from "../common/interface"
+
+
 const PI = Math.PI
 
 export const origin = { x: 4.3, y: 1.08, z: -2.2 }
@@ -13,14 +16,14 @@ export const itemData = {
     name: "封板膜",
     position: [origin.x + 0.1, origin.y + 0.02, origin.z - 1.2],
     rotate: [0, PI / 2, 0],
-    scaling: 5,
+    scaling: 7,
   },
 
   mbbbb: {
     name: "酶标包被板",
-    position: [origin.x, origin.y + 0.02, origin.z - 1.2],
+    position: [origin.x-0.1, origin.y + 0.02, origin.z - 1.2],
     rotate: [0, PI / 2, 0],
-    scaling: 5,
+    scaling: 7,
   },
   dz1: {
     name: "阴性对照",
@@ -58,22 +61,25 @@ export const itemData = {
   },
   xdy: {
     name: "洗涤液",
-
     scaling: 0.62,
-
     position: [origin.x - 0.05, origin.y + 0.03, origin.z - 0.96],
     rotate: [0, -PI / 2, 0],
   },
   ybxsy: {
     name: "样本稀释液",
-
     scaling: 0.62,
     position: [origin.x - 0.05, origin.y + 0.03, origin.z - 0.66],
     rotate: [0, -PI / 2, 0],
   },
   lt: {
     name: "量筒",
+    rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z - 0.2],
+  },
+  zkcxg: {
+    name: "真空采血管",
+    position: [origin.x, origin.y, origin.z + 0.2],
+    scaling: [0.5,0.3,0.5],
   },
   lxg: {
     name: "离心管",
@@ -84,6 +90,7 @@ export const itemData = {
 
   jyq: {
     name: "加样器",
+    rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z - 0.45],
     scaling: 0.3,
   },
@@ -109,14 +116,4 @@ export const itemData = {
   },
 } as DynamicObject
 
-type Vector3 = [number, number, number]
 
-export type DynamicObject = Record<
-  string,
-  {
-    name: string
-    position: Vector3
-    rotate?: Vector3
-    scaling?: Vector3 | number
-  }
->

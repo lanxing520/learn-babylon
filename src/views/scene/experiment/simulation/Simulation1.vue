@@ -48,7 +48,7 @@ onMounted(async () => {
   }
 })
 
-// 定义映射关系
+// 定义映射关系,左边animation-list的index和右边的stepIndex的index 一一对应
 const stepMapping = {
   0: 1,
   1: 6,

@@ -24,8 +24,9 @@ export async function loadItems(itemData: DynamicObject) {
       try {
         // 加载模型
         const result = await BABYLON.ImportMeshAsync(url, scene, { name: data.name })
+
         const rootMesh = result.meshes[0]
-           rootMesh.computeWorldMatrix(true)
+
         // 设置缩放（如果有）正确的变换顺序应该是：缩放 -> 旋转 -> 平移
         if (data.scaling) {
           if (Array.isArray(data.scaling)) {
@@ -39,8 +40,7 @@ export async function loadItems(itemData: DynamicObject) {
           rootMesh.rotation = new BABYLON.Vector3(...data.rotate)
         }
         move(rootMesh, data.position)
-     
-      
+        rootMesh.computeWorldMatrix(true)
         // 添加鼠标悬停信息
         result.meshes.forEach((e) => {
           e.name = data.name

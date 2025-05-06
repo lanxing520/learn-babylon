@@ -2,6 +2,7 @@ import { scene } from "./initScene"
 import * as BABYLON from "@babylonjs/core"
 import { AudioPlayer } from "@/utils/audioPlayer"
 import { getAssetUrl } from "@/utils/assetHelper"
+import type { NumberArray } from "./interface"
 
 let highlightLayer = null as null | BABYLON.HighlightLayer
 export function addHighlight(meshes: BABYLON.Mesh[]) {
@@ -36,7 +37,12 @@ export function click(meshes: BABYLON.Mesh[], event: () => void) {
   }
 
   // 创建射线
-  const ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), scene.activeCamera)
+  const ray = scene.createPickingRay(
+    scene.pointerX,
+    scene.pointerY,
+    BABYLON.Matrix.Identity(),
+    scene.activeCamera,
+  )
   const hit = scene.pickWithRay(ray, (mesh) => meshes.includes(mesh as BABYLON.Mesh))
 
   if (hit && hit.pickedMesh) {
@@ -48,11 +54,11 @@ export function click(meshes: BABYLON.Mesh[], event: () => void) {
 const infoPanel = document.createElement("div")
 document.body.appendChild(infoPanel)
 
-export function addMouseOverInfo(mesh: any) {
+export function addMouseOverInfo(mesh: any, meshName?: string) {
   if (!scene) return
 
   // 确保mesh有名称
-  mesh.name = mesh.name || "未命名Mesh"
+  mesh.name = meshName || mesh.name || "未命名Mesh"
 
   // 初始化ActionManager
   mesh.actionManager = mesh.actionManager || new BABYLON.ActionManager(scene)
@@ -99,16 +105,18 @@ export function addMouseOverInfo(mesh: any) {
     infoPanel.style.display = "none"
   }
 }
-export function move(mesh: any, position: [number, number, number]) {
+export function move(mesh: any, position: NumberArray) {
   mesh.position = new BABYLON.Vector3(...position)
 }
-export function rotate(mesh: any, rotation: [number, number, number]) {
+export function rotate(mesh: any, rotation: NumberArray) {
   mesh.rotation = new BABYLON.Vector3(...rotation)
 }
-export function scale(mesh: any, scale: [number, number, number]) {
+export function scale(mesh: any, scale: NumberArray) {
   mesh.scaling = new BABYLON.Vector3(...scale)
 }
-
+export function posTranslate(position: NumberArray, translate: NumberArray): NumberArray {
+  return [position[0] + translate[0], position[1] + translate[1], position[2] + translate[2]]
+}
 function addBoundingBox(mesh: BABYLON.Mesh) {
   mesh.showBoundingBox = true
   let sphereMin = mesh.getBoundingInfo().boundingBox.minimum
@@ -209,8 +217,35 @@ export async function playAudio(index: number) {
     const url = getAssetUrl(`audio/${index}.mp3`)
     audioPlayer.setVolume(1) // 设置为50%音量
     audioPlayer.play(url)
-
   } catch (error) {
     console.error("音频播放错误", error)
   }
+}
+
+export function createLiquid(bottle: any, height = 0.12, diameter = 0.03, transformY = 0.05) {
+  if (!scene) return
+  // 创建圆柱体作为液体
+  const liquid = BABYLON.MeshBuilder.CreateCylinder(
+    "liquid",
+    {
+      height,
+      diameter,
+      tessellation: 32,
+    },
+    scene,
+  )
+
+  // 将轴心点移动到圆柱体底部
+  liquid.setPivotPoint(new BABYLON.Vector3(0, -height / 2, 0))
+  // 对齐到瓶子底部
+  liquid.parent = bottle
+  liquid.position.y = transformY // 调整Y轴位置
+
+  // 设置半透明材质
+  const mat = new BABYLON.StandardMaterial("liquidMat", scene)
+  mat.diffuseColor = new BABYLON.Color3(1, 0, 0)
+  mat.alpha = 1
+  liquid.material = mat
+
+  return liquid
 }

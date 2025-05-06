@@ -1,4 +1,4 @@
-type NumberArray = [number, number, number]
+export type NumberArray = [number, number, number]
 export type DynamicObject = Record<
   string,
   {

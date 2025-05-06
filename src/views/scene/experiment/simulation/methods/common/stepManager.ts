@@ -1,10 +1,9 @@
-import { AbstractMesh, AnimationGroup,Vector3, Mesh } from "@babylonjs/core"
+import { AbstractMesh, AnimationGroup, Vector3, Mesh } from "@babylonjs/core"
 import { addHighlight, removeHighlight, click } from "./action"
-import {createAnimeGroup}  from './animation'
-import type {AnimationItem} from './animation'
+import { createAnimeGroup } from "./animation"
+import type { AnimationItem } from "./animation"
 
 export class AnimationStepManager {
-
   private steps: AnimationStep[] = []
   private currentStepIndex = 0
   private modelInstances: Record<string, AbstractMesh[]> = {}
@@ -26,7 +25,6 @@ export class AnimationStepManager {
 
   // 跳转到指定步骤
   async goToStep(targetIndex: number) {
-    
     if (targetIndex < 0 || targetIndex >= this.steps.length) return
 
     // 停止当前所有动画
@@ -68,7 +66,7 @@ export class AnimationStepManager {
     // 设置模型可见性、位置等初始状态
     Object.keys(this.modelInstances).forEach((name) => {
       const model = this.modelInstances[name]
-      model[0].setEnabled(!!step.models[name].visible)
+      model[0].setEnabled(step.models[name]?.visible ?? true)
     })
 
     // 应用模型初始位置/旋转等
@@ -109,22 +107,22 @@ export class AnimationStepManager {
           )
           if (interaction.animationRange && interaction.animationRange.length === 2) {
             animGroup.normalize(...interaction.animationRange)
-          } 
+          }
+          if (interaction.animationSpeedRatio) {
+            animGroup.speedRatio = interaction.animationSpeedRatio
+          }
+
           animGroup.start()
-          
           this.activeAnimations.push(animGroup)
 
           animGroup.onAnimationGroupEndObservable.add(() => {
-            if (interaction.nextStep) {
-              this.goToStep(interaction.nextStep)
-            }
+            this.currentStepIndex++
+            this.goToStep(this.currentStepIndex)
           })
         }
       })
     })
   }
-
- 
 }
 
 interface AnimationStep {
@@ -142,10 +140,9 @@ interface AnimationStep {
     onClick?: () => Promise<void>
     animations: AnimationItem[]
     animationRange?: [number, number]
+    animationSpeedRatio?: number
     nextStep?: number
   }[]
   onEnter?: () => Promise<void>
   onExit?: () => Promise<void>
 }
-
-

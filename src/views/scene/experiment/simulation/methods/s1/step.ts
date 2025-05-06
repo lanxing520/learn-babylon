@@ -26,10 +26,12 @@ import { move, rotate, scale, addHighlight, click, addMouseOverInfo } from "../c
 import { ref } from "vue"
 import { AudioPlayer } from "@/utils/audioPlayer"
 import { getAssetUrl } from "@/utils/assetHelper"
+import {config} from "../common/config"
 
+const frameRate = config.frameRate
 const PI = Math.PI
 export const stepIndex = ref(1)
-const frameRate = 30
+
 let person = null as null | ISceneLoaderAsyncResult
 let anim: AnimationGroup | null = null
 export async function loadTester() {

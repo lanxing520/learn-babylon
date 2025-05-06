@@ -1,9 +1,10 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 import { scene } from "./initScene"
+import {config} from "../common/config"
 
-
+const frameRate = config.frameRate
 const PI = Math.PI
-const frameRate = 30
+
 export interface AnimationItem {
   animation: BABYLON.Animation
   mesh: BABYLON.AbstractMesh
