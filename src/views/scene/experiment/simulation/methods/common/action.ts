@@ -222,7 +222,14 @@ export async function playAudio(index: number) {
   }
 }
 
-export function createLiquid(bottle: any, height = 0.12, diameter = 0.03, transformY = 0.05) {
+export function createLiquid(
+  bottle: any,
+  height = 0.12,
+  diameter = 0.03,
+  transformY = 0.05,
+  color = [1, 0, 0],
+  alpha = 1,
+): BABYLON.Mesh | undefined {
   if (!scene) return
   // 创建圆柱体作为液体
   const liquid = BABYLON.MeshBuilder.CreateCylinder(
@@ -243,8 +250,8 @@ export function createLiquid(bottle: any, height = 0.12, diameter = 0.03, transf
 
   // 设置半透明材质
   const mat = new BABYLON.StandardMaterial("liquidMat", scene)
-  mat.diffuseColor = new BABYLON.Color3(1, 0, 0)
-  mat.alpha = 1
+  mat.diffuseColor = new BABYLON.Color3(...color) // 红色
+  mat.alpha = alpha
   liquid.material = mat
 
   return liquid

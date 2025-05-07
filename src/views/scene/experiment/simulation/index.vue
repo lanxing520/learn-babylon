@@ -15,11 +15,11 @@
 import { onMounted, shallowRef, computed, watch } from "vue"
 import type { Component } from "vue"
 import { useExperimentStore } from "@/stores/experimentStore"
-import Simulation1 from "./Simulation1.vue"
-import Simulation2 from "./Simulation2.vue"
-import Simulation3 from "./Simulation3.vue"
-import Simulation4 from "./Simulation4.vue"
-import Simulation5 from "./Simulation5.vue"
+import Simulation1 from "./methods/s1/Simulation1.vue"
+import Simulation2 from "./methods/s2/Simulation2.vue"
+import Simulation3 from "./methods/s3/Simulation3.vue"
+import Simulation4 from "./methods/s4/Simulation4.vue"
+import Simulation5 from "./methods/s5/Simulation5.vue"
 
 const store = useExperimentStore()
 const components = [Simulation1, Simulation2, Simulation3, Simulation4, Simulation5]

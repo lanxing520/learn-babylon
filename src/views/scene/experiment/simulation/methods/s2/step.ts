@@ -28,11 +28,12 @@ import {
   createLiquid,
 } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
-import {config} from "../common/config"
+import { config } from "../common/config"
+import type { Mesh } from "three"
 const frameRate = config.frameRate
 
 const PI = Math.PI
-export const stepIndex = ref(1)
+
 
 let isInited = false
 let stepManager: AnimationStepManager
@@ -53,6 +54,8 @@ async function init() {
     stepManager.registerModel(key, item[key].meshes)
   })
   createLiquid(item.zkcxg.meshes[0], 0.05)
+  const water19 = createLiquid(item.lt.meshes[0], 0.05, 0.06, 0.05, [1, 1, 1], 0.1)
+  if (!water19) return
   item.zkcxg.meshes[2].isVisible = false
   // 定义步骤1,稀释
   stepManager.addStep({
@@ -99,6 +102,13 @@ async function init() {
                 value: 1.7,
               },
               { frame: 2.5 * frameRate, value: 0 },
+            ]),
+          },
+          {
+            mesh: water19,
+            animation: changeSizeAni("scaling.y", [
+              { frame: 0.5 * frameRate, value: 1 },
+              { frame: 1.5 * frameRate, value: 0 },
             ]),
           },
         ],
@@ -1726,5 +1736,5 @@ export async function loadStep() {
     await init()
   }
 
-  stepManager.goToStep(stepIndex.value - 1)
+  stepManager.goToStep()
 }

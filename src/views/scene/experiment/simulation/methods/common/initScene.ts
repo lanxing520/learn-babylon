@@ -76,18 +76,7 @@ export async function initScene(
   camera.upperBetaLimit = 2 // 最大垂直角度(π/2是水平视角)
   camera.attachControl(canvasDom, true)
 
-  // light = new BABYLON.RectAreaLight(
-  //   "areaLight",
-  //   new BABYLON.Vector3(4, 1.5, -2),
-  //   0.5,
-  //   0.8,
-  //   scene,
-  // )
-   light = new BABYLON.DirectionalLight(
-    "DirectionalLight",
-    new BABYLON.Vector3(-1, -1, 0),
-    scene,
-  )
+  light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(-1, -1, 0), scene)
   const light0 = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1.5, 0), scene)
 
   light0.intensity = 1.5
