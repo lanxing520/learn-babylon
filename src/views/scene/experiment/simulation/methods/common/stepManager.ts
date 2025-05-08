@@ -134,6 +134,29 @@ export class AnimationStepManager {
       })
     })
   }
+  dispose() {
+    // 停止并释放所有激活的动画组
+    this.stopAllAnimations()
+    this.activeAnimations.forEach((animGroup) => {
+      animGroup.dispose()
+    })
+    this.activeAnimations = []
+
+    // 清除动画组缓存
+    Object.values(this.animationGroups).forEach((animGroup) => {
+      animGroup.dispose()
+    })
+    this.animationGroups = {}
+
+    // 移除所有模型引用
+    this.modelInstances = {}
+
+    // 清空步骤列表
+    this.steps = []
+
+    // 移除高亮和交互
+    removeHighlight() // 假设这个函数可以安全调用多次
+  }
 }
 
 interface AnimationStep {

@@ -12,16 +12,15 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-
 let isInited = false
-let stepManager: AnimationStepManager
+let stepManager: AnimationStepManager | null
 async function init() {
   isInited = true
 
   stepManager = new AnimationStepManager()
   // 注册模型
   Object.keys(itemData).forEach((key) => {
-    stepManager.registerModel(key, item[key].meshes)
+    stepManager?.registerModel(key, item[key].meshes)
   })
   createLiquid(item.zkcxg.meshes[0], 0.05)
   const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05) as Mesh
@@ -185,7 +184,9 @@ async function init() {
         animationRange: [0, 8.5 * frameRate],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(20)
+    },
   })
   // 定义步骤3,观察
   stepManager.addStep({
@@ -195,28 +196,37 @@ async function init() {
       },
     },
     interactions: [],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(21)
+    },
   })
   // 定义步骤4
-stepManager.addStep({
-  models: {
-    jtjsz: {
-      position: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
+  stepManager.addStep({
+    models: {
+      jtjsz: {
+        position: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
+      },
     },
-  },
-  interactions: [],
-  onEnter: async () => {},
-})
+    interactions: [],
+    onEnter: async () => {},
+  })
   // 定义步骤5,加样
 }
 
 // 开始执行
 
 export async function loadStep() {
-  if (!scene || !camera) return
+  if (!scene || !camera || !stepManager) return
   if (!isInited) {
     await init()
   }
 
   stepManager.goToStep()
+}
+
+export function disposeStep() {
+  if (stepManager) {
+    stepManager.dispose()
+    stepManager = null
+  }
 }

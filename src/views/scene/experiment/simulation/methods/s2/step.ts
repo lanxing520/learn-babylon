@@ -34,9 +34,8 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-
 let isInited = false
-let stepManager: AnimationStepManager
+let stepManager: AnimationStepManager | null = null
 async function init() {
   isInited = true
   const lxg2 = item.lxg.meshes[0].clone("离心管2", null)
@@ -49,9 +48,10 @@ async function init() {
   // stepManager.registerModel("lxg2", [lxg2])
   // stepManager.registerModel("lxg3", [lxg3])
   stepManager = new AnimationStepManager()
+
   // 注册模型
   Object.keys(itemData).forEach((key) => {
-    stepManager.registerModel(key, item[key].meshes)
+    stepManager?.registerModel(key, item[key].meshes)
   })
   createLiquid(item.zkcxg.meshes[0], 0.05)
   const water19 = createLiquid(item.lt.meshes[0], 0.05, 0.06, 0.05, [1, 1, 1], 0.1)
@@ -1115,7 +1115,9 @@ async function init() {
         animationRange: [0, 8 * frameRate],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(14)
+    },
     onExit: async () => {},
   })
   // 定义步骤9,加入酶标物-2
@@ -1356,7 +1358,9 @@ async function init() {
         animationRange: [0, 5.5 * frameRate],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(15)
+    },
     onExit: async () => {},
   })
   //定义步骤11,加入底物显色剂B
@@ -1674,7 +1678,9 @@ async function init() {
         animationRange: [0, 5.5 * frameRate],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(16)
+    },
     onExit: async () => {},
   })
   // 定义步骤14,酶标仪比色
@@ -1708,10 +1714,12 @@ async function init() {
         animationRange: [0, 4 * frameRate],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(17)
+    },
     onExit: async () => {},
   })
-  // 定义步骤15,加入酶标物-3
+  // 定义步骤15,结果判断
   stepManager.addStep({
     models: {
       mbbbb: {
@@ -1725,16 +1733,26 @@ async function init() {
         animations: [],
       },
     ],
+    onEnter: async () => {
+      playAudio(18)
+    },
   })
 }
 
 // 开始执行
 
 export async function loadStep() {
-  if (!scene || !camera) return
+  if (!scene || !camera || !stepManager) return
   if (!isInited) {
     await init()
   }
 
   stepManager.goToStep()
+}
+
+export function disposeStep() {
+  if (stepManager) {
+    stepManager.dispose()
+    stepManager = null
+  }
 }

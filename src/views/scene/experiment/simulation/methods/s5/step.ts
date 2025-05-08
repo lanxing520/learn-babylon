@@ -13,14 +13,14 @@ const frameRate = config.frameRate
 const PI = Math.PI
 
 let isInited = false
-let stepManager: AnimationStepManager
+let stepManager: AnimationStepManager | null
 async function init() {
   isInited = true
   stepManager = new AnimationStepManager()
   // 注册模型
   Object.keys(itemData).forEach((key) => {
     if (item[key]?.meshes) {
-      stepManager.registerModel(key, item[key].meshes)
+      stepManager?.registerModel(key, item[key].meshes)
     }
   })
   item.lxj.meshes[1].rotation = Vector3.Zero()
@@ -668,10 +668,16 @@ async function init() {
 // 开始执行
 
 export async function loadStep() {
-  if (!scene || !camera) return
+  if (!scene || !camera || !stepManager) return
   if (!isInited) {
     await init()
   }
 
   stepManager.goToStep()
+}
+export function disposeStep() {
+  if (stepManager) {
+    stepManager.dispose()
+    stepManager = null
+  }
 }

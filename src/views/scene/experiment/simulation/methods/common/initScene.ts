@@ -103,9 +103,9 @@ export async function initScene(
 export async function loadLab() {
   if (!scene) return
   try {
-    const res = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
-    optimizeMesh(res.meshes)
-    res.meshes.forEach((mesh) => {
+   const labRes = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
+    optimizeMesh(labRes.meshes)
+    labRes.meshes.forEach((mesh) => {
       mesh.isPickable = false
     })
     // mesh.meshes[0].scaling = new BABYLON.Vector3(3,3,3)
@@ -127,9 +127,12 @@ export function dispose() {
   scene.lights.forEach((light) => light.dispose())
   // 销毁所有纹理
   scene.textures.forEach((texture) => texture.dispose())
-
+  scene.transformNodes.forEach((node) => node.dispose())
+  scene.animationGroups.forEach((group) => group.dispose())
   // 销毁所有粒子系统
   scene.particleSystems.forEach((ps) => ps.dispose())
+  
+
   disposeAllModle()
 
   engine?.dispose()
