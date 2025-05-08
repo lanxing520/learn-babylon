@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 import { scene, camera } from "./initScene"
-import { addMouseOverInfo, move } from "./action"
+import { addMouseOverInfo, move, disposeMouseOverInfo } from "./action"
 
 import type { DynamicObject } from "../common/interface.ts"
 
@@ -74,6 +74,7 @@ export function disposeAllModle() {
   Object.keys(item).forEach(async (e) => {
     item[e].meshes.forEach((e: any) => {
       e.dispose()
+      disposeMouseOverInfo(e)
     })
   })
 }

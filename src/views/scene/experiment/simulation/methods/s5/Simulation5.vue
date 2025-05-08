@@ -6,7 +6,7 @@
     class="experiment-simulation"
   >
     <canvas class="canvas" ref="renderCanvas"></canvas>
-    <ExperimentMessage :stepMapping="stepMapping" v-model="stepIndex" @step-change="loadStep" />
+    <ExperimentMessage :stepMapping="stepMapping" v-model="stepIndex" @step-change="jumpStep" />
   </section>
 </template>
 
@@ -14,7 +14,7 @@
 import { ref, onMounted, useTemplateRef, onUnmounted } from "vue"
 import { initScene, loading } from "../common/initScene"
 import ExperimentMessage from "../components/ExperimentMessage.vue"
-import { loadStep, disposeStep } from "./step"
+import { initStep, jumpStep, disposeStep } from "./step"
 import { stepIndex } from "../common/stepManager"
 import { itemData } from "./itemData"
 import { loadItems } from "../common/loadModle"
@@ -34,7 +34,8 @@ onMounted(async () => {
     },
   })
   await loadItems(itemData)
-  await loadStep()
+ await initStep()
+    await jumpStep()
 })
 onUnmounted(() => {
   disposeStep()

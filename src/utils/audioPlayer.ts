@@ -129,8 +129,19 @@ class AudioPlayer {
   destroy(): void {
     if (this.audio) {
       this.audio.pause()
+      this.audio.onerror = null
+      this.audio.onended = null
       this.audio = null
     }
+
+    // 从 instances 中移除自身
+    const index = AudioPlayer.instances.indexOf(this)
+    if (index > -1) {
+      AudioPlayer.instances.splice(index, 1)
+    }
+
+    this.currentFilePath = null
+    this.isPlaying = false
   }
 
   /**

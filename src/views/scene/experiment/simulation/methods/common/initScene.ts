@@ -3,6 +3,7 @@ import { optimizeMesh } from "./optimzae"
 import { disposeAllModle } from "./loadModle"
 import { ref } from "vue"
 import applyConfig from "./config"
+import { disposeAllClickHandlers, disposeAudio } from "./action"
 
 export let scene: BABYLON.Scene | null
 export let engine: BABYLON.AbstractEngine | null
@@ -103,7 +104,7 @@ export async function initScene(
 export async function loadLab() {
   if (!scene) return
   try {
-   const labRes = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
+    const labRes = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
     optimizeMesh(labRes.meshes)
     labRes.meshes.forEach((mesh) => {
       mesh.isPickable = false
@@ -117,7 +118,12 @@ export async function loadLab() {
 export function dispose() {
   engine?.stopRenderLoop()
   if (!scene) return
+
   scene.stopAllAnimations()
+
+  // 场景清理时
+
+  engine?.wipeCaches(true) // 强制清理GPU缓存
 
   // 销毁所有网格
   scene.meshes.forEach((mesh) => mesh.dispose())
@@ -131,14 +137,19 @@ export function dispose() {
   scene.animationGroups.forEach((group) => group.dispose())
   // 销毁所有粒子系统
   scene.particleSystems.forEach((ps) => ps.dispose())
-  
-
+  //销毁所有导入的glb的mesh 和 鼠标移入显示信息事件
   disposeAllModle()
+  //销毁点击事件
+  disposeAllClickHandlers()
+  //销毁音频
+  disposeAudio()
 
   engine?.dispose()
   camera?.dispose()
   light?.dispose()
   scene.dispose()
+  // console.log("销毁完成",engine,scene);
+  
   scene = null
   engine = null
   camera = null

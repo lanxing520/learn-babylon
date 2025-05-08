@@ -34,10 +34,8 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-let isInited = false
 let stepManager: AnimationStepManager | null = null
-async function init() {
-  isInited = true
+export async function initStep() {
   const lxg2 = item.lxg.meshes[0].clone("离心管2", null)
   const lxg3 = item.lxg.meshes[0].clone("离心管3", null)
   if (!lxg2 || !lxg3) return
@@ -58,6 +56,7 @@ async function init() {
   if (!water19) return
   item.zkcxg.meshes[2].isVisible = false
   // 定义步骤1,稀释
+
   stepManager.addStep({
     models: {
       lt: {
@@ -1741,13 +1740,8 @@ async function init() {
 
 // 开始执行
 
-export async function loadStep() {
-  if (!scene || !camera || !stepManager) return
-  if (!isInited) {
-    await init()
-  }
-
-  stepManager.goToStep()
+export async function jumpStep() {
+  if (stepManager) stepManager.goToStep()
 }
 
 export function disposeStep() {

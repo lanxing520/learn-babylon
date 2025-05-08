@@ -1,7 +1,7 @@
 <template>
   <div class="now-step">当前步骤:{{ active?.name }}</div>
   <div class="left-button-wrapper">
-    <div class="animation-list">
+    <div class="animation-list hide-scrollbar">
       <div
         class="animation-item"
         :class="{ finish: i === active.index }"

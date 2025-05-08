@@ -22,7 +22,15 @@ import {
 } from "../common/animation"
 import { createBezierPath } from "../common/curvePath"
 import { createTube } from "./tube"
-import { move, rotate, scale, addHighlight, click, addMouseOverInfo } from "../common/action"
+import {
+  move,
+  rotate,
+  scale,
+  addHighlight,
+  click,
+  addMouseOverInfo,
+  playAudio,
+} from "../common/action"
 import { ref } from "vue"
 import { AudioPlayer } from "@/utils/audioPlayer"
 import { getAssetUrl } from "@/utils/assetHelper"
@@ -59,17 +67,6 @@ const mq = itemData.sterileSwab
 const xds = itemData.disinfectant
 const wwt = itemData.wasteBucket
 
-const audioPlayer = new AudioPlayer()
-// 在用户交互事件中加载和播放音频
-async function playAudio(index: number) {
-  try {
-    const url = getAssetUrl(`audio/${index}.mp3`)
-    audioPlayer.setVolume(1) // 设置为50%音量
-    audioPlayer.play(url)
-  } catch (error) {
-    console.error("音频播放错误", error)
-  }
-}
 export async function loadStep() {
   if (!scene) return
   if (stepIndex.value === 1) {

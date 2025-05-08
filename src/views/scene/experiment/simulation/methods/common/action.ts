@@ -16,39 +16,48 @@ export function addHighlight(meshes: BABYLON.Mesh[]) {
 export function removeHighlight() {
   highlightLayer?.removeAllMeshes()
 }
+// 存储所有活动的点击处理器以便后续清理
+// 修改类型定义以匹配 BabylonJS 的 pointer down 回调签名
+const activeClickHandlers = new Map<
+  BABYLON.Scene,
+  (evt: any, pickResult: BABYLON.PickingInfo) => void
+>()
 
 export function click(meshes: BABYLON.Mesh[], event: () => void) {
   if (!scene) return
 
-  // 使用射线检测替代碰撞区域
-  scene.onPointerDown = (evt, pickResult) => {
-    if (!pickResult.hit) return // 如果没有命中物体，直接返回
+  // 先清理之前的处理器（如果存在）
+  if (activeClickHandlers.has(scene)) {
+    scene.onPointerDown = undefined
+    activeClickHandlers.delete(scene)
+  }
 
-    const pickedMesh = pickResult.pickedMesh
-    if (!pickedMesh || !meshes.includes(pickedMesh as BABYLON.Mesh)) return // 确保命中的是目标mesh之一
+  const handler = (evt: any, pickResult: BABYLON.PickingInfo) => {
+    if (!pickResult.hit || !pickResult.pickedMesh) return
 
-    // 执行回调并移除高亮
-    event()
-    removeHighlight()
+    if (meshes.includes(pickResult.pickedMesh as BABYLON.Mesh)) {
+      event()
+      removeHighlight()
 
-    // 清理射线监听
-    if (!scene) return
+      // 清理当前处理器
+      if (scene) {
+        scene.onPointerDown = undefined
+        activeClickHandlers.delete(scene)
+      }
+    }
+  }
+
+  // 存储新处理器
+  scene.onPointerDown = handler
+  activeClickHandlers.set(scene, handler)
+}
+
+// 添加全局清理方法
+export function disposeAllClickHandlers() {
+  for (const [scene, _] of activeClickHandlers) {
     scene.onPointerDown = undefined
   }
-
-  // 创建射线
-  const ray = scene.createPickingRay(
-    scene.pointerX,
-    scene.pointerY,
-    BABYLON.Matrix.Identity(),
-    scene.activeCamera,
-  )
-  const hit = scene.pickWithRay(ray, (mesh) => meshes.includes(mesh as BABYLON.Mesh))
-
-  if (hit && hit.pickedMesh) {
-    event()
-    removeHighlight()
-  }
+  activeClickHandlers.clear()
 }
 
 const infoPanel = document.createElement("div")
@@ -56,7 +65,8 @@ document.body.appendChild(infoPanel)
 
 export function addMouseOverInfo(mesh: any, meshName?: string) {
   if (!scene) return
-
+  // 防止重复注册
+  if (mesh.hasMouseOverAction) return
   // 确保mesh有名称
   mesh.name = meshName || mesh.name || "未命名Mesh"
 
@@ -105,6 +115,14 @@ export function addMouseOverInfo(mesh: any, meshName?: string) {
     infoPanel.style.display = "none"
   }
 }
+
+export function disposeMouseOverInfo(mesh: BABYLON.Mesh) {
+  if (mesh.actionManager) {
+    mesh.actionManager.unregisterAction(mesh.actionManager.actions[0]) // 可更精细控制
+    mesh.actionManager = null
+  }
+}
+
 export function move(mesh: any, position: NumberArray) {
   mesh.position = new BABYLON.Vector3(...position)
 }
@@ -221,7 +239,9 @@ export async function playAudio(index: number) {
     console.error("音频播放错误", error)
   }
 }
-
+export function disposeAudio() {
+  audioPlayer.destroy()
+}
 export function createLiquid(
   bottle: any,
   height = 0.12,

@@ -14,7 +14,7 @@ const PI = Math.PI
 
 let isInited = false
 let stepManager: AnimationStepManager | null
-async function init() {
+export async function initStep() {
   isInited = true
 
   stepManager = new AnimationStepManager()
@@ -215,13 +215,8 @@ async function init() {
 
 // 开始执行
 
-export async function loadStep() {
-  if (!scene || !camera || !stepManager) return
-  if (!isInited) {
-    await init()
-  }
-
-  stepManager.goToStep()
+export async function jumpStep() {
+  if (stepManager) stepManager.goToStep()
 }
 
 export function disposeStep() {
