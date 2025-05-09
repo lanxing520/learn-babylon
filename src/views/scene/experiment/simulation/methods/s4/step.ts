@@ -1,4 +1,4 @@
-import { item } from "../common/loadModle"
+import { item, resetItems } from "../common/loadModle"
 import { itemData } from "./itemData"
 
 import { Vector3, Mesh } from "@babylonjs/core"
@@ -12,10 +12,10 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-let isInited = false
+
 let stepManager: AnimationStepManager | null
 export async function initStep() {
-  isInited = true
+ 
 
   stepManager = new AnimationStepManager()
   // 注册模型
@@ -95,6 +95,7 @@ export async function initStep() {
 // 开始执行
 
 export async function jumpStep() {
+  resetItems(itemData)
   if (stepManager) stepManager.goToStep()
 }
 export function disposeStep() {

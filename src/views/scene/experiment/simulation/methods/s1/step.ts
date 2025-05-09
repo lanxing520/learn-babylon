@@ -1,4 +1,4 @@
-import { item } from "../common/loadModle"
+import { item, resetItems } from "../common/loadModle"
 import { itemData, tubePoints, step1Position, step2Position, step4Position } from "./itemData"
 import { scene, camera } from "../common/initScene"
 import {
@@ -83,7 +83,11 @@ export async function initStep() {
   bottleCaps.setParent(null)
   // 步骤1,棉签消毒
   stepManager.addStep({
-    models: {},
+    models: {
+      sterileSwab: {
+        position: mq.position,
+      },
+    },
     interactions: [
       {
         modelName: "sterileSwab",
@@ -174,11 +178,7 @@ export async function initStep() {
       {
         modelName: "bloodNeedle",
         onClick: async () => {
-          if (tube) {
-            tube.isVisible = true
-            scale(needle1, [10, 10, 10])
-            scale(needle2, [10, 10, 10])
-          }
+          showNeedle()
         },
         animations: [
           {
@@ -352,10 +352,13 @@ export async function initStep() {
 
   // 定义步骤6,标记
   stepManager.addStep({
-    models: {},
+    models: {
+      bloodTube: {
+        rotation: [0, 0, 0],
+      },
+    },
     onEnter: async () => {
       playAudio(7)
-      item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
     },
     interactions: [
       {
@@ -426,9 +429,17 @@ export async function initStep() {
   })
   // 定义步骤7,处理针
   stepManager.addStep({
-    models: {},
+    models: {
+      tube: {
+        position: step1Position.tube,
+      },
+      bloodTube: {
+        position: step1Position.bloodTube,
+      },
+    },
     onEnter: async () => {
       playAudio(8)
+      showNeedle()
     },
     interactions: [
       {
@@ -457,7 +468,11 @@ export async function initStep() {
   const lxjg = item.centrifuge.meshes[1]
   // 定义步骤8,血清分离
   stepManager.addStep({
-    models: {},
+    models: {
+      bloodTube: {
+        position: step2Position.bloodTube,
+      },
+    },
     onEnter: async () => {
       playAudio(9)
       item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
@@ -515,7 +530,11 @@ export async function initStep() {
   }
   // 定义步骤9,保存
   stepManager.addStep({
-    models: {},
+    models: {
+      bloodTube: {
+        position: step4Position.bloodTube,
+      },
+    },
     onEnter: async () => {
       item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
 
@@ -651,7 +670,13 @@ async function createMyNeedle() {
 
   tube.isVisible = false // 隐藏管子
 }
-
+function showNeedle() {
+  if (tube) {
+    tube.isVisible = true
+    scale(needle1, [10, 10, 10])
+    scale(needle2, [10, 10, 10])
+  }
+}
 function createRedMaterial() {
   if (!scene) return
   const redMaterial = new StandardMaterial("redMat", scene)
@@ -728,6 +753,7 @@ function startTubeAnimation() {
 }
 
 export async function jumpStep() {
+  resetItems(itemData)
   if (stepManager) stepManager.goToStep()
 }
 

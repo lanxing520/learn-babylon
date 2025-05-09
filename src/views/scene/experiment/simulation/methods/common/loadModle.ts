@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 import { scene, camera } from "./initScene"
-import { addMouseOverInfo, move, disposeMouseOverInfo } from "./action"
+import { addMouseOverInfo, move, rotate, scale, disposeMouseOverInfo } from "./action"
 
 import type { DynamicObject } from "../common/interface.ts"
 
@@ -29,17 +29,14 @@ export async function loadItems(itemData: DynamicObject) {
 
         // 设置缩放（如果有）正确的变换顺序应该是：缩放 -> 旋转 -> 平移
         if (data.scaling) {
-          if (Array.isArray(data.scaling)) {
-            rootMesh.scaling = new BABYLON.Vector3(...data.scaling)
-          } else if (typeof data.scaling === "number") {
-            rootMesh.scaling = new BABYLON.Vector3(data.scaling, data.scaling, data.scaling)
-          }
+          scale(rootMesh, data.scaling)
         }
         // // 设置旋转（如果有）
         if (data.rotate) {
-          rootMesh.rotation = new BABYLON.Vector3(...data.rotate)
+          rotate(rootMesh, data.rotate)
         }
         move(rootMesh, data.position)
+
         rootMesh.computeWorldMatrix(true)
         // 添加鼠标悬停信息
         result.meshes.forEach((e) => {
@@ -70,6 +67,23 @@ export async function loadItems(itemData: DynamicObject) {
     throw error // 可以选择重新抛出或处理错误
   }
 }
+
+export function resetItems(itemData: DynamicObject) {
+  Object.keys(item).forEach(async (key) => {
+    const rootMesh = item[key].meshes[0]
+    const data = itemData[key]
+
+    if (data.scaling) {
+      scale(rootMesh, data.scaling)
+    }
+    // // 设置旋转（如果有）
+    if (data.rotate) {
+      rotate(rootMesh, data.rotate)
+    }
+    move(rootMesh, data.position)
+  })
+}
+
 export function disposeAllModle() {
   Object.keys(item).forEach(async (e) => {
     item[e].meshes.forEach((e: any) => {

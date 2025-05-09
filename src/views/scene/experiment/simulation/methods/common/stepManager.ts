@@ -124,7 +124,7 @@ export class AnimationStepManager {
 
           animGroup.start()
           this.activeAnimations.push(animGroup)
-
+          if (this.currentStepIndex === this.steps.length - 1) return
           animGroup.onAnimationGroupEndObservable.add(async () => {
             if (step?.onEnd && typeof step.onEnd === "function") {
               await step.onEnd()

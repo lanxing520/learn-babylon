@@ -19,6 +19,8 @@
 <script setup lang="ts">
 import { onMounted, ref, defineEmits, defineProps, watch } from "vue"
 import { useExperimentStore } from "@/stores/experimentStore"
+
+
 interface Step {
   index: null | number
   name: string
@@ -55,7 +57,6 @@ watch(
       active.value.name = store.getExperiment[+mappedIndex].name
       active.value.desc = store.getExperiment[+mappedIndex].desc
     }
-
     emit("stepChange")
   },
   {

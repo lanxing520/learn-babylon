@@ -34,8 +34,8 @@ onMounted(async () => {
     },
   })
   await loadItems(itemData)
- await initStep()
-    await jumpStep()
+  await initStep()
+  await jumpStep()
 })
 onUnmounted(() => {
   disposeStep()

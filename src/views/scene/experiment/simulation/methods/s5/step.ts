@@ -1,9 +1,9 @@
-import { item } from "../common/loadModle"
+import { item, resetItems } from "../common/loadModle"
 import { itemData } from "./itemData"
 
 import { Vector3, Mesh } from "@babylonjs/core"
 
-import { changeSizeAni, moveAni, rotateAni } from "../common/animation"
+import { changeSizeAni, moveAni, rotateAni, createKeyframes } from "../common/animation"
 import { ref } from "vue"
 import { playAudio, posTranslate, createLiquid } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
@@ -12,10 +12,8 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-let isInited = false
 let stepManager: AnimationStepManager | null
 export async function initStep() {
-  isInited = true
   stepManager = new AnimationStepManager()
   // 注册模型
   Object.keys(itemData).forEach((key) => {
@@ -157,27 +155,25 @@ export async function initStep() {
           },
           {
             mesh: item.lsg.meshes[2],
-            animation: moveAni("position", [
-              {
-                frame: 3 * frameRate,
-                value: posTranslate(itemData.lsg.position, [0, -0.09, -0.05]),
-              },
-
-              {
-                frame: 3.25 * frameRate,
-                value: posTranslate(itemData.lsg.position, [0, 0.1, -0.05]),
-              },
-              {
-                frame: 3.5 * frameRate,
-                value: posTranslate(itemData.lsg.position, [0, 0, 0]),
-              },
-            ]),
+            animation: moveAni(
+              "position",
+              createKeyframes(
+                [
+                  posTranslate(itemData.lsg.position, [0, -0.09, -0.05]),
+                  posTranslate(itemData.lsg.position, [0, 0.1, -0.05]),
+                  posTranslate(itemData.lsg.position, [0, 0, 0]),
+                ],
+                0.25,
+                3,
+              ),
+            ),
           },
         ],
       },
     ],
     onEnter: async () => {},
   })
+
   // 定义步骤3,避光孵育
   stepManager.addStep({
     models: {
@@ -194,55 +190,46 @@ export async function initStep() {
         animations: [
           {
             mesh: item.lbz.meshes[0],
-            animation: moveAni("position", [
-              { frame: 0, value: itemData.lbz.position },
-
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData.lbz.position, [-0.5, 0.5, 0]),
-              },
-              {
-                frame: 2 * frameRate,
-                value: posTranslate(itemData.yc.position, [0, 0.36, 0]),
-              },
-
-              //  { frame: 3.5 * frameRate, value: itemData.jyq.position },
-            ]),
+            animation: moveAni(
+              "position",
+              createKeyframes(
+                [
+                  itemData.lbz.position,
+                  posTranslate(itemData.lbz.position, [-0.5, 0.5, 0]),
+                  posTranslate(itemData.yc.position, [0, 0.36, 0]),
+                  { pause: 1 },
+                  itemData.lbz.position,
+                ],
+                1,
+              ),
+            ),
           },
           {
             mesh: item.lsg.meshes[0],
-            animation: moveAni("position", [
-              {
-                frame: 0 * frameRate,
-                value: posTranslate(itemData.lsg.position, [0, -0.09, -0.05]),
-              },
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData.lbz.position, [-0.505, 0.515, -0.05]),
-              },
-              {
-                frame: 2 * frameRate,
-                value: posTranslate(itemData.yc.position, [-0.005, 0.375, -0.05]),
-              },
-            ]),
+            animation: moveAni(
+              "position",
+              createKeyframes(
+                [
+                  posTranslate(itemData.lsg.position, [0, -0.09, -0.05]),
+                  posTranslate(itemData.lbz.position, [-0.505, 0.515, -0.05]),
+                  posTranslate(itemData.yc.position, [-0.005, 0.375, -0.05]),
+                  { pause: 1 },
+                  itemData.lsg.position,
+                ],
+                1,
+              ),
+            ),
           },
           {
             mesh: item.lsg.meshes[0],
-            animation: rotateAni("rotation.x", [
-              {
-                frame: 0 * frameRate,
-                value: 0,
-              },
-              {
-                frame: 1 * frameRate,
-                value: PI / 2,
-              },
-            ]),
+            animation: rotateAni("rotation.x", createKeyframes([0, PI / 2, { pause: 2 }, 0], 1)),
           },
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      item.lsg.meshes[2].setParent(item.lsg.meshes[0])
+    },
   })
   // 定义步骤4,裂解红细胞
   stepManager.addStep({
@@ -308,27 +295,26 @@ export async function initStep() {
               },
             ]),
           },
-          // {
-          //   mesh: item.lsg.meshes[0],
-          //   animation: moveAni("position", [
-          //     {
-          //       frame: 0 * frameRate,
-          //       value: posTranslate(itemData.lsg.position, [0, -0.09, -0.05]),
-          //     },
-          //     {
-          //       frame: 1 * frameRate,
-          //       value: posTranslate(itemData.hxbljy.position, [0, 0.2, -0.05]),
-          //     },
-          //     {
-          //       frame: 2 * frameRate,
-          //       value: posTranslate(itemData.hxbljy.position, [0, 0.01, -0.05]),
-          //     },
-          //   ]),
-          // },
+          {
+            mesh: item.lsg.meshes[2],
+            animation: moveAni(
+              "position",
+              createKeyframes(
+                [
+                  posTranslate(itemData.lsg.position, [0, -0.09, -0.05]),
+                  posTranslate(itemData.lsg.position, [0, 0.1, -0.05]),
+                  posTranslate(itemData.lsg.position, [0, 0, 0]),
+                ],
+                0.25,
+                1.9,
+              ),
+            ),
+          },
         ],
       },
     ],
     onEnter: async () => {
+      item.lsg.meshes[2].setParent(null)
       item.hxbljy.meshes[1].setParent(null)
     },
   })
@@ -661,6 +647,7 @@ export async function initStep() {
 
 export async function jumpStep() {
   if (stepManager) stepManager.goToStep()
+  resetItems(itemData)
 }
 export function disposeStep() {
   if (stepManager) {

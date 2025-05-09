@@ -1,4 +1,4 @@
-import type { DynamicObject } from "../common/interface"
+import type { DynamicObject, NumberArray } from "../common/interface"
 
 const PI = Math.PI
 
@@ -64,24 +64,20 @@ export const itemData = {
   },
 } as DynamicObject
 
-
-
-
-
 export const step1Position = {
   bloodTube: [
     itemData.testTubeRack.position[0] - 0.1,
     itemData.testTubeRack.position[1] + 0.25,
     itemData.testTubeRack.position[2] + 0.13,
-  ],
-  tube: [0.6, 0.06, 0],
+  ] as NumberArray,
+  tube: [0.6, 0.06, 0] as NumberArray,
 }
 export const step2Position = {
   bloodTube: [
     step1Position.bloodTube[0],
     step1Position.bloodTube[1] - 0.2,
     step1Position.bloodTube[2],
-  ],
+  ] as NumberArray,
 }
 export const step3Position = {}
 export const step4Position = {
@@ -89,7 +85,7 @@ export const step4Position = {
     itemData.centrifuge.position[0],
     itemData.centrifuge.position[1] + 0.1,
     itemData.centrifuge.position[2],
-  ],
+  ] as NumberArray,
 }
 export const step5Position = {}
 
@@ -100,4 +96,4 @@ export const tubePoints = [
   [3.7, 1.165, -3.2],
   [3.8, 1.165, -3.18],
   [3.9, 1.16, -3.18],
-] as [number, number, number][]
+] as NumberArray[]

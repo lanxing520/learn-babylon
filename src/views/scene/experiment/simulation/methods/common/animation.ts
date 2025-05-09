@@ -1,6 +1,7 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 import { scene } from "./initScene"
-import {config} from "../common/config"
+import { config } from "../common/config"
+import type { NumberArray } from "./interface"
 
 const frameRate = config.frameRate
 const PI = Math.PI
@@ -19,6 +20,41 @@ export function createAnimeGroup(groupName: string, list: AnimationItem[], optio
     animeGroup.addTargetedAnimation(e.animation, e.mesh)
   })
   return animeGroup
+}
+type PathPoint = NumberArray | { pause: number } | number
+
+/**
+ * 生成关键帧动画数组
+ * @param {Array} pathList - 动画步骤，可以是位置或 { pause: 秒 }
+ * @param {number} [step=0.5] - 间隔 单位都是frameRate:30
+ * @param {number} [start=0] - 起始 单位都是frameRate:30
+ * @returns {Array} 关键帧数组，格式 [{ frame, value }]
+ */
+export function createKeyframes(pathList: PathPoint[], step = 0.5, start = 0) {
+  const keyframes = [] as Key[]
+  const frameRate = 30
+  let currentFrame = (start - step) * frameRate
+
+  pathList.forEach((point, i) => {
+    if (typeof point === "object" && "pause" in point) {
+      if (i === 0) return
+      // 处理暂停 { pause: 0.5 }
+      currentFrame += point.pause * frameRate
+      keyframes.push({
+        frame: currentFrame,
+        value: pathList[i - 1] as number | number[],
+      })
+    } else {
+      currentFrame += step * frameRate
+      // 处理位置关键帧
+      keyframes.push({
+        frame: currentFrame,
+        value: point,
+      })
+    }
+  })
+
+  return keyframes
 }
 
 /**
@@ -159,7 +195,6 @@ export function customRotate(mesh: any, axis: number[]) {
   mesh.animations = [animation]
   scene.beginAnimation(mesh, 0, totalFrames, true)
 }
-
 
 function getKey(key: Key[]) {
   return key.map((e) => {

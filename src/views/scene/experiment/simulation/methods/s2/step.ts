@@ -1,4 +1,4 @@
-import { item } from "../common/loadModle"
+import { item, resetItems } from "../common/loadModle"
 import { itemData } from "./itemData"
 
 import {
@@ -1727,6 +1727,7 @@ export async function initStep() {
 // 开始执行
 
 export async function jumpStep() {
+  resetItems(itemData)
   if (stepManager) stepManager.goToStep()
 }
 

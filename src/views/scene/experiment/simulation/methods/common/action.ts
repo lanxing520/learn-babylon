@@ -124,13 +124,19 @@ export function disposeMouseOverInfo(mesh: BABYLON.Mesh) {
 }
 
 export function move(mesh: any, position: NumberArray) {
+  if (!mesh || position?.length < 3) return
   mesh.position = new BABYLON.Vector3(...position)
 }
 export function rotate(mesh: any, rotation: NumberArray) {
+  if (!mesh || !rotation || rotation?.length < 3) return
   mesh.rotation = new BABYLON.Vector3(...rotation)
 }
-export function scale(mesh: any, scale: NumberArray) {
-  mesh.scaling = new BABYLON.Vector3(...scale)
+export function scale(mesh: any, scale: NumberArray | number) {
+  if (Array.isArray(scale)) {
+    mesh.scaling = new BABYLON.Vector3(...scale)
+  } else if (typeof scale === "number") {
+    mesh.scaling = new BABYLON.Vector3(scale, scale, scale)
+  }
 }
 export function posTranslate(position: NumberArray, translate: NumberArray): NumberArray {
   return [position[0] + translate[0], position[1] + translate[1], position[2] + translate[2]]
