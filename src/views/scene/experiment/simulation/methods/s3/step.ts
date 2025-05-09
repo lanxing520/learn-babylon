@@ -102,7 +102,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {
@@ -181,7 +180,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 8.5 * frameRate],
       },
     ],
     onEnter: async () => {

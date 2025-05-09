@@ -95,7 +95,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {
@@ -175,7 +174,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {},
@@ -242,7 +240,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {},
@@ -329,7 +326,6 @@ export async function initStep() {
           //   ]),
           // },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {
@@ -389,7 +385,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 4.5 * frameRate],
       },
     ],
     onEnter: async () => {},
@@ -500,7 +495,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 6 * frameRate],
       },
     ],
     onEnter: async () => {
@@ -576,7 +570,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {
@@ -636,7 +629,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 1 * frameRate],
       },
     ],
     onEnter: async () => {},

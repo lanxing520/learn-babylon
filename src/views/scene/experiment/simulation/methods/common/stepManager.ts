@@ -114,10 +114,13 @@ export class AnimationStepManager {
           )
           if (interaction.animationRange && interaction.animationRange.length === 2) {
             animGroup.normalize(...interaction.animationRange)
+          } else {
+            animGroup.normalize(0)
           }
-          if (interaction.animationSpeedRatio) {
-            animGroup.speedRatio = interaction.animationSpeedRatio
-          }
+
+          // if (interaction.animationSpeedRatio) {
+          //   animGroup.speedRatio = interaction.animationSpeedRatio
+          // }
 
           animGroup.start()
           this.activeAnimations.push(animGroup)

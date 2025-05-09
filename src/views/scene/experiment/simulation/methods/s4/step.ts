@@ -42,8 +42,11 @@ export async function initStep() {
             mesh: item.zls.meshes[0],
             animation: moveAni("position", [
               { frame: 0, value: itemData.zls.position },
-              { frame: 0.5 * frameRate, value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]) },
-              
+              {
+                frame: 0.5 * frameRate,
+                value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
+              },
+
               {
                 frame: 1.75 * frameRate,
                 value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
@@ -74,7 +77,6 @@ export async function initStep() {
             ]),
           },
         ],
-        animationRange: [0, 3.5 * frameRate],
       },
     ],
     onEnter: async () => {
