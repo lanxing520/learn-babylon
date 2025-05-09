@@ -1,6 +1,6 @@
 import { item } from "../common/loadModle"
 import { itemData } from "./itemData"
-import { scene, camera } from "../common/initScene"
+
 import { Vector3, Mesh } from "@babylonjs/core"
 
 import { changeSizeAni, moveAni, rotateAni } from "../common/animation"
@@ -12,7 +12,6 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-
 let isInited = false
 let stepManager: AnimationStepManager | null
 export async function initStep() {
@@ -23,97 +22,69 @@ export async function initStep() {
   Object.keys(itemData).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
-  createLiquid(item.zkcxg.meshes[0], 0.05)
-  const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05) as Mesh
-  // 定义步骤1,稀释
-  // stepManager.addStep({
-  //   models: {
-  //     jtdg: {
-  //       position: itemData.jtdg.position,
-  //     },
-  //   },
-  //   interactions: [
-  //     {
-  //       modelName: "jtdg",
-  //       onClick: async () => {
-  //         playAudio(19)
-  //       },
-  //       animations: [
-  //         {
-  //           mesh: item.jtdg.meshes[0],
-  //           animation: moveAni("position", [
-  //             { frame: 0, value: itemData.jtdg.position },
-  //             { frame: 0.5 * frameRate, value: posTranslate(itemData.zkcxg.position, [0, 0.3, 0]) },
-  //             { frame: 1 * frameRate, value: posTranslate(itemData.zkcxg.position, [0, 0.03, 0]) },
-  //             {
-  //               frame: 1.5 * frameRate,
-  //               value: posTranslate(itemData.zkcxg.position, [0, 0.03, 0]),
-  //             },
-  //             {
-  //               frame: 1.75 * frameRate,
-  //               value: posTranslate(itemData.zkcxg.position, [0, 0.3, 0]),
-  //             },
-  //             {
-  //               frame: 2 * frameRate,
-  //               value: posTranslate(itemData.jtjsz.position, [-0.5, 0.02, -0.02]),
-  //             },
-  //             {
-  //               frame: 2.5 * frameRate,
-  //               value: posTranslate(itemData.jtjsz.position, [-0.5, 0.02, -0.02]),
-  //             },
-  //             { frame: 3 * frameRate, value: itemData.jtdg.position },
-  //           ]),
-  //         },
-  //         {
-  //           mesh: blood,
-  //           animation: changeSizeAni("scaling.y", [
-  //             { frame: 1 * frameRate, value: 0 },
-  //             { frame: 1.5 * frameRate, value: 1 },
-  //             { frame: 2 * frameRate, value: 1 },
-  //             { frame: 2.5 * frameRate, value: 0.8 },
-  //           ]),
-  //         },
-  //         {
-  //           mesh: item.zkcxg.meshes[2],
-  //           animation: moveAni("position", [
-  //             { frame: 0 * frameRate, value: posTranslate(itemData.zkcxg.position, [0, 0.1, 0]) },
-  //             {
-  //               frame: 0.5 * frameRate,
-  //               value: posTranslate(itemData.zkcxg.position, [0, 0.1, 0.1]),
-  //             },
-  //             {
-  //               frame: 1 * frameRate,
-  //               value: posTranslate(itemData.zkcxg.position, [0, -0.28, 0.1]),
-  //             },
-  //           ]),
-  //         },
-  //         {
-  //           mesh: item.jtjsz.meshes[0],
-  //           animation: moveAni("position", [
-  //             { frame: 0 * frameRate, value: itemData.jtjsz.position },
-  //             {
-  //               frame: 0.5 * frameRate,
-  //               value: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
-  //             },
-  //             // {
-  //             //   frame: 3 * frameRate,
-  //             //   value: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
-  //             // },
-  //             // { frame: 3.5 * frameRate, value: itemData.jtjsz.position },
-  //           ]),
-  //         },
-  //       ],
-  //       animationRange: [0, 3.5 * frameRate],
-  //     },
-  //   ],
-  //   onEnter: async () => {
-  //     item.zkcxg.meshes[2].setParent(null)
-  //   },
-  // })
+
+  const blood = createLiquid(item.zkcxg.meshes[0], 0.08, 0.003, 0.05) as Mesh
+  // 定义步骤1,灌胶验漏
+  stepManager.addStep({
+    models: {
+      zls: {
+        position: itemData.zls.position,
+      },
+    },
+    interactions: [
+      {
+        modelName: "zls",
+        onClick: async () => {
+          playAudio(22)
+        },
+        animations: [
+          {
+            mesh: item.zls.meshes[0],
+            animation: moveAni("position", [
+              { frame: 0, value: itemData.zls.position },
+              { frame: 0.5 * frameRate, value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]) },
+              
+              {
+                frame: 1.75 * frameRate,
+                value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
+              },
+
+              { frame: 3 * frameRate, value: itemData.zls.position },
+            ]),
+          },
+          {
+            mesh: item.zls.meshes[0],
+            animation: rotateAni("rotation.z", [
+              {
+                frame: 0.5 * frameRate,
+                value: 0,
+              },
+              {
+                frame: 1 * frameRate,
+                value: 1.2,
+              },
+              {
+                frame: 1.5 * frameRate,
+                value: 1.2,
+              },
+              {
+                frame: 2 * frameRate,
+                value: 0,
+              },
+            ]),
+          },
+        ],
+        animationRange: [0, 3.5 * frameRate],
+      },
+    ],
+    onEnter: async () => {
+      // item.blb.meshes[2].setParent(null)
+    },
+  })
   // 定义步骤2
-  
+
   // 定义步骤3,观察
-  
+
   // 定义步骤4
 
   // 定义步骤5,加样

@@ -42,18 +42,20 @@ watch(
   () => model.value,
   (newVal) => {
     if (newVal === undefined) return
+    console.log("stepIndex", newVal)
+
     // 获取对应的索引
     // const mappedIndex = stepMapping[newVal]
     let mappedIndex = Object.keys(props.stepMapping).find(
       (key) => props.stepMapping[key] === newVal,
     )
+    // console.log("leftIndex", mappedIndex)
 
-    if (mappedIndex === undefined) {
-      mappedIndex = (newVal - 1).toString()
+    if (mappedIndex !== undefined) {
+      active.value.name = store.getExperiment[+mappedIndex].name
+      active.value.desc = store.getExperiment[+mappedIndex].desc
     }
 
-    active.value.name = store.getExperiment[+mappedIndex].name
-    active.value.desc = store.getExperiment[+mappedIndex].desc
     emit("stepChange")
   },
   {

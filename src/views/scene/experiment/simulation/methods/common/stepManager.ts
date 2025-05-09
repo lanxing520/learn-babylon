@@ -107,7 +107,7 @@ export class AnimationStepManager {
         }
 
         // 执行关联动画
-        if (interaction.animations) {
+        if (interaction.animations && interaction.animations.length) {
           const animGroup = createAnimeGroup(
             `step-${this.currentStepIndex}-${interaction.modelName}-ani`,
             interaction.animations,

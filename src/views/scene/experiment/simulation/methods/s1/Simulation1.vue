@@ -6,36 +6,44 @@
     class="experiment-simulation"
   >
     <canvas class="canvas" ref="renderCanvas"></canvas>
-    <ExperimentMessage :stepMapping="stepMapping" v-model="stepIndex" @step-change="loadStep" />
+    <ExperimentMessage :stepMapping="stepMapping" v-model="stepIndex" @step-change="jumpStep" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, useTemplateRef, watchEffect } from "vue"
+import {
+  ref,
+  watch,
+  onMounted,
+  onUnmounted,
+  onBeforeUnmount,
+  useTemplateRef,
+  watchEffect,
+} from "vue"
 import { initScene, loading, dispose } from "../common/initScene"
 import ExperimentMessage from "../components/ExperimentMessage.vue"
-import { loadStep, stopStep, loadTester, stepIndex } from "./step"
+import { initStep, jumpStep, disposeStep } from "./step"
 import { loadItems } from "../common/loadModle"
 import { simulationMixin } from "../../simulationMixin"
 import { itemData } from "./itemData"
+import { stepIndex } from "../common/stepManager"
 
 const renderCanvas = useTemplateRef<HTMLCanvasElement>("renderCanvas")
 
 onMounted(async () => {
   if (!renderCanvas.value) return
-
+  stepIndex.value = 1
   try {
     await initScene(renderCanvas.value)
     await loadItems(itemData)
-    await loadTester()
-    await loadStep()
+    await initStep()
+    await jumpStep()
   } catch (error) {
     console.error("初始化 Babylon 场景失败:", error)
   }
 })
-onBeforeUnmount(() => {
-  stopStep()
-  dispose()
+onUnmounted(() => {
+  disposeStep()
 })
 // 定义映射关系,左边animation-list的index和右边的stepIndex的index 一一对应
 const stepMapping = {

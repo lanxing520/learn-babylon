@@ -1,6 +1,6 @@
 import { item } from "../common/loadModle"
 import { itemData } from "./itemData"
-import { scene, camera } from "../common/initScene"
+
 import {
   Vector3,
   AbstractMesh,

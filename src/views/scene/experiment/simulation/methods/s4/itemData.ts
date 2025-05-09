@@ -24,7 +24,120 @@ export const itemData = {
     scaling: [0.8, 0.6, 0.8],
     rotate: [0, PI, 0],
   },
-
+  // bxxa: {
+  //   name: "丙烯酰胺混合液",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // hcl: {
+  //   name: "Tris-HCl",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // sds: {
+  //   name: "SDS",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // glsa: {
+  //   name: "过硫酸铵",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // temed: {
+  //   name: "TEMED",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // ybc: {
+  //   name: "异丙醇",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // yrdb: {
+  //   name: "预染蛋白Marker",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // qjb: {
+  //   name: "切胶板",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // wsyc: {
+  //   name: "无水乙醇",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // qlzs: {
+  //   name: "去离子水",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // gl: {
+  //   name: "滚轮",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // rmhcy: {
+  //   name: "转膜缓冲液",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // bh: {
+  //   name: "冰盒",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // tznn: {
+  //   name: "脱脂牛奶",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // xsy: {
+  //   name: "稀释液",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // kt: {
+  //   name: "抗人IgG抗体",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // xbz: {
+  //   name: "锡箔纸",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // ecl: {
+  //   name: "ECL试剂",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
+  // xsz: {
+  //   name: "吸水纸",
+  //   position: [origin.x, origin.y, origin.z - 0.8],
+  //   scaling: [0.8, 0.6, 0.8],
+  //   rotate: [0, PI, 0],
+  // },
   sc: {
     name: "梳齿",
     rotate: [0, 0, 0],
@@ -38,9 +151,9 @@ export const itemData = {
     position: [origin.x, origin.y, origin.z - 0.66],
     scaling: 0.5,
   },
-  sb: {
+  zls: {
     name: "装有蒸馏水的烧杯",
-    rotate: [0, 0, 0],
+    rotate: [0, PI/2, 0],
     position: [origin.x, origin.y, origin.z - 0.45],
   },
 
