@@ -14,9 +14,9 @@ interface Key {
   frame: number
   value: number | number[] | BABYLON.Vector3
 }
-export function createAnimeGroup(groupName: string, list: AnimationItem[], option?: any) {
+export function createAnimeGroup(groupName: string, animationList: AnimationItem[], option?: any) {
   const animeGroup = new BABYLON.AnimationGroup(groupName)
-  list.forEach((e: AnimationItem, i) => {
+  animationList.forEach((e: AnimationItem, i) => {
     animeGroup.addTargetedAnimation(e.animation, e.mesh)
   })
   return animeGroup

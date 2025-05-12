@@ -1,29 +1,48 @@
 import { item, resetItems } from "../common/loadModle"
 import { itemData } from "./itemData"
 
-import { Vector3, Mesh } from "@babylonjs/core"
+import { Vector3, Mesh, AnimationEvent } from "@babylonjs/core"
 
-import { changeSizeAni, moveAni, rotateAni } from "../common/animation"
+import { changeSizeAni, moveAni, rotateAni, createKeyframes } from "../common/animation"
 import { ref } from "vue"
-import { playAudio, posTranslate, createLiquid } from "../common/action"
+import { playAudio, posTranslate, createLiquid, createWaterFlow } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
 import { config } from "../common/config"
+
 const frameRate = config.frameRate
 
 const PI = Math.PI
 
-
 let stepManager: AnimationStepManager | null
 export async function initStep() {
- 
-
   stepManager = new AnimationStepManager()
   // 注册模型
   Object.keys(itemData).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
 
-  const blood = createLiquid(item.zkcxg.meshes[0], 0.08, 0.003, 0.05) as Mesh
+  const pourWaterAni = moveAni(
+    "position",
+    createKeyframes(
+      [
+        itemData.zls.position,
+        posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
+        { pause: 1 },
+        itemData.zls.position,
+      ],
+      0.5,
+    ),
+  )
+  pourWaterAni.addEvent(
+    new AnimationEvent(
+      0.5 * frameRate,
+      () => {
+        createWaterFlow(posTranslate(itemData.zjj.position, [0, 0.2, -0.01]))
+      },
+      true,
+    ),
+  )
+  const blood = createLiquid(item.zkcxg.meshes[0], 0.08, 0.03, 0.05) as Mesh
   // 定义步骤1,灌胶验漏
   stepManager.addStep({
     models: {
@@ -40,41 +59,11 @@ export async function initStep() {
         animations: [
           {
             mesh: item.zls.meshes[0],
-            animation: moveAni("position", [
-              { frame: 0, value: itemData.zls.position },
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
-              },
-
-              {
-                frame: 1.75 * frameRate,
-                value: posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
-              },
-
-              { frame: 3 * frameRate, value: itemData.zls.position },
-            ]),
+            animation: pourWaterAni,
           },
           {
             mesh: item.zls.meshes[0],
-            animation: rotateAni("rotation.z", [
-              {
-                frame: 0.5 * frameRate,
-                value: 0,
-              },
-              {
-                frame: 1 * frameRate,
-                value: 1.2,
-              },
-              {
-                frame: 1.5 * frameRate,
-                value: 1.2,
-              },
-              {
-                frame: 2 * frameRate,
-                value: 0,
-              },
-            ]),
+            animation: rotateAni("rotation.z", createKeyframes([0, 1.2, { pause: 0.5 }, 0], 1)),
           },
         ],
       },

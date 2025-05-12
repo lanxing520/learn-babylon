@@ -44,7 +44,6 @@ watch(
   () => model.value,
   (newVal) => {
     if (newVal === undefined) return
-    console.log("stepIndex", newVal)
 
     // 获取对应的索引
     // const mappedIndex = stepMapping[newVal]

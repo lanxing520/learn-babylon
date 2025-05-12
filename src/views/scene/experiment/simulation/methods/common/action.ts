@@ -282,3 +282,88 @@ export function createLiquid(
 
   return liquid
 }
+
+/**
+ * 创建沙粒效果的粒子系统
+ * @param position 起始位置
+ * @param color 颗粒颜色（默认为沙土色）
+ * @param particleCount 粒子数量（默认1000）
+ * @param duration 持续时间（默认1秒）
+ * @returns 配置好的粒子系统
+ */
+export function createWaterFlow(
+  position: NumberArray,
+  color = [0.1, 0.9, 0.9],
+  particleCount: number = 100,
+  duration: number = 1, // 新增参数：持续时间
+) {
+  if (!scene) return
+  // 创建粒子系统
+  const particleSystem = new BABYLON.ParticleSystem("particles", particleCount, scene)
+
+  // 配置粒子属性
+  const p = new BABYLON.Vector3(...position)
+
+  //Texture of each particle
+  particleSystem.particleTexture = new BABYLON.Texture("/textures/flare.png", scene)
+
+  // Where the particles come from
+  particleSystem.emitter = p
+  // Colors of all particles
+  particleSystem.color1 = new BABYLON.Color4(0.4, 1.5, 0.3, 1.0)
+  particleSystem.color2 = new BABYLON.Color4(0.4, 1.5, 0.3, 1.0)
+  particleSystem.colorDead = new BABYLON.Color4(0.4, 1.5, 0.3, 1.0)
+  // Size of each particle (random between...
+  particleSystem.minSize = 0.05
+  particleSystem.maxSize = 0.06
+
+  // Life time of each particle (random between...
+  particleSystem.minLifeTime = 0.1
+  particleSystem.maxLifeTime = 0.1
+
+  // Emission rate
+  particleSystem.emitRate = 500
+
+  /******* Emission Space ********/
+  particleSystem.createPointEmitter(new BABYLON.Vector3(0, -1, 0), new BABYLON.Vector3(0, -1, 0))
+
+  // Speed
+  particleSystem.minEmitPower = 1
+  particleSystem.maxEmitPower = 2
+  particleSystem.updateSpeed = 0.005
+
+  const fluidRenderer = scene.enableFluidRenderer()
+  fluidRenderer?.addParticleSystem(particleSystem)
+  if (fluidRenderer) fluidRenderer.targetRenderers[0].fluidColor = new BABYLON.Color3(...color)
+
+  // Start the particle system
+  particleSystem.start()
+
+  // 新增基于requestAnimationFrame的定时逻辑
+  if (duration > 0) {
+    const startTime = performance.now()
+    let animationFrameId: number
+
+    const checkDuration = () => {
+      const elapsedTime = (performance.now() - startTime) / 1000 // 转换为秒
+      if (elapsedTime >= duration || !particleSystem.isStarted) {
+        if (particleSystem && particleSystem.isStarted()) {
+          particleSystem.stop()
+        }
+        // 清理动画帧请求
+        if (animationFrameId) {
+          particleSystem.dispose()
+          fluidRenderer?.dispose()
+          cancelAnimationFrame(animationFrameId)
+        }
+      } else {
+        animationFrameId = requestAnimationFrame(checkDuration)
+      }
+    }
+
+    // 启动检查循环
+    animationFrameId = requestAnimationFrame(checkDuration)
+  }
+
+  return particleSystem
+}

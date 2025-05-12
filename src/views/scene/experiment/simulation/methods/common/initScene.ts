@@ -55,6 +55,7 @@ export async function initScene(
   // show the loading screen
   engine.displayLoadingUI()
   scene = new BABYLON.Scene(engine)
+
   await applyConfig()
   // 2. 设置相机和灯光
   // camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(2, 1.6, -3), scene)

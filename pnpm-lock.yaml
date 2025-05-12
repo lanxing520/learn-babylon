@@ -23,6 +23,12 @@ importers:
       '@babylonjs/materials':
         specifier: ^8.2.0
         version: 8.3.0(@babylonjs/core@8.3.0)
+      '@babylonjs/procedural-textures':
+        specifier: 8.2.0
+        version: 8.2.0(@babylonjs/core@8.3.0)
+      cannon:
+        specifier: ^0.6.2
+        version: 0.6.2
       element-plus:
         specifier: ^2.9.7
         version: 2.9.7(vue@3.5.13(typescript@5.8.3))
@@ -51,6 +57,9 @@ importers:
       '@tsconfig/node22':
         specifier: ^22.0.1
         version: 22.0.1
+      '@types/cannon':
+        specifier: ^0.1.13
+        version: 0.1.13
       '@types/lodash':
         specifier: ^4.17.16
         version: 4.17.16
@@ -270,6 +279,11 @@ packages:
 
   '@babylonjs/materials@8.3.0':
     resolution: {integrity: sha512-VT4d2xevl8wQe65a4nfXxU3USEJxo+bwuNlnTh+qNUcoaeBxRHlePer7783/3HRGFtuKa11LKJhT2JuSkRh1ng==}
+    peerDependencies:
+      '@babylonjs/core': ^8.0.0
+
+  '@babylonjs/procedural-textures@8.2.0':
+    resolution: {integrity: sha512-+2TUbjdTevuS9DjNgpzPb56PJmUfXDZ3WaaUUjIVQlGuiHs3PKeG732/ctqybDNH8HJASA36GtbnWZR/t3rPQg==}
     peerDependencies:
       '@babylonjs/core': ^8.0.0
 
@@ -772,6 +786,9 @@ packages:
   '@tweenjs/tween.js@23.1.3':
     resolution: {integrity: sha512-vJmvvwFxYuGnF2axRtPYocag6Clbb5YS7kLL+SO/TeVFzHqDIWrNKYtcsPMibjDx9O+bu+psAy9NKfWklassUA==}
 
+  '@types/cannon@0.1.13':
+    resolution: {integrity: sha512-Yf5nvCblc/PHGA8/wtTOFd1AdS1EhFmHpyPL/tWRk1CRoFAb0M9Kj52dMUwxmNGAguAeS+9siiNi/hk03hhUEA==}
+
   '@types/emscripten@1.40.1':
     resolution: {integrity: sha512-sr53lnYkQNhjHNN0oJDdUm5564biioI5DuOpycufDVK7D3y+GR3oUswe2rlwY1nPNyusHbrJ9WoTyIHl4/Bpwg==}
 
@@ -1065,6 +1082,9 @@ packages:
 
   caniuse-lite@1.0.30001714:
     resolution: {integrity: sha512-mtgapdwDLSSBnCI3JokHM7oEQBLxiJKVRtg10AxM1AyeiKcM96f0Mkbqeq+1AbiCtvMcHRulAAEMu693JrSWqg==}
+
+  cannon@0.6.2:
+    resolution: {integrity: sha512-n/7wWSXr8KOSvjad2x0fJHgpMepKjOKi+NdSnjfYyijoDBZnp4JQKgPcpv28jlXoWM+N9zVYU09J0A6Qxx+Y7w==}
 
   cfb@1.2.2:
     resolution: {integrity: sha512-KfdUZsSOw19/ObEWasvBP/Ac4reZvAGauZhs6S/gqNhXhI7cKwvlH7ulj+dOEYnca4bm4SGo8C1bTAQvnTjgQA==}
@@ -2406,6 +2426,10 @@ snapshots:
     dependencies:
       '@babylonjs/core': 8.3.0
 
+  '@babylonjs/procedural-textures@8.2.0(@babylonjs/core@8.3.0)':
+    dependencies:
+      '@babylonjs/core': 8.3.0
+
   '@ctrl/tinycolor@3.6.1': {}
 
   '@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.8.3))':
@@ -2759,6 +2783,8 @@ snapshots:
   '@tsconfig/node22@22.0.1': {}
 
   '@tweenjs/tween.js@23.1.3': {}
+
+  '@types/cannon@0.1.13': {}
 
   '@types/emscripten@1.40.1': {}
 
@@ -3150,6 +3176,8 @@ snapshots:
   callsites@3.1.0: {}
 
   caniuse-lite@1.0.30001714: {}
+
+  cannon@0.6.2: {}
 
   cfb@1.2.2:
     dependencies:

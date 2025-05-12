@@ -78,12 +78,12 @@ export const itemData = {
   //   scaling: [0.8, 0.6, 0.8],
   //   rotate: [0, PI, 0],
   // },
-  // qlzs: {
-  //   name: "去离子水",
-  //   position: [origin.x, origin.y, origin.z - 0.8],
-  //   scaling: [0.8, 0.6, 0.8],
-  //   rotate: [0, PI, 0],
-  // },
+  qlzs: {
+    name: "去离子水",
+    position: [origin.x, origin.y, origin.z - 1.5],
+    
+    rotate: [0, PI/2, 0],
+  },
   // gl: {
   //   name: "滚轮",
   //   position: [origin.x, origin.y, origin.z - 0.8],
@@ -152,7 +152,7 @@ export const itemData = {
     scaling: 0.5,
   },
   zls: {
-    name: "装有蒸馏水的烧杯",
+    name: "蒸馏水",
     rotate: [0, PI/2, 0],
     position: [origin.x, origin.y, origin.z - 0.45],
   },

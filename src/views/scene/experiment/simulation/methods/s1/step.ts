@@ -76,7 +76,7 @@ export async function initStep() {
     mq2.position = new Vector3(mq.position[0], mq.position[1], mq.position[2] - 0.05)
     addMouseOverInfo(mq2)
     stepManager?.registerModel("mq2", [mq2])
-    console.log(mq2)
+  
   }
 
   const bottleCaps = item?.disinfectant?.meshes?.[2]

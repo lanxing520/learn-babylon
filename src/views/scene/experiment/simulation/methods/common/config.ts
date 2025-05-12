@@ -8,7 +8,7 @@ export const config = {
   frameRate:30,
   showFps: false,
   debugger: false,
-  HavokPhysics: true,
+  HavokPhysics: false,
   sceneOptimize: true,
 }
 
@@ -31,6 +31,7 @@ export default async () => {
     const havokInstance = await HavokPhysics()
     const hk = new BABYLON.HavokPlugin(true, havokInstance)
     scene?.enablePhysics(new BABYLON.Vector3(0, -9.8, 0), hk)
+    // scene?.enablePhysics()
   }
   if (config.sceneOptimize) {
     // scene.autoClear = false // Color buffer
