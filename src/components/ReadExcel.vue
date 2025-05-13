@@ -16,7 +16,6 @@
 <script setup lang="ts">
 import { readExcelFile } from '@/utils/readExcel.ts'
 
-import { ref, computed } from 'vue'
 const emit = defineEmits(['file-upload'])
 const excelData = ref<any>({})
 const tabList = ref<string[]>([])

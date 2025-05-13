@@ -1,6 +1,6 @@
 // // FluidRenderer.vue //
 <script setup lang="ts">
-// import { onMounted, onUnmounted, ref } from 'vue';
+
 // import * as BABYLON from '@babylonjs/core';
 // import '@babylonjs/loaders';
 // import '@babylonjs/gui';

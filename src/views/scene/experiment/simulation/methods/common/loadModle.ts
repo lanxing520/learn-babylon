@@ -19,7 +19,8 @@ export async function loadItems(itemData: DynamicObject) {
     // 使用map而不是forEach来创建Promise数组
     const loadPromises = Object.keys(itemData).map(async (key: keyof DynamicObject) => {
       const data = itemData[key]
-      const url = `/model/item/${data.name}.glb`
+      const fileName =data?.fileName ?? data.name
+      const url = `/model/item/${fileName}.glb`
       if (!scene) return
       try {
         // 加载模型

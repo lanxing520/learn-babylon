@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, useTemplateRef,onUnmounted } from "vue"
+import { ref, onMounted, useTemplateRef, onUnmounted } from "vue"
 import { initScene, loading } from "../common/initScene"
 
 import ExperimentMessage from "../components/ExperimentMessage.vue"
-import {initStep, jumpStep,disposeStep } from "./step"
+import { initStep, jumpStep, disposeStep } from "./step"
 import { stepIndex } from "../common/stepManager"
 import { itemData } from "./itemData"
 import { loadItems } from "../common/loadModle"
@@ -25,7 +25,7 @@ const renderCanvas = useTemplateRef<HTMLCanvasElement>("renderCanvas")
 
 onMounted(async () => {
   if (!renderCanvas.value) return
-  stepIndex.value = 1
+  stepIndex.value = 15
   try {
     await initScene(renderCanvas.value, {
       camera: {
@@ -49,6 +49,21 @@ const stepMapping = {
   0: 1,
   1: 2,
   2: 3,
+  3: 6,
+  4: 7,
+  5: 8,
+  6: 9,
+  7: 10,
+  8: 11,
+  9: 13,
+  10: 14,
+  11: 15,
+  // 12: 15,
+  // 13: 16,
+  // 14: 17,
+  // 15: 18,
+  // 16: 19,
+  // 17: 20,
 } as any
 simulationMixin()
 </script>

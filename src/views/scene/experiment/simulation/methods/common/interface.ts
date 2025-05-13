@@ -3,6 +3,7 @@ export type DynamicObject = Record<
   string,
   {
     name: string
+    fileName?: string
     position: NumberArray
     rotate?: NumberArray
     scaling?: NumberArray | number

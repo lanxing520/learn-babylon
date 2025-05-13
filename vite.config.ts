@@ -28,7 +28,7 @@ export default defineConfig({
         "pinia",
         // 可以添加其他需要的自动导入
       ],
-      dts: true, // 生成自动导入的TypeScript声明文件
+      dts: "src/auto-imports.d.ts", // 生成自动导入的TypeScript声明文件
 
       resolvers: [ElementPlusResolver()],
     }),

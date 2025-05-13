@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineEmits, defineProps, watch } from "vue"
+
 import { useExperimentStore } from "@/stores/experimentStore"
 
 

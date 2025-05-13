@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useExperimentStore } from '@/stores/experimentStore'
 import { getAssetUrl } from '@/utils/assetHelper'
 

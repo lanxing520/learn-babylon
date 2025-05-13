@@ -213,3 +213,10 @@ function getKey(key: Key[]) {
     return e
   })
 }
+
+/**
+ * 移动物体到后续点位内停顿1s然后离开
+ * @param mesh  目标属性
+ * @param points 关键帧
+ * @returns 动画
+ */

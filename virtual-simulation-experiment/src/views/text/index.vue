@@ -3,8 +3,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-
 const loadScript = (src) => {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
