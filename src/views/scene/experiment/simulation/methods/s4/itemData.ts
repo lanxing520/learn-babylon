@@ -39,7 +39,6 @@ export const itemData = {
   },
   tznn: {
     name: "脱脂牛奶",
-    fileName: "去离子水",
     position: [origin.x, origin.y, origin.z - 1.3],
     rotate: [0, PI / 2, 0],
   },
@@ -124,8 +123,8 @@ export const itemData = {
     position: [origin.x + 0.3, origin.y, origin.z - 1.3],
     rotate: [0, 0, 0],
   },
-  jtdg:{
-     name: "胶头滴管",
+  jtdg: {
+    name: "胶头滴管",
     position: [origin.x + 0.3, origin.y, origin.z - 1.5],
     rotate: [0, 0, 0],
   },

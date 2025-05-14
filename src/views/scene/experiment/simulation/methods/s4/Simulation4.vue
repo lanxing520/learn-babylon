@@ -25,7 +25,7 @@ const renderCanvas = useTemplateRef<HTMLCanvasElement>("renderCanvas")
 
 onMounted(async () => {
   if (!renderCanvas.value) return
-  stepIndex.value = 1
+  stepIndex.value =23
   try {
     await initScene(renderCanvas.value, {
       camera: {

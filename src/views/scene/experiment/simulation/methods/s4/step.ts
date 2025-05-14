@@ -99,6 +99,7 @@ export async function initStep() {
                 [
                   itemData.jyq.position,
                   ...createPostion(itemData.bxxa.position),
+
                   ...createPostion(itemData.hcl.position),
                   ...createPostion(itemData.sds.position),
 
@@ -114,6 +115,12 @@ export async function initStep() {
               ),
             ),
           },
+          moveLid(item.bxxa.meshes[1], 0),
+          moveLid(item.hcl.meshes[1], 2),
+          moveLid(item.sds.meshes[1], 4),
+          moveLid(item.glsa.meshes[1], 6),
+          moveLid(item.temed.meshes[1], 8),
+          moveLid(item.ybc.meshes[1], 10),
           {
             mesh: item.lxg.meshes[0],
             animation: moveAni(
@@ -155,16 +162,19 @@ export async function initStep() {
                   ...createPosition2(itemData.bxxa.position),
                   ...createPosition2(itemData.hcl.position),
                   ...createPosition2(itemData.sds.position),
-
                   ...createPosition2(itemData.glsa.position),
                   ...createPosition2(itemData.temed.position),
-                  // ...createPostion(itemData.ybc.position, itemData.blb.position),
                   itemData.jyq.position,
                 ],
                 0.5,
               ),
             ),
           },
+          moveLid(item.bxxa.meshes[1], 0, 6),
+          moveLid(item.hcl.meshes[1], 0, 6),
+          moveLid(item.sds.meshes[1], 0, 6),
+          moveLid(item.glsa.meshes[1], 0, 6),
+          moveLid(item.temed.meshes[1], 0, 8),
         ],
       },
     ],
@@ -308,6 +318,8 @@ export async function initStep() {
               ),
             ),
           },
+
+          moveLid(item.sds.meshes[1], 2, 3),
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni(
@@ -327,9 +339,11 @@ export async function initStep() {
       },
     ],
     onEnter: async () => {
+      item.zkcxg.meshes[2].isVisible = false
       playAudio(25)
     },
   })
+
   //步骤7,装胶
   stepManager.addStep({
     models: {
@@ -417,6 +431,7 @@ export async function initStep() {
             mesh: item.zmhcy.meshes[0],
             animation: rotateAni("rotation.z", createKeyframes([0, -1.3, { pause: 1 }, 0], 1, 1)),
           },
+          moveLid(item.zmhcy.meshes[1], 0, 5),
         ],
       },
     ],
@@ -549,7 +564,9 @@ export async function initStep() {
         ],
       },
     ],
-    onEnter: async () => {playAudio(29)},
+    onEnter: async () => {
+      playAudio(29)
+    },
   })
   //步骤11,转膜1
   stepManager.addStep({
@@ -608,6 +625,7 @@ export async function initStep() {
             ),
           },
           rotateAnimation(item.zmhcy.meshes[0], "z", 0.5),
+          moveLid(item.zmhcy.meshes[1], 0, 5),
         ],
       },
     ],
@@ -707,10 +725,16 @@ export async function initStep() {
         animations: [
           moveAnimation(
             item.zmhcy.meshes[0],
-            [itemData.zmhcy.position, posTranslate(itemData.zmy.position, [0.1, 0.3, -0.4])],
+            [
+              itemData.zmhcy.position,
+              posTranslate(itemData.zmy.position, [0.1, 0.3, -0.4]),
+              { pause: 1 },
+              itemData.zmhcy.position,
+            ],
             1,
           ),
           rotateAnimation(item.zmhcy.meshes[0], "z", 0.5),
+          moveLid(item.zmhcy.meshes[1], 0, 2),
         ],
       },
     ],
@@ -723,7 +747,7 @@ export async function initStep() {
     models: {},
     interactions: [
       {
-        modelName: "",
+        modelName: "dyykg",
         onClick: async () => {},
         animations: [],
       },
@@ -787,11 +811,11 @@ export async function initStep() {
     },
   })
   //步骤16,一抗孵育
-  commonStep("ykxsy",34)
+  commonStep("ykxsy", 34)
   //步骤18,二抗孵育
-  commonStep("ekxsy",35)
+  commonStep("ekxsy", 35)
   //步骤20,WB-加入底物
-  commonStep("tznn",36)
+  commonStep("tznn", 36)
   //步骤22,终止反应
   stepManager.addStep({
     models: model.state16,
@@ -859,6 +883,7 @@ export async function initStep() {
             ],
             0.5,
           ),
+          moveLid(item.ecl.meshes[1], 0, 2)
         ],
       },
     ],
@@ -933,7 +958,27 @@ export async function initStep() {
   })
 }
 
-function commonStep(nameKey: string,audioIndex:number) {
+function moveLid(mesh: Mesh | AbstractMesh, start = 0, pause = 15) {
+  const position = mesh.position.clone()
+  return {
+    mesh,
+    animation: moveAni(
+      "position",
+      createKeyframes(
+        [
+          [position.x, position.y, position.z],
+          [position.x, position.y + 1.5, position.z],
+          // [position.x + translate[0], position.y + translate[1], position.z + translate[2]],
+          { pause },
+          [position.x, position.y, position.z],
+        ],
+        1,
+        start,
+      ),
+    ),
+  }
+}
+function commonStep(nameKey: string, audioIndex: number) {
   if (!stepManager) return
 
   stepManager.addStep({
