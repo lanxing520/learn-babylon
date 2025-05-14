@@ -367,3 +367,8 @@ export function createWaterFlow(
 
   return particleSystem
 }
+export function showMeshes(meshes: BABYLON.AbstractMesh[] = [], state = true) {
+  meshes.forEach((e) => {
+    e.setEnabled(state)
+  })
+}

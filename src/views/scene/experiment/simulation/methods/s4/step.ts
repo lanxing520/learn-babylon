@@ -5,7 +5,13 @@ import { Vector3, Mesh, AnimationEvent, AbstractMesh } from "@babylonjs/core"
 
 import { changeSizeAni, moveAni, rotateAni, createKeyframes } from "../common/animation"
 import { ref } from "vue"
-import { playAudio, posTranslate, createLiquid, createWaterFlow } from "../common/action"
+import {
+  playAudio,
+  posTranslate,
+  createLiquid,
+  createWaterFlow,
+  showMeshes,
+} from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
 import { config } from "../common/config"
 import { watchPoint, scPoint, model } from "./itemData"
@@ -543,7 +549,7 @@ export async function initStep() {
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {playAudio(29)},
   })
   //步骤11,转膜1
   stepManager.addStep({
@@ -605,7 +611,9 @@ export async function initStep() {
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(30)
+    },
   })
   //步骤12,转膜2
   stepManager.addStep({
@@ -706,7 +714,9 @@ export async function initStep() {
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(31)
+    },
   })
   //步骤14,连接电源
   stepManager.addStep({
@@ -718,7 +728,9 @@ export async function initStep() {
         animations: [],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(32)
+    },
   })
   //步骤15,封闭
   stepManager.addStep({
@@ -737,7 +749,8 @@ export async function initStep() {
             [
               itemData.nz.position,
               posTranslate(itemData.zmy.position, [0.03, 0.22, 0]),
-              posTranslate(itemData.tznn.position, [-0.05, 0.22, 0]),
+              posTranslate(itemData.fbm3.position, [-0.1, 0.1, 0]),
+              itemData.nz.position,
             ],
             1,
           ),
@@ -745,99 +758,280 @@ export async function initStep() {
             item.hcm.meshes[0],
             [
               posTranslate(itemData.zmy.position, [0.05, 0.22, 0]),
-              posTranslate(itemData.tznn.position, [-0.05, 0.22, 0]),
-              posTranslate(itemData.tznn.position, [-0.05, 0.1, 0]),
-              posTranslate(itemData.yc.position, [-0.05, 0.4, 0]),
+              posTranslate(itemData.fbm3.position, [-0.1, 0.1, 0]),
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData.yc.position, [-0.1, 0.25, 0]),
+              { pause: 2 },
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
             ],
             1,
             1,
           ),
           moveAnimation(
-            item.tznn.meshes[0],
-            [itemData.tznn.position, posTranslate(itemData.yc.position, [0, 0.3, 0])],
+            item.fbm3.meshes[0],
+            [
+              itemData.fbm3.position,
+              posTranslate(itemData.yc.position, [0, 0.3, 0]),
+              { pause: 2 },
+              itemData.fbm3.position,
+            ],
             1,
             3,
           ),
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      showMeshes(item.fbm3.meshes)
+      playAudio(33)
+    },
   })
-  return
+  //步骤16,一抗孵育
+  commonStep("ykxsy",34)
+  //步骤18,二抗孵育
+  commonStep("ekxsy",35)
+  //步骤20,WB-加入底物
+  commonStep("tznn",36)
+  //步骤22,终止反应
   stepManager.addStep({
-    models: {},
+    models: model.state16,
     interactions: [
       {
-        modelName: "zjj",
+        modelName: "nz",
         onClick: async () => {},
         animations: [
-          {
-            mesh: item.zls.meshes[0],
-            animation: pourWaterAni,
-          },
+          moveAnimation(
+            item.nz.meshes[0],
+            [
+              itemData.nz.position,
+              posTranslate(itemData.fbm3.position, [-0.11, 0.02, 0]),
+              posTranslate(itemData.fbm3.position, [-0.11, 0.2, 0]),
+              { pause: 1 },
+              posTranslate(itemData.fbm3.position, [-0.11, 0, 0]),
+              itemData.nz.position,
+            ],
+            1,
+          ),
+          moveAnimation(
+            item.hcm.meshes[0],
+            [
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData.fbm3.position, [-0.1, 0.2, 0]),
+              { pause: 1 },
+              posTranslate(itemData.fbm3.position, [-0.1, 0, 0]),
+              // posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+            ],
+            1,
+            1,
+          ),
+          moveAnimation(
+            item.fbm3.meshes[0],
+            [itemData.fbm3.position, posTranslate(itemData.fbm2.position, [0, 0, -0.3])],
+            1,
+            1,
+          ),
+        ],
+      },
+    ],
+    onEnter: async () => {
+      playAudio(37)
+    },
+  })
+  //步骤23
+  stepManager.addStep({
+    models: model.state23,
+    interactions: [
+      {
+        modelName: "jtdg",
+        onClick: async () => {},
+        animations: [
+          moveAnimation(
+            item.jtdg.meshes[0],
+            [
+              itemData.jtdg.position,
+              ...createPosition2(itemData.ecl.position),
+              posTranslate(itemData.fbm3.position, [-0.08, 0.05, 0]),
+              { pause: 1 },
+              posTranslate(itemData.fbm3.position, [-0.04, 0.05, 0]),
+              { pause: 1 },
+              posTranslate(itemData.fbm3.position, [0, 0.05, 0]),
+              itemData.jtdg.position,
+            ],
+            0.5,
+          ),
         ],
       },
     ],
     onEnter: async () => {},
   })
+  //步骤24
   stepManager.addStep({
-    models: {},
+    models: model.state23,
     interactions: [
       {
-        modelName: "zjj",
+        modelName: "xsz",
         onClick: async () => {},
         animations: [
+          moveAnimation(
+            item.xsz.meshes[0],
+            [
+              itemData.xsz.position,
+              posTranslate(itemData.xsz.position, [0, 0.2, 0]),
+              posTranslate(watchPoint, [0, 0, 0.2]),
+            ],
+
+            0.5,
+          ),
+          rotateAnimation(item.xsz.meshes[0], "x"),
           {
-            mesh: item.zls.meshes[0],
-            animation: pourWaterAni,
+            mesh: item.hcm.meshes[0],
+            animation: rotateAni("rotation.x", createKeyframes([PI / 2, 0, { pause: 2 }, PI / 2])),
           },
+          moveAnimation(
+            item.hcm.meshes[0],
+            [
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(watchPoint, [0, 0, 0.2]),
+              posTranslate(watchPoint, [0.15, 0, 0.2]),
+              posTranslate(itemData.hxfgcxy.position, [0, 0.1, 0]),
+            ],
+            1,
+            1,
+          ),
         ],
       },
     ],
     onEnter: async () => {},
   })
+  //步骤25,结果判定
   stepManager.addStep({
     models: {},
     interactions: [
       {
-        modelName: "zjj",
+        modelName: "",
+        onClick: async () => {},
+        animations: [],
+      },
+    ],
+    onEnter: async () => {
+      playAudio(38)
+    },
+  })
+  //步骤26,结果阴阳性分析
+  stepManager.addStep({
+    models: {},
+    interactions: [
+      {
+        modelName: "",
+        onClick: async () => {},
+        animations: [],
+      },
+    ],
+    onEnter: async () => {
+      playAudio(39)
+    },
+  })
+}
+
+function commonStep(nameKey: string,audioIndex:number) {
+  if (!stepManager) return
+
+  stepManager.addStep({
+    models: model.state16,
+    interactions: [
+      {
+        modelName: "fbm3",
         onClick: async () => {},
         animations: [
-          {
-            mesh: item.zls.meshes[0],
-            animation: pourWaterAni,
-          },
+          moveAnimation(
+            item.fbm3.meshes[0],
+            [
+              itemData.fbm3.position,
+              posTranslate(scPoint, [0, 0.1, 0]),
+              { pause: 2 },
+              itemData.fbm3.position,
+            ],
+            1,
+          ),
+          rotateAnimation(item.fbm3.meshes[0], "x", 0.5, 1),
+          moveAnimation(
+            item.hcm.meshes[0],
+            [
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData.fbm3.position, [-0.1, 0.2, 0]),
+              { pause: 5 },
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+            ],
+            0.5,
+          ),
+          moveAnimation(
+            item[nameKey].meshes[0],
+            [
+              itemData[nameKey].position,
+              posTranslate(itemData.fbm3.position, [0, 0.1, 0.15]),
+              { pause: 2 },
+              itemData[nameKey].position,
+            ],
+            0.5,
+            4,
+          ),
+          rotateAnimation(item[nameKey].meshes[0], "z", 0.5, 5, -1.5),
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      playAudio(audioIndex)
+    },
   })
+
+  //步骤17,一抗孵育-2
   stepManager.addStep({
-    models: {},
+    models: model.state16,
     interactions: [
       {
-        modelName: "zjj",
+        modelName: "fbm3",
         onClick: async () => {},
         animations: [
-          {
-            mesh: item.zls.meshes[0],
-            animation: pourWaterAni,
-          },
+          moveAnimation(
+            item.hcm.meshes[0],
+            [
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData.yc.position, [-0.1, 0.25, 0]),
+              { pause: 2 },
+              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+            ],
+            1,
+          ),
+          moveAnimation(
+            item.fbm3.meshes[0],
+            [
+              itemData.fbm3.position,
+              posTranslate(itemData.yc.position, [0, 0.3, 0]),
+              { pause: 2 },
+              itemData.fbm3.position,
+            ],
+            1,
+          ),
         ],
       },
     ],
     onEnter: async () => {},
   })
 }
-
 function moveAnimation(mesh: Mesh | AbstractMesh, pathList: PathPoint[], step = 0.5, start = 0) {
   return {
     mesh,
     animation: moveAni("position", createKeyframes(pathList, step, start)),
   }
 }
-function rotateAnimation(mesh: Mesh | AbstractMesh, axis = "x", pause?: number, start = 0) {
-  const key = [0, PI / 2] as any
+function rotateAnimation(
+  mesh: Mesh | AbstractMesh,
+  axis = "x",
+  pause?: number,
+  start = 0,
+  angle = PI / 2,
+) {
+  const key = [0, angle] as any
   if (pause !== undefined) {
     key.push({ pause })
     key.push(0)

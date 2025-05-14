@@ -46,7 +46,21 @@ export const itemData = {
   //start
   yrdb: {
     name: "预染蛋白Marker",
-    position: [origin.x, origin.y, origin.z - 1.7],
+    position: [origin.x, origin.y, origin.z - 1.65],
+    scaling: 10,
+    rotate: [0, PI / 2, 0],
+  },
+  ykxsy: {
+    name: "一抗稀释液",
+    fileName: "离心管",
+    position: [origin.x, origin.y, origin.z - 1.75],
+    scaling: 10,
+    rotate: [0, PI / 2, 0],
+  },
+  ekxsy: {
+    name: "二抗稀释液",
+    fileName: "离心管",
+    position: [origin.x - 0.1, origin.y, origin.z - 1.75],
     scaling: 10,
     rotate: [0, PI / 2, 0],
   },
@@ -108,6 +122,11 @@ export const itemData = {
   bh: {
     name: "冰盒",
     position: [origin.x + 0.3, origin.y, origin.z - 1.3],
+    rotate: [0, 0, 0],
+  },
+  jtdg:{
+     name: "胶头滴管",
+    position: [origin.x + 0.3, origin.y, origin.z - 1.5],
     rotate: [0, 0, 0],
   },
   xsy: {
@@ -227,6 +246,14 @@ export const itemData = {
     scaling: 2,
     position: [origin.x - 0.5, origin.y, origin.z - 0.4],
   },
+  fbm3: {
+    name: "封闭皿",
+    rotate: [0, -PI / 2, 0],
+    scaling: 2,
+    position: posTranslate(watchPoint, [0.2, 0, 0]),
+    visible: false,
+  },
+
   nz: {
     name: "镊子",
     rotate: [0, PI / 2, 0],
@@ -346,6 +373,19 @@ export const model = {
     pvdfm: {
       position: posTranslate(itemData.zmy.position, [0.05, 0.225, 0]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
+    },
+  },
+  state16: {
+    hcm: {
+      position: posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+    },
+    fbm3: {
+      visible: true,
+    },
+  },
+  state23: {
+    hcm: {
+      position: posTranslate(itemData.fbm3.position, [-0.1, 0, 0]),
     },
   },
 }

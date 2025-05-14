@@ -1,5 +1,5 @@
 import { AbstractMesh, AnimationGroup, Vector3, Mesh } from "@babylonjs/core"
-import { addHighlight, removeHighlight, click } from "./action"
+import { addHighlight, removeHighlight, click, showMeshes } from "./action"
 import { createAnimeGroup } from "./animation"
 import type { AnimationItem } from "./animation"
 import { ref } from "vue"
@@ -83,6 +83,7 @@ export class AnimationStepManager {
       if (config.position) model[0].position = Vector3.FromArray(config.position)
       if (config.rotation) model[0].rotation = Vector3.FromArray(config.rotation)
       if (config.scaling) model[0].scaling = Vector3.FromArray(config.scaling)
+      if (config?.visible !== undefined) showMeshes(model,config.visible)
     })
   }
 

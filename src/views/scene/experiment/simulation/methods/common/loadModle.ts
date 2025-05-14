@@ -1,6 +1,6 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
 import { scene, camera } from "./initScene"
-import { addMouseOverInfo, move, rotate, scale, disposeMouseOverInfo } from "./action"
+import { addMouseOverInfo, move, rotate, scale, disposeMouseOverInfo, showMeshes } from "./action"
 
 import type { DynamicObject } from "../common/interface.ts"
 
@@ -19,7 +19,7 @@ export async function loadItems(itemData: DynamicObject) {
     // 使用map而不是forEach来创建Promise数组
     const loadPromises = Object.keys(itemData).map(async (key: keyof DynamicObject) => {
       const data = itemData[key]
-      const fileName =data?.fileName ?? data.name
+      const fileName = data?.fileName ?? data.name
       const url = `/model/item/${fileName}.glb`
       if (!scene) return
       try {
@@ -43,6 +43,9 @@ export async function loadItems(itemData: DynamicObject) {
         result.meshes.forEach((e) => {
           e.name = data.name
           addMouseOverInfo(e)
+          if (data?.visible === false) {
+            e.setEnabled(false)
+          }
         })
 
         // 存储加载结果
@@ -82,6 +85,7 @@ export function resetItems(itemData: DynamicObject) {
       rotate(rootMesh, data.rotate)
     }
     move(rootMesh, data.position)
+    if (data?.visible !== undefined) showMeshes(item[key].meshes, data.visible)
   })
 }
 

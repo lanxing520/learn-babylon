@@ -18,7 +18,7 @@ export const useExperimentStore = defineStore(
       const empty = [] as { name: string; desc: string }[]
       if (!arr?.length) return []
       arr.forEach((e: any) => {
-        if (e["步骤Name"]) {
+        if (e["步骤Name"]&& e["步骤Name"].trim()) {
           empty.push({
             name: e["步骤Name"],
             desc: e["描述"],

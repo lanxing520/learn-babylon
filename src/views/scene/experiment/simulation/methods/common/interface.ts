@@ -7,5 +7,6 @@ export type DynamicObject = Record<
     position: NumberArray
     rotate?: NumberArray
     scaling?: NumberArray | number
+    visible?:boolean
   }
 >

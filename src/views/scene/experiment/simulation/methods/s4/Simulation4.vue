@@ -25,7 +25,7 @@ const renderCanvas = useTemplateRef<HTMLCanvasElement>("renderCanvas")
 
 onMounted(async () => {
   if (!renderCanvas.value) return
-  stepIndex.value = 15
+  stepIndex.value = 1
   try {
     await initScene(renderCanvas.value, {
       camera: {
@@ -58,12 +58,12 @@ const stepMapping = {
   9: 13,
   10: 14,
   11: 15,
-  // 12: 15,
-  // 13: 16,
-  // 14: 17,
-  // 15: 18,
-  // 16: 19,
-  // 17: 20,
+  12: 16,
+  13: 18,
+  14: 20,
+  15: 22,
+  16: 25,
+  17: 26,
 } as any
 simulationMixin()
 </script>
