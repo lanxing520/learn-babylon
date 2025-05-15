@@ -108,7 +108,6 @@ export class AnimationStepManager {
         if (interaction.onClick) {
           await interaction.onClick()
         }
-
         // 执行关联动画
         if (interaction.animations && interaction.animations.length) {
           const animGroup = createAnimeGroup(
@@ -143,6 +142,10 @@ export class AnimationStepManager {
         } else {
           if (this.currentStepIndex === this.steps.length - 1) {
             isFinished.value = true
+          } else {
+            this.currentStepIndex++
+            stepIndex.value++
+            this.goToStep(this.currentStepIndex)
           }
         }
       })

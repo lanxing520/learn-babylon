@@ -3,7 +3,14 @@ import { itemData5 } from "./itemData"
 
 import { Vector3, Mesh } from "@babylonjs/core"
 
-import { changeSizeAni, moveAni, rotateAni, createKeyframes } from "../common/animation"
+import {
+  moveAnimation,
+  moveAni,
+  rotateAni,
+  createKeyframes,
+  moveLid,
+  createPositionKey,
+} from "../common/animation"
 import { ref } from "vue"
 import { playAudio, posTranslate, createLiquid } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
@@ -37,67 +44,22 @@ export async function initStep5() {
           playAudio(40)
         },
         animations: [
-          {
-            mesh: item.jyq.meshes[0],
-            animation: moveAni("position", [
-              { frame: 0, value: itemData5.jyq.position },
-
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData5.knqx.position, [0, 0.3, 0]),
-              },
-              {
-                frame: 0.75 * frameRate,
-                value: posTranslate(itemData5.knqx.position, [0, 0.02, 0]),
-              },
-              {
-                frame: 1.5 * frameRate,
-                value: posTranslate(itemData5.knqx.position, [0, 0.02, 0]),
-              },
-              {
-                frame: 1.75 * frameRate,
-                value: posTranslate(itemData5.knqx.position, [0, 0.3, 0]),
-              },
-              {
-                frame: 2 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.3, 0]),
-              },
-              {
-                frame: 2.25 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.02, 0]),
-              },
-              {
-                frame: 2.75 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.02, 0]),
-              },
-              {
-                frame: 3 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.3, 0]),
-              },
-              { frame: 3.5 * frameRate, value: itemData5.jyq.position },
-            ]),
-          },
-          {
-            mesh: item.lsg.meshes[2],
-            animation: moveAni("position", [
-              { frame: 0, value: posTranslate(itemData5.lsg.position, [0, 0, 0]) },
-
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.1, -0.05]),
-              },
-              {
-                frame: 0.75 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, -0.09, -0.05]),
-              },
-            ]),
-          },
+          moveAnimation(
+            item.jyq.meshes[0],
+            [
+              itemData5.jyq.position,
+              ...createPositionKey(itemData5.knqx.position),
+              ...createPositionKey(itemData5.lsg.position),
+              itemData5.jyq.position,
+            ],
+            0.5,
+          ),
+          moveLid(item.lsg.meshes[2], [0, -0.09, -0.1], 0, 3),
+          moveLid(item.knqx.meshes[2], [0, -0.09, -0.1], 0, 3),
         ],
       },
     ],
-    onEnter: async () => {
-      item.lsg.meshes[2].setParent(null)
-    },
+    onEnter: async () => {},
   })
   // 定义步骤2,加入抗体
   stepManager.addStep({
@@ -153,21 +115,7 @@ export async function initStep5() {
               { frame: 3.5 * frameRate, value: itemData5.jyq.position },
             ]),
           },
-          {
-            mesh: item.lsg.meshes[2],
-            animation: moveAni(
-              "position",
-              createKeyframes(
-                [
-                  posTranslate(itemData5.lsg.position, [0, -0.09, -0.05]),
-                  posTranslate(itemData5.lsg.position, [0, 0.1, -0.05]),
-                  posTranslate(itemData5.lsg.position, [0, 0, 0]),
-                ],
-                0.25,
-                3,
-              ),
-            ),
-          },
+          moveLid(item.lsg.meshes[2], [0, -0.09, -0.1], 1, 2),
         ],
       },
     ],
@@ -227,9 +175,7 @@ export async function initStep5() {
         ],
       },
     ],
-    onEnter: async () => {
-      item.lsg.meshes[2].setParent(item.lsg.meshes[0])
-    },
+    onEnter: async () => {},
   })
   // 定义步骤4,裂解红细胞
   stepManager.addStep({
@@ -245,78 +191,22 @@ export async function initStep5() {
           playAudio(43)
         },
         animations: [
-          {
-            mesh: item.hxbljy.meshes[1],
-            animation: moveAni("position", [
-              { frame: 0, value: itemData5.hxbljy.position },
-
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData5.hxbljy.position, [0, 0.05, -0.1]),
-              },
-              {
-                frame: 2 * frameRate,
-                value: posTranslate(itemData5.hxbljy.position, [0, -0.08, -0.1]),
-              },
-
-              //  { frame: 3.5 * frameRate, value: itemData5.jyq.position },
-            ]),
-          },
-          {
-            mesh: item.jyq.meshes[0],
-            animation: moveAni("position", [
-              {
-                frame: 0 * frameRate,
-                value: itemData5.jyq.position,
-              },
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData5.hxbljy.position, [0, 0.2, 0]),
-              },
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData5.hxbljy.position, [0, 0.01, 0]),
-              },
-              {
-                frame: 1.5 * frameRate,
-                value: posTranslate(itemData5.hxbljy.position, [0, 0.01, 0]),
-              },
-              {
-                frame: 1.75 * frameRate,
-                value: posTranslate(itemData5.hxbljy.position, [0, 0.2, 0]),
-              },
-              {
-                frame: 2 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.2, 0]),
-              },
-              {
-                frame: 2.25 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.03, 0]),
-              },
-            ]),
-          },
-          {
-            mesh: item.lsg.meshes[2],
-            animation: moveAni(
-              "position",
-              createKeyframes(
-                [
-                  posTranslate(itemData5.lsg.position, [0, -0.09, -0.05]),
-                  posTranslate(itemData5.lsg.position, [0, 0.1, -0.05]),
-                  posTranslate(itemData5.lsg.position, [0, 0, 0]),
-                ],
-                0.25,
-                1.9,
-              ),
-            ),
-          },
+          moveAnimation(
+            item.jyq.meshes[0],
+            [
+              itemData5.jyq.position,
+              ...createPositionKey(itemData5.hxbljy.position),
+              ...createPositionKey(itemData5.lsg.position),
+              itemData5.jyq.position,
+            ],
+            0.5,
+          ),
+          moveLid(item.lsg.meshes[2], [0, -0.09, -0.05], 0, 3),
+          moveLid(item.hxbljy.meshes[1], [0, -0.09, -0.05], 0, 3),
         ],
       },
     ],
-    onEnter: async () => {
-      item.lsg.meshes[2].setParent(null)
-      item.hxbljy.meshes[1].setParent(null)
-    },
+    onEnter: async () => {},
   })
   // 定义步骤5,离心洗涤
   stepManager.addStep({
@@ -385,23 +275,8 @@ export async function initStep5() {
           playAudio(45)
         },
         animations: [
-          {
-            mesh: item.pbs.meshes[2],
-            animation: moveAni("position", [
-              { frame: 0, value: itemData5.pbs.position },
-
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData5.pbs.position, [0, 0.05, -0.1]),
-              },
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData5.pbs.position, [0, -0.14, -0.1]),
-              },
-
-              //  { frame: 3.5 * frameRate, value: itemData5.jyq.position },
-            ]),
-          },
+          moveLid(item.pbs.meshes[2], [0, -0.14, -0.1]),
+          moveLid(item.lsg.meshes[2], [0, -0.09, -0.05], 0, 1.5),
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
@@ -483,9 +358,7 @@ export async function initStep5() {
         ],
       },
     ],
-    onEnter: async () => {
-      item.pbs.meshes[2].setParent(null)
-    },
+    onEnter: async () => {},
   })
 
   //定义步骤7,固定细胞
@@ -498,23 +371,8 @@ export async function initStep5() {
           playAudio(46)
         },
         animations: [
-          {
-            mesh: item.djjq.meshes[1],
-            animation: moveAni("position", [
-              { frame: 0, value: itemData5.djjq.position },
-
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData5.djjq.position, [0, 0.05, -0.1]),
-              },
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData5.djjq.position, [0, -0.14, -0.1]),
-              },
-
-              //  { frame: 3.5 * frameRate, value: itemData5.jyq.position },
-            ]),
-          },
+          moveLid(item.djjq.meshes[1], [0, -0.14, -0.1], 0, 3),
+          moveLid(item.lsg.meshes[2], [0, -0.09, -0.1], 0, 3),
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
@@ -558,9 +416,7 @@ export async function initStep5() {
         ],
       },
     ],
-    onEnter: async () => {
-      item.djjq.meshes[1].setParent(null)
-    },
+    onEnter: async () => {},
   })
   //定义步骤8,流式细胞仪准备
   stepManager.addStep({
@@ -618,28 +474,6 @@ export async function initStep5() {
       },
     ],
     onEnter: async () => {},
-  })
-  // 定义步骤10,数据保存
-  stepManager.addStep({
-    models: {},
-
-    onEnter: async () => {
-      playAudio(49)
-    },
-  })
-  // 定义步骤11,清洁
-  stepManager.addStep({
-    models: {},
-    onEnter: async () => {
-      playAudio(50)
-    },
-  })
-  // 定义步骤12,记录
-  stepManager.addStep({
-    models: {},
-    onEnter: async () => {
-      playAudio(51)
-    },
   })
 }
 

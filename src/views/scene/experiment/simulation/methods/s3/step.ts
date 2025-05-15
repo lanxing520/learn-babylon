@@ -193,25 +193,23 @@ export async function initStep3() {
         position: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
       },
     },
-    interactions: [],
+    interactions: [{ modelName: "jtjsz" }],
     onEnter: async () => {
       playAudio(21)
     },
   })
-  // 定义步骤4
+  // 定义步骤4,结果判定
   stepManager.addStep({
     models: {
       jtjsz: {
         position: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
       },
     },
-    interactions: [],
+    interactions: [{ modelName: "jtjsz" }],
     onEnter: async () => {},
   })
-  // 定义步骤5,加样
+ 
 }
-
-// 开始执行
 
 export async function jumpStep3() {
   resetItems(itemData3)

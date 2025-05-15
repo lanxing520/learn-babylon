@@ -1,21 +1,29 @@
-import * as BABYLON from "@babylonjs/core/Legacy/legacy"
+import {
+  AbstractMesh,
+  Vector3,
+  Mesh,
+  Animation,
+  AnimationGroup,
+  Quaternion,
+} from "@babylonjs/core"
 import { scene } from "./initScene"
 import { config } from "../common/config"
 import type { NumberArray } from "./interface"
+import { posTranslate } from "./action"
 
 const frameRate = config.frameRate
 const PI = Math.PI
 
 export interface AnimationItem {
-  animation: BABYLON.Animation
-  mesh: BABYLON.AbstractMesh
+  animation: Animation
+  mesh: AbstractMesh
 }
 interface Key {
   frame: number
-  value: number | number[] | BABYLON.Vector3
+  value: number | number[] | Vector3
 }
 export function createAnimeGroup(groupName: string, animationList: AnimationItem[], option?: any) {
-  const animeGroup = new BABYLON.AnimationGroup(groupName)
+  const animeGroup = new AnimationGroup(groupName)
   animationList.forEach((e: AnimationItem, i) => {
     animeGroup.addTargetedAnimation(e.animation, e.mesh)
   })
@@ -64,12 +72,12 @@ export function createKeyframes(pathList: PathPoint[], step = 0.5, start = 0) {
  * @returns 动画
  */
 export function changeSizeAni(targetProperty: string, key: Key[]) {
-  const changeSize = new BABYLON.Animation(
+  const changeSize = new Animation(
     "changeSize",
     targetProperty,
     frameRate,
-    BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+    Animation.ANIMATIONTYPE_FLOAT,
+    Animation.ANIMATIONLOOPMODE_CONSTANT,
   )
 
   changeSize.setKeys(getKey(key))
@@ -77,12 +85,12 @@ export function changeSizeAni(targetProperty: string, key: Key[]) {
 }
 export function addWaterAni() {
   // 2. 液体高度动画
-  const changeSize = new BABYLON.Animation(
+  const changeSize = new Animation(
     "changeSize",
     "scaling.y",
     frameRate,
-    BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+    Animation.ANIMATIONTYPE_FLOAT,
+    Animation.ANIMATIONLOOPMODE_CONSTANT,
   )
 
   changeSize.setKeys([
@@ -101,12 +109,12 @@ export function addWaterAni() {
  */
 
 export function moveAni(targetProperty: string, key: Key[]) {
-  const movein = new BABYLON.Animation(
+  const movein = new Animation(
     "move",
     targetProperty,
     frameRate,
-    BABYLON.Animation.ANIMATIONTYPE_VECTOR3,
-    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+    Animation.ANIMATIONTYPE_VECTOR3,
+    Animation.ANIMATIONLOOPMODE_CONSTANT,
   )
 
   movein.setKeys(getKey(key))
@@ -119,12 +127,12 @@ export function moveAni(targetProperty: string, key: Key[]) {
  * @returns 动画
  */
 export function rotateAni(targetProperty: string, key: Key[]) {
-  const rotate = new BABYLON.Animation(
+  const rotate = new Animation(
     "rotate",
     targetProperty,
     frameRate,
-    BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-    BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+    Animation.ANIMATIONTYPE_FLOAT,
+    Animation.ANIMATIONLOOPMODE_CONSTANT,
   )
 
   rotate.setKeys(getKey(key))
@@ -134,11 +142,11 @@ export function rotateAni(targetProperty: string, key: Key[]) {
 export function customRotate(mesh: any, axis: number[]) {
   if (!scene) return
   // 1. 定义自定义旋转轴（例如[1, 1, 0]）
-  const customAxis = new BABYLON.Vector3(...axis).normalize()
+  const customAxis = new Vector3(...axis).normalize()
 
   // // 1. 创建不可见的父容器作为旋转中心
-  // const pivot = new BABYLON.TransformNode("pivot");
-  // pivot.position = new BABYLON.Vector3(2, 3, 4); // 设置旋转中心点坐标
+  // const pivot = new TransformNode("pivot");
+  // pivot.position = new Vector3(2, 3, 4); // 设置旋转中心点坐标
 
   // // 2. 将mesh设为pivot的子对象，并调整mesh位置使其相对旋转中心正确
   // mesh.parent = pivot;
@@ -146,9 +154,9 @@ export function customRotate(mesh: any, axis: number[]) {
 
   // // 3. 旋转父容器
   // scene.registerBeforeRender(() => {
-  //     pivot.rotate(BABYLON.Axis.Y, 0.01, BABYLON.Space.WORLD); // 围绕世界Y轴旋转
+  //     pivot.rotate(Axis.Y, 0.01, Space.WORLD); // 围绕世界Y轴旋转
   //     // 或围绕自定义轴：
-  //     // pivot.rotate(customAxis, 0.01, BABYLON.Space.WORLD);
+  //     // pivot.rotate(customAxis, 0.01, Space.WORLD);
   // });
 
   // 2. 创建动画
@@ -156,12 +164,12 @@ export function customRotate(mesh: any, axis: number[]) {
   const totalFrames = frameRate * animationDuration
 
   // 创建旋转动画
-  const animation = new BABYLON.Animation(
+  const animation = new Animation(
     "customRotation",
     "rotationQuaternion",
     frameRate,
-    BABYLON.Animation.ANIMATIONTYPE_QUATERNION,
-    BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE,
+    Animation.ANIMATIONTYPE_QUATERNION,
+    Animation.ANIMATIONLOOPMODE_CYCLE,
   )
 
   // 3. 创建关键帧
@@ -171,7 +179,7 @@ export function customRotate(mesh: any, axis: number[]) {
     const angle = (frame / totalFrames) * 2 * Math.PI
 
     // 创建四元数旋转
-    const rotationQuaternion = BABYLON.Quaternion.RotationAxis(customAxis, angle)
+    const rotationQuaternion = Quaternion.RotationAxis(customAxis, angle)
 
     keys.push({
       frame: frame,
@@ -184,7 +192,7 @@ export function customRotate(mesh: any, axis: number[]) {
 
   // 4. 确保mesh有rotationQuaternion
   if (!mesh.rotationQuaternion) {
-    mesh.rotationQuaternion = BABYLON.Quaternion.FromEulerAngles(
+    mesh.rotationQuaternion = Quaternion.FromEulerAngles(
       mesh.rotation.x,
       mesh.rotation.y,
       mesh.rotation.z,
@@ -201,9 +209,9 @@ function getKey(key: Key[]) {
     if (Array.isArray(e.value)) {
       return {
         frame: e.frame,
-        value: new BABYLON.Vector3(...e.value),
+        value: new Vector3(...e.value),
       }
-    } else if (e.value instanceof BABYLON.Vector3) {
+    } else if (e.value instanceof Vector3) {
       // 如果已经是 Vector3，直接返回
       return {
         frame: e.frame,
@@ -215,8 +223,69 @@ function getKey(key: Key[]) {
 }
 
 /**
- * 移动物体到后续点位内停顿1s然后离开
- * @param mesh  目标属性
- * @param points 关键帧
+ * 移动瓶盖
+ * @param mesh  目标
+ * @param translate 相对位移位置
+ * @param start 开始时间
+ * @param pause 瓶盖离开时间
  * @returns 动画
  */
+
+export function moveLid(mesh: Mesh | AbstractMesh, translate: NumberArray, start = 0, pause = 5) {
+  const position = mesh.position.clone()
+  return {
+    mesh,
+    animation: moveAni(
+      "position",
+      createKeyframes(
+        [
+          [position.x, position.y, position.z],
+          [position.x, position.y + 0.2, position.z],
+          [position.x + translate[0], position.y + translate[1], position.z + translate[2]],
+          { pause },
+          [position.x, position.y + 0.2, position.z],
+          [position.x, position.y, position.z],
+        ],
+        0.5,
+        start,
+      ),
+    ),
+  }
+}
+
+export function moveAnimation(
+  mesh: Mesh | AbstractMesh,
+  pathList: PathPoint[],
+  step = 0.5,
+  start = 0,
+) {
+  return {
+    mesh,
+    animation: moveAni("position", createKeyframes(pathList, step, start)),
+  }
+}
+export function createPositionKey(position: NumberArray, up = 0.3, down = 0.05, pause = 0.5) {
+  return [
+    posTranslate(position, [0, up, 0]),
+    posTranslate(position, [0, down, 0]),
+    { pause },
+    posTranslate(position, [0, up, 0]),
+  ]
+}
+export function rotateAnimation(
+  mesh: Mesh | AbstractMesh,
+  axis = "x",
+  pause?: number,
+  start = 0,
+  angle = PI / 2,
+) {
+  const key = [0, angle] as any
+  if (pause !== undefined) {
+    key.push({ pause })
+    key.push(0)
+  }
+  return {
+    mesh: mesh,
+    animation: rotateAni("rotation." + axis, createKeyframes(key, 1, start)),
+  }
+}

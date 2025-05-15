@@ -6,15 +6,16 @@ export const origin = { x: 4.3, y: 1.08, z: -2.2 }
 export const itemData5 = {
   kt: {
     name: "抗体",
+    fileName:'IgG抗体',
     rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z + 0.2],
-    scaling: 0.3,
+    scaling: 1,
   },
   jyq: {
     name: "加样器",
     rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z],
-    scaling: 0.3,
+    scaling: 0.8,
   },
   knqx: {
     name: "抗凝全血",

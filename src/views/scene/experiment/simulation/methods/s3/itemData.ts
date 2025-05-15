@@ -19,7 +19,7 @@ jyq: {
     name: "加样器",
     rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z - 0.66],
-    scaling: 0.3,
+    scaling: 0.8,
   },
   jtdg: {
     name: "胶头滴管",

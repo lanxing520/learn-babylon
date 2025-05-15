@@ -1,6 +1,5 @@
 import type { DynamicObject } from "../common/interface"
 
-
 const PI = Math.PI
 
 export const origin = { x: 4.3, y: 1.08, z: -2.2 }
@@ -21,7 +20,7 @@ export const itemData2 = {
 
   mbbbb: {
     name: "酶标包被板",
-    position: [origin.x-0.1, origin.y + 0.02, origin.z - 1.2],
+    position: [origin.x - 0.1, origin.y + 0.02, origin.z - 1.2],
     rotate: [0, PI / 2, 0],
     scaling: 7,
   },
@@ -79,7 +78,7 @@ export const itemData2 = {
   zkcxg: {
     name: "真空采血管",
     position: [origin.x, origin.y, origin.z + 0.2],
-    scaling: [0.5,0.3,0.5],
+    scaling: [0.5, 0.3, 0.5],
   },
   lxg: {
     name: "离心管",
@@ -92,7 +91,7 @@ export const itemData2 = {
     name: "加样器",
     rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z - 0.45],
-    scaling: 0.3,
+    scaling: 0.8,
   },
 
   mby: {
@@ -115,5 +114,3 @@ export const itemData2 = {
     rotate: [0, -PI / 2, 0],
   },
 } as DynamicObject
-
-

@@ -3,7 +3,13 @@ import { itemData4 } from "./itemData"
 
 import { Vector3, Mesh, AnimationEvent, AbstractMesh } from "@babylonjs/core"
 
-import { changeSizeAni, moveAni, rotateAni, createKeyframes } from "../common/animation"
+import {
+  moveAnimation,
+  rotateAnimation,
+  moveAni,
+  rotateAni,
+  createKeyframes,
+} from "../common/animation"
 import { ref } from "vue"
 import {
   playAudio,
@@ -883,7 +889,7 @@ export async function initStep4() {
             ],
             0.5,
           ),
-          moveLid(item.ecl.meshes[1], 0, 2)
+          moveLid(item.ecl.meshes[1], 0, 2),
         ],
       },
     ],
@@ -933,7 +939,7 @@ export async function initStep4() {
     models: {},
     interactions: [
       {
-        modelName: "",
+        modelName: "hxfgcxy",
         onClick: async () => {},
         animations: [],
       },
@@ -947,7 +953,7 @@ export async function initStep4() {
     models: {},
     interactions: [
       {
-        modelName: "",
+        modelName: "hxfgcxy",
         onClick: async () => {},
         animations: [],
       },
@@ -1062,29 +1068,6 @@ function commonStep(nameKey: string, audioIndex: number) {
     ],
     onEnter: async () => {},
   })
-}
-function moveAnimation(mesh: Mesh | AbstractMesh, pathList: PathPoint[], step = 0.5, start = 0) {
-  return {
-    mesh,
-    animation: moveAni("position", createKeyframes(pathList, step, start)),
-  }
-}
-function rotateAnimation(
-  mesh: Mesh | AbstractMesh,
-  axis = "x",
-  pause?: number,
-  start = 0,
-  angle = PI / 2,
-) {
-  const key = [0, angle] as any
-  if (pause !== undefined) {
-    key.push({ pause })
-    key.push(0)
-  }
-  return {
-    mesh: mesh,
-    animation: rotateAni("rotation." + axis, createKeyframes(key, 1, start)),
-  }
 }
 
 function createPostion(position: NumberArray, position2 = watchPoint) {
