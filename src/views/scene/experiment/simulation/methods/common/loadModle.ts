@@ -12,13 +12,15 @@ type DynamicLoaderResult = {
   [key: string]: BABYLON.ISceneLoaderAsyncResult // 任意字符串 key
 }
 
-export const item = {} as DynamicLoaderResult
+export let item = {} as DynamicLoaderResult
 export async function loadItems(itemData: DynamicObject) {
   if (!scene) return
+  item = {}
   try {
     // 使用map而不是forEach来创建Promise数组
     const loadPromises = Object.keys(itemData).map(async (key: keyof DynamicObject) => {
       const data = itemData[key]
+
       const fileName = data?.fileName ?? data.name
       const url = `/model/item/${fileName}.glb`
       if (!scene) return
@@ -73,10 +75,14 @@ export async function loadItems(itemData: DynamicObject) {
 }
 
 export function resetItems(itemData: DynamicObject) {
-  Object.keys(item).forEach(async (key) => {
+  // console.log(item);
+
+  const arr = Object.keys(item)
+  if (arr.length === 0) return
+  arr.forEach(async (key) => {
     const rootMesh = item[key].meshes[0]
     const data = itemData[key]
-
+    if (!data) return
     if (data.scaling) {
       scale(rootMesh, data.scaling)
     }

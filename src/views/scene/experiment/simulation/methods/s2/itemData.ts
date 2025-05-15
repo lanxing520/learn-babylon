@@ -5,7 +5,7 @@ const PI = Math.PI
 
 export const origin = { x: 4.3, y: 1.08, z: -2.2 }
 
-export const itemData = {
+export const itemData2 = {
   sjh: {
     name: "试剂盒",
     position: [origin.x, origin.y, origin.z - 0.8],

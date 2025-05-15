@@ -6,7 +6,7 @@ const PI = Math.PI
 export const origin = { x: 4.3, y: 1.08, z: -2 }
 export const watchPoint = [3.6, 1.08, -3.2] as NumberArray
 export const scPoint = [4, 1.08, -1.2] as NumberArray
-export const itemData = {
+export const itemData4 = {
   zkcxg: {
     name: "真空采血管",
     rotate: [0, 0, 0],
@@ -323,60 +323,60 @@ export const itemData = {
 export const model = {
   state8: {
     zjj: {
-      position: posTranslate(itemData.dyc.position, [0, 0.05, 0]),
+      position: posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
     },
     blb: {
-      position: posTranslate(itemData.dyc.position, [0, 0.05, 0]),
+      position: posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
     },
     dyy: {
-      position: posTranslate(itemData.dyy.position, [-0.4, 0, 0]),
+      position: posTranslate(itemData4.dyy.position, [-0.4, 0, 0]),
     },
   },
   state9: {
     zjj: {
-      position: posTranslate(itemData.dyc.position, [0, 0.05, 0]),
+      position: posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
     },
     blb: {
-      position: posTranslate(itemData.dyc.position, [0, 0.05, 0]),
+      position: posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
     },
   },
   state12: {
     lz: {
-      position: posTranslate(itemData.fbm2.position, [-0.06, 0.02, -0.065]),
+      position: posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
     lz2: {
-      position: posTranslate(itemData.fbm2.position, [-0.06, 0.02, -0.065]),
+      position: posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
     pvdfm: {
-      position: posTranslate(itemData.fbm1.position, [-0.06, 0.02, -0.065]),
+      position: posTranslate(itemData4.fbm1.position, [-0.06, 0.02, -0.065]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
   },
   state13: {
     hmd: {
-      position: posTranslate(itemData.zmy.position, [0.1, 0.21, 0]),
+      position: posTranslate(itemData4.zmy.position, [0.1, 0.21, 0]),
     },
     hmd2: {
-      position: posTranslate(itemData.zmy.position, [0.1, 0.24, 0]),
+      position: posTranslate(itemData4.zmy.position, [0.1, 0.24, 0]),
     },
     lz: {
-      position: posTranslate(itemData.zmy.position, [0.05, 0.22, 0]),
+      position: posTranslate(itemData4.zmy.position, [0.05, 0.22, 0]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
     lz2: {
-      position: posTranslate(itemData.zmy.position, [0.05, 0.23, 0]),
+      position: posTranslate(itemData4.zmy.position, [0.05, 0.23, 0]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
     pvdfm: {
-      position: posTranslate(itemData.zmy.position, [0.05, 0.225, 0]),
+      position: posTranslate(itemData4.zmy.position, [0.05, 0.225, 0]),
       rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
   },
   state16: {
     hcm: {
-      position: posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+      position: posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
     },
     fbm3: {
       visible: true,
@@ -384,7 +384,7 @@ export const model = {
   },
   state23: {
     hcm: {
-      position: posTranslate(itemData.fbm3.position, [-0.1, 0, 0]),
+      position: posTranslate(itemData4.fbm3.position, [-0.1, 0, 0]),
     },
   },
 }

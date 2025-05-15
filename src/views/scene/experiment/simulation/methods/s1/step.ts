@@ -1,5 +1,5 @@
 import { item, resetItems } from "../common/loadModle"
-import { itemData, tubePoints, step1Position, step2Position, step4Position } from "./itemData"
+import { itemData1, tubePoints, models } from "./itemData"
 import { scene, camera } from "../common/initScene"
 import {
   ImportMeshAsync,
@@ -17,8 +17,16 @@ import { AnimationStepManager } from "../common/stepManager"
 import { changeSizeAni, moveAni, rotateAni, customRotate } from "../common/animation"
 import { createBezierPath } from "../common/curvePath"
 import { createTube } from "./tube"
-import { move, rotate, scale, addMouseOverInfo, playAudio, createLiquid } from "../common/action"
-import { ref } from "vue"
+import {
+  move,
+  rotate,
+  scale,
+  addMouseOverInfo,
+  playAudio,
+  createLiquid,
+  showMeshes,
+} from "../common/action"
+
 import { stepIndex } from "../common/stepManager"
 import { config } from "../common/config"
 import type { NumberArray } from "../common/interface"
@@ -49,24 +57,31 @@ async function loadTester() {
 let animationId: number | null = null
 let segments: Mesh[] = []
 let tube: Mesh | null = null
-const mq = itemData.sterileSwab
+const mq = itemData1.sterileSwab
 let mq2: AbstractMesh | null = null
+let zxd: AbstractMesh | null | undefined = null
+let zxdOriginPosition: Vector3
 let needle1: AbstractMesh | null = null
 let needle2: AbstractMesh | null = null
-const xds = itemData.disinfectant
-const wwt = itemData.wasteBucket
+const xds = itemData1.disinfectant
+const wwt = itemData1.wasteBucket
 let stepManager: AnimationStepManager | null = null
 
-export async function initStep() {
+export async function initStep1() {
   await loadTester()
   stepManager = new AnimationStepManager()
 
   // 注册模型
-  Object.keys(itemData).forEach((key) => {
+  Object.keys(itemData1).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
-  const zxd = person?.meshes[3]
-  if (zxd) stepManager?.registerModel("zxd", [zxd])
+  zxd = person?.meshes[3]
+
+  if (zxd) {
+    zxd.setParent(null)
+    stepManager?.registerModel("zxd", [zxd])
+    zxdOriginPosition = new Vector3(3.384, 1.21, -3.3)
+  }
   await createMyNeedle()
   if (tube) stepManager?.registerModel("tube", [tube])
   mq2 = item.sterileSwab.meshes[1].clone("棉签2", null, true)
@@ -76,7 +91,6 @@ export async function initStep() {
     mq2.position = new Vector3(mq.position[0], mq.position[1], mq.position[2] - 0.05)
     addMouseOverInfo(mq2)
     stepManager?.registerModel("mq2", [mq2])
-  
   }
 
   const bottleCaps = item?.disinfectant?.meshes?.[2]
@@ -167,7 +181,9 @@ export async function initStep() {
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      showMeshes(item.sterileSwab.meshes)
+    },
   })
 
   // 定义步骤2,扎针
@@ -202,7 +218,7 @@ export async function initStep() {
   const moveBloodTubeAnim = moveAni("position", [
     {
       frame: 0 * frameRate,
-      value: itemData.bloodTube.position,
+      value: itemData1.bloodTube.position,
     },
     {
       frame: 1 * frameRate,
@@ -235,7 +251,7 @@ export async function initStep() {
   })
   // 定义步骤4,松止血带
   stepManager.addStep({
-    models: {},
+    models: models.step4,
     onEnter: async () => {},
     interactions: [
       {
@@ -243,9 +259,7 @@ export async function initStep() {
         onClick: async () => {
           if (person && zxd) {
             // 检查 person 和 meshes[3] 是否存在
-            zxd.setParent(null)
 
-            const worldPosition = zxd.getAbsolutePosition()
             // person.meshes[3].position = new Vector3(4.3, 1.15, -2.2)
             scene?.beginDirectAnimation(
               person.meshes[3],
@@ -253,7 +267,7 @@ export async function initStep() {
                 moveAni("position", [
                   {
                     frame: 0,
-                    value: worldPosition,
+                    value: zxdOriginPosition,
                   },
                   {
                     frame: 1 * frameRate,
@@ -267,7 +281,7 @@ export async function initStep() {
               1,
               () => {
                 stepIndex.value++
-                jumpStep()
+                jumpStep1()
               },
             )
             if (anim) {
@@ -286,7 +300,7 @@ export async function initStep() {
   })
   // 定义步骤5,拔针
   stepManager.addStep({
-    models: {},
+    models: models.step4,
     onEnter: async () => {},
     interactions: [
       {
@@ -326,7 +340,7 @@ export async function initStep() {
               },
               {
                 frame: 1.5 * frameRate,
-                value: step1Position.tube,
+                value: models.step1.tube,
               },
             ]),
           },
@@ -340,7 +354,7 @@ export async function initStep() {
               },
               {
                 frame: 1.5 * frameRate,
-                value: step1Position.bloodTube,
+                value: models.step1.bloodTube,
               },
             ]),
           },
@@ -354,6 +368,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       bloodTube: {
+        position: models.step1.bloodTube,
         rotation: [0, 0, 0],
       },
     },
@@ -371,35 +386,35 @@ export async function initStep() {
             animation: moveAni("position", [
               {
                 frame: 0,
-                value: itemData.pen.position,
+                value: itemData1.pen.position,
               },
               {
                 frame: 0.5 * frameRate,
                 value: [
-                  itemData.pen.position[0],
-                  itemData.pen.position[1] + 0.2,
-                  itemData.pen.position[2],
+                  itemData1.pen.position[0],
+                  itemData1.pen.position[1] + 0.2,
+                  itemData1.pen.position[2],
                 ],
               },
               {
                 frame: 1 * frameRate,
                 value: [
-                  step1Position.bloodTube[0],
-                  step1Position.bloodTube[1] + 0.12,
-                  step1Position.bloodTube[2],
+                  models.step1.bloodTube[0],
+                  models.step1.bloodTube[1] + 0.12,
+                  models.step1.bloodTube[2],
                 ],
               },
               {
                 frame: 2 * frameRate,
                 value: [
-                  step1Position.bloodTube[0],
-                  step1Position.bloodTube[1] + 0.08,
-                  step1Position.bloodTube[2],
+                  models.step1.bloodTube[0],
+                  models.step1.bloodTube[1] + 0.08,
+                  models.step1.bloodTube[2],
                 ],
               },
               {
                 frame: 3 * frameRate,
-                value: itemData.pen.position,
+                value: itemData1.pen.position,
               },
             ]),
           },
@@ -410,15 +425,15 @@ export async function initStep() {
             animation: moveAni("position", [
               {
                 frame: 0,
-                value: step1Position.bloodTube,
+                value: models.step1.bloodTube,
               },
               {
                 frame: 2 * frameRate,
-                value: step1Position.bloodTube,
+                value: models.step1.bloodTube,
               },
               {
                 frame: 3 * frameRate,
-                value: step2Position.bloodTube,
+                value: models.step6.bloodTube,
               },
             ]),
           },
@@ -431,10 +446,11 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       tube: {
-        position: step1Position.tube,
+        position: models.step1.tube,
       },
       bloodTube: {
-        position: step1Position.bloodTube,
+        rotation: [0, 0, 0],
+        position: models.step6.bloodTube,
       },
     },
     onEnter: async () => {
@@ -452,11 +468,11 @@ export async function initStep() {
             animation: moveAni("position", [
               {
                 frame: 0,
-                value: step1Position.tube,
+                value: models.step1.tube,
               },
               {
                 frame: 1 * frameRate,
-                value: [step1Position.tube[0], step1Position.tube[1] - 0.18, step1Position.tube[2]],
+                value: [models.step1.tube[0], models.step1.tube[1] - 0.18, models.step1.tube[2]],
               },
             ]),
           },
@@ -470,7 +486,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       bloodTube: {
-        position: step2Position.bloodTube,
+        position: models.step6.bloodTube,
       },
     },
     onEnter: async () => {
@@ -490,23 +506,23 @@ export async function initStep() {
             animation: moveAni("position", [
               {
                 frame: 0,
-                value: step2Position.bloodTube,
+                value: models.step6.bloodTube,
               },
               {
                 frame: 1 * frameRate,
-                value: step2Position.bloodTube,
+                value: models.step6.bloodTube,
               },
               {
                 frame: 1.5 * frameRate,
                 value: [
-                  step2Position.bloodTube[0],
-                  step2Position.bloodTube[1] + 0.3,
-                  step2Position.bloodTube[2],
+                  models.step6.bloodTube[0],
+                  models.step6.bloodTube[1] + 0.3,
+                  models.step6.bloodTube[2],
                 ],
               },
               {
                 frame: 2 * frameRate,
-                value: step4Position.bloodTube,
+                value: models.step9.bloodTube,
               },
             ]),
           },
@@ -532,7 +548,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       bloodTube: {
-        position: step4Position.bloodTube,
+        position: models.step9.bloodTube,
       },
     },
     onEnter: async () => {
@@ -553,27 +569,27 @@ export async function initStep() {
             animation: moveAni("position", [
               {
                 frame: 0,
-                value: step4Position.bloodTube,
+                value: models.step9.bloodTube,
               },
               {
                 frame: 1 * frameRate,
                 value: [
-                  step4Position.bloodTube[0],
-                  step4Position.bloodTube[1] + 0.35,
-                  step4Position.bloodTube[2] + 0.6,
+                  models.step9.bloodTube[0],
+                  models.step9.bloodTube[1] + 0.35,
+                  models.step9.bloodTube[2] + 0.6,
                 ],
               },
               {
                 frame: 3 * frameRate,
                 value: [
-                  step4Position.bloodTube[0],
-                  step4Position.bloodTube[1] + 0.35,
-                  step4Position.bloodTube[2] + 0.6,
+                  models.step9.bloodTube[0],
+                  models.step9.bloodTube[1] + 0.35,
+                  models.step9.bloodTube[2] + 0.6,
                 ],
               },
               {
                 frame: 4 * frameRate,
-                value: step2Position.bloodTube,
+                value: models.step6.bloodTube,
               },
             ]),
           },
@@ -582,46 +598,46 @@ export async function initStep() {
             animation: moveAni("position", [
               {
                 frame: 0,
-                value: itemData.jtdg.position,
+                value: itemData1.jtdg.position,
               },
               {
                 frame: 1 * frameRate,
                 value: [
-                  step4Position.bloodTube[0],
-                  step4Position.bloodTube[1] + 0.55,
-                  step4Position.bloodTube[2] + 0.6,
+                  models.step9.bloodTube[0],
+                  models.step9.bloodTube[1] + 0.55,
+                  models.step9.bloodTube[2] + 0.6,
                 ],
               },
               {
                 frame: 1.5 * frameRate,
                 value: [
-                  step4Position.bloodTube[0],
-                  step4Position.bloodTube[1] + 0.35,
-                  step4Position.bloodTube[2] + 0.6,
+                  models.step9.bloodTube[0],
+                  models.step9.bloodTube[1] + 0.35,
+                  models.step9.bloodTube[2] + 0.6,
                 ],
               },
               {
                 frame: 2.5 * frameRate,
                 value: [
-                  step4Position.bloodTube[0],
-                  step4Position.bloodTube[1] + 0.35,
-                  step4Position.bloodTube[2] + 0.6,
+                  models.step9.bloodTube[0],
+                  models.step9.bloodTube[1] + 0.35,
+                  models.step9.bloodTube[2] + 0.6,
                 ],
               },
               {
                 frame: 3 * frameRate,
                 value: [
-                  step4Position.bloodTube[0],
-                  step4Position.bloodTube[1] + 0.55,
-                  step4Position.bloodTube[2] + 0.6,
+                  models.step9.bloodTube[0],
+                  models.step9.bloodTube[1] + 0.55,
+                  models.step9.bloodTube[2] + 0.6,
                 ],
               },
               {
                 frame: 4 * frameRate,
                 value: [
-                  itemData.refrigerator.position[0],
-                  itemData.refrigerator.position[1] + 0.2,
-                  itemData.refrigerator.position[2],
+                  itemData1.refrigerator.position[0],
+                  itemData1.refrigerator.position[1] + 0.2,
+                  itemData1.refrigerator.position[2],
                 ],
               },
             ]),
@@ -752,12 +768,15 @@ function startTubeAnimation() {
   animationId = requestAnimationFrame(animate)
 }
 
-export async function jumpStep() {
-  resetItems(itemData)
+export async function jumpStep1() {
+  if (zxd) {
+    zxd.position = zxdOriginPosition
+  }
+  resetItems(itemData1)
   if (stepManager) stepManager.goToStep()
 }
 
-export function disposeStep() {
+export function disposeStep1() {
   if (stepManager) {
     stepManager.dispose()
     stepManager = null

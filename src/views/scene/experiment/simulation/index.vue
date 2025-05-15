@@ -1,13 +1,12 @@
 <template>
   <div class="simulation-page">
-    <div class="tab-container" v-if="currentComponent === null">
+    <div class="tab-container" v-if="store.isSimulation === null">
       <div class="tab normal-title" v-for="(item, i) in list" :key="i" @click="goTo(i)">
         {{ item }}
       </div>
     </div>
 
-    <!-- <Simulation1 /> -->
-    <component v-else :is="currentComponent"></component>
+    <SimulationScene v-if="store.isSimulation !== null" :simulationIndex="store.isSimulation" />
   </div>
 </template>
 
@@ -15,15 +14,10 @@
 import { onMounted, shallowRef, computed, watch } from "vue"
 import type { Component } from "vue"
 import { useExperimentStore } from "@/stores/experimentStore"
-import Simulation1 from "./methods/s1/Simulation1.vue"
-import Simulation2 from "./methods/s2/Simulation2.vue"
-import Simulation3 from "./methods/s3/Simulation3.vue"
-import Simulation4 from "./methods/s4/Simulation4.vue"
-import Simulation5 from "./methods/s5/Simulation5.vue"
+import SimulationScene from "./SimulationScene.vue"
 
 const store = useExperimentStore()
-const components = [Simulation1, Simulation2, Simulation3, Simulation4, Simulation5]
-const currentComponent = shallowRef<null | Component>(null)
+
 const list = computed(() => {
   return store.experimentInfo["实验模拟"].map((e: any) => {
     return e["实验原理Name"]
@@ -32,19 +26,8 @@ const list = computed(() => {
 
 const goTo = (i: number) => {
   store.isSimulation = i
-  currentComponent.value = components[i]
 }
-watch(
-  () => store.isSimulation,
-  (newVal) => {
-    if (newVal === null) {
-      currentComponent.value = null
-    } else {
-      currentComponent.value = components[newVal]
-    }
-  },
-  { immediate: true },
-)
+
 onMounted(() => {})
 </script>
 

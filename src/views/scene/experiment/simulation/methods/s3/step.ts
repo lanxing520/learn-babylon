@@ -1,5 +1,5 @@
 import { item, resetItems } from "../common/loadModle"
-import { itemData } from "./itemData"
+import { itemData3 } from "./itemData"
 
 import { Vector3, Mesh } from "@babylonjs/core"
 
@@ -12,14 +12,11 @@ const frameRate = config.frameRate
 
 const PI = Math.PI
 
-
 let stepManager: AnimationStepManager | null
-export async function initStep() {
- 
-
+export async function initStep3() {
   stepManager = new AnimationStepManager()
   // 注册模型
-  Object.keys(itemData).forEach((key) => {
+  Object.keys(itemData3).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
   createLiquid(item.zkcxg.meshes[0], 0.05)
@@ -28,7 +25,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jtdg: {
-        position: itemData.jtdg.position,
+        position: itemData3.jtdg.position,
       },
     },
     interactions: [
@@ -41,26 +38,29 @@ export async function initStep() {
           {
             mesh: item.jtdg.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jtdg.position },
-              { frame: 0.5 * frameRate, value: posTranslate(itemData.zkcxg.position, [0, 0.3, 0]) },
-              { frame: 1 * frameRate, value: posTranslate(itemData.zkcxg.position, [0, 0.03, 0]) },
+              { frame: 0, value: itemData3.jtdg.position },
+              {
+                frame: 0.5 * frameRate,
+                value: posTranslate(itemData3.zkcxg.position, [0, 0.3, 0]),
+              },
+              { frame: 1 * frameRate, value: posTranslate(itemData3.zkcxg.position, [0, 0.03, 0]) },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.03, 0]),
+                value: posTranslate(itemData3.zkcxg.position, [0, 0.03, 0]),
               },
               {
                 frame: 1.75 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.3, 0]),
+                value: posTranslate(itemData3.zkcxg.position, [0, 0.3, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.jtjsz.position, [-0.5, 0.02, -0.02]),
+                value: posTranslate(itemData3.jtjsz.position, [-0.5, 0.02, -0.02]),
               },
               {
                 frame: 2.5 * frameRate,
-                value: posTranslate(itemData.jtjsz.position, [-0.5, 0.02, -0.02]),
+                value: posTranslate(itemData3.jtjsz.position, [-0.5, 0.02, -0.02]),
               },
-              { frame: 3 * frameRate, value: itemData.jtdg.position },
+              { frame: 3 * frameRate, value: itemData3.jtdg.position },
             ]),
           },
           {
@@ -75,30 +75,30 @@ export async function initStep() {
           {
             mesh: item.zkcxg.meshes[2],
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: posTranslate(itemData.zkcxg.position, [0, 0.1, 0]) },
+              { frame: 0 * frameRate, value: posTranslate(itemData3.zkcxg.position, [0, 0.1, 0]) },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.1, 0.1]),
+                value: posTranslate(itemData3.zkcxg.position, [0, 0.1, 0.1]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, -0.28, 0.1]),
+                value: posTranslate(itemData3.zkcxg.position, [0, -0.28, 0.1]),
               },
             ]),
           },
           {
             mesh: item.jtjsz.meshes[0],
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: itemData.jtjsz.position },
+              { frame: 0 * frameRate, value: itemData3.jtjsz.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
               },
               // {
               //   frame: 3 * frameRate,
-              //   value: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
+              //   value: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
               // },
-              // { frame: 3.5 * frameRate, value: itemData.jtjsz.position },
+              // { frame: 3.5 * frameRate, value: itemData3.jtjsz.position },
             ]),
           },
         ],
@@ -147,36 +147,36 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData3.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData3.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.2, 0]),
+                value: posTranslate(itemData3.ybxsy.position, [0, 0.2, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData3.ybxsy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.4 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData3.ybxsy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.45 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.2, 0]),
+                value: posTranslate(itemData3.ybxsy.position, [0, 0.2, 0]),
               },
               {
                 frame: 2.5 * frameRate,
-                value: posTranslate(itemData.jtjsz.position, [-0.5, 0.02, -0.02]),
+                value: posTranslate(itemData3.jtjsz.position, [-0.5, 0.02, -0.02]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.jtjsz.position, [-0.5, 0.02, -0.02]),
+                value: posTranslate(itemData3.jtjsz.position, [-0.5, 0.02, -0.02]),
               },
-              { frame: 3.5 * frameRate, value: itemData.jyq.position },
+              { frame: 3.5 * frameRate, value: itemData3.jyq.position },
             ]),
           },
         ],
@@ -190,7 +190,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jtjsz: {
-        position: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
       },
     },
     interactions: [],
@@ -202,7 +202,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jtjsz: {
-        position: posTranslate(itemData.jtjsz.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
       },
     },
     interactions: [],
@@ -213,12 +213,12 @@ export async function initStep() {
 
 // 开始执行
 
-export async function jumpStep() {
-  resetItems(itemData)
+export async function jumpStep3() {
+  resetItems(itemData3)
   if (stepManager) stepManager.goToStep()
 }
 
-export function disposeStep() {
+export function disposeStep3() {
   if (stepManager) {
     stepManager.dispose()
     stepManager = null

@@ -62,7 +62,7 @@ export async function initScene(
   // camera.speed = 0.1
   camera = new BABYLON.ArcRotateCamera(
     "camera",
-    option?.camera?.alpha ?? Math.PI / 2,
+    option?.camera?.alpha ?? 2,
     option?.camera?.beta ?? 0.95,
     option?.camera?.radius ?? 2,
     option?.camera?.target ?? new BABYLON.Vector3(3.5, 1.2, -3.3),
@@ -150,7 +150,7 @@ export function dispose() {
   light?.dispose()
   scene.dispose()
   // console.log("销毁完成",engine,scene);
-  
+
   scene = null
   engine = null
   camera = null

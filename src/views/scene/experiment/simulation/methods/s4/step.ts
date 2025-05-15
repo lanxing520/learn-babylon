@@ -1,5 +1,5 @@
 import { item, resetItems } from "../common/loadModle"
-import { itemData } from "./itemData"
+import { itemData4 } from "./itemData"
 
 import { Vector3, Mesh, AnimationEvent, AbstractMesh } from "@babylonjs/core"
 
@@ -24,10 +24,10 @@ const frameRate = config.frameRate
 const PI = Math.PI
 
 let stepManager: AnimationStepManager | null
-export async function initStep() {
+export async function initStep4() {
   stepManager = new AnimationStepManager()
   // 注册模型
-  Object.keys(itemData).forEach((key) => {
+  Object.keys(itemData4).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
 
@@ -36,10 +36,10 @@ export async function initStep() {
     "position",
     createKeyframes(
       [
-        itemData.zls.position,
-        posTranslate(itemData.blb.position, [0, 0.2, -0.2]),
+        itemData4.zls.position,
+        posTranslate(itemData4.blb.position, [0, 0.2, -0.2]),
         { pause: 1 },
-        itemData.zls.position,
+        itemData4.zls.position,
       ],
       0.5,
     ),
@@ -48,7 +48,7 @@ export async function initStep() {
     new AnimationEvent(
       0.5 * frameRate,
       () => {
-        createWaterFlow(posTranslate(itemData.zjj.position, [0, 0.2, -0.01]))
+        createWaterFlow(posTranslate(itemData4.zjj.position, [0, 0.2, -0.01]))
       },
       true,
     ),
@@ -58,7 +58,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       zls: {
-        position: itemData.zls.position,
+        position: itemData4.zls.position,
       },
     },
     interactions: [
@@ -97,19 +97,19 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.jyq.position,
-                  ...createPostion(itemData.bxxa.position),
+                  itemData4.jyq.position,
+                  ...createPostion(itemData4.bxxa.position),
 
-                  ...createPostion(itemData.hcl.position),
-                  ...createPostion(itemData.sds.position),
+                  ...createPostion(itemData4.hcl.position),
+                  ...createPostion(itemData4.sds.position),
 
-                  ...createPostion(itemData.glsa.position),
-                  ...createPostion(itemData.temed.position),
-                  posTranslate(itemData.blb.position, [0, 0.1, 0]),
+                  ...createPostion(itemData4.glsa.position),
+                  ...createPostion(itemData4.temed.position),
+                  posTranslate(itemData4.blb.position, [0, 0.1, 0]),
                   { pause: 0.5 },
 
-                  ...createPostion(itemData.ybc.position, itemData.blb.position),
-                  itemData.jyq.position,
+                  ...createPostion(itemData4.ybc.position, itemData4.blb.position),
+                  itemData4.jyq.position,
                 ],
                 0.5,
               ),
@@ -127,10 +127,10 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.lxg.position,
+                  itemData4.lxg.position,
                   watchPoint,
                   { pause: 1 },
-                  // itemData.lxg.position
+                  // itemData4.lxg.position
                 ],
                 0.5,
               ),
@@ -158,13 +158,13 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.jyq.position,
-                  ...createPosition2(itemData.bxxa.position),
-                  ...createPosition2(itemData.hcl.position),
-                  ...createPosition2(itemData.sds.position),
-                  ...createPosition2(itemData.glsa.position),
-                  ...createPosition2(itemData.temed.position),
-                  itemData.jyq.position,
+                  itemData4.jyq.position,
+                  ...createPosition2(itemData4.bxxa.position),
+                  ...createPosition2(itemData4.hcl.position),
+                  ...createPosition2(itemData4.sds.position),
+                  ...createPosition2(itemData4.glsa.position),
+                  ...createPosition2(itemData4.temed.position),
+                  itemData4.jyq.position,
                 ],
                 0.5,
               ),
@@ -196,7 +196,7 @@ export async function initStep() {
             animation: moveAni(
               "position",
               createKeyframes(
-                [itemData.zjj.position, scPoint, { pause: 1 }, itemData.zjj.position],
+                [itemData4.zjj.position, scPoint, { pause: 1 }, itemData4.zjj.position],
                 1,
               ),
             ),
@@ -210,7 +210,7 @@ export async function initStep() {
             animation: moveAni(
               "position",
               createKeyframes(
-                [itemData.blb.position, scPoint, { pause: 1 }, itemData.blb.position],
+                [itemData4.blb.position, scPoint, { pause: 1 }, itemData4.blb.position],
                 1,
               ),
             ),
@@ -225,12 +225,12 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.lz.position,
-                  posTranslate(itemData.blb.position, [0, 0.2, 0]),
-                  posTranslate(itemData.blb.position, [0, 0.1, 0]),
+                  itemData4.lz.position,
+                  posTranslate(itemData4.blb.position, [0, 0.2, 0]),
+                  posTranslate(itemData4.blb.position, [0, 0.1, 0]),
                   { pause: 1 },
-                  posTranslate(itemData.blb.position, [0, 0.2, 0]),
-                  itemData.lz.position,
+                  posTranslate(itemData4.blb.position, [0, 0.2, 0]),
+                  itemData4.lz.position,
                 ],
                 0.5,
                 2.5,
@@ -256,9 +256,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.jyq.position,
-                  ...createPosition2(itemData.blb.position, 0.2, 0.1, 1),
-                  itemData.jyq.position,
+                  itemData4.jyq.position,
+                  ...createPosition2(itemData4.blb.position, 0.2, 0.1, 1),
+                  itemData4.jyq.position,
                 ],
                 0.5,
               ),
@@ -270,9 +270,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.sc.position,
-                  posTranslate(itemData.blb.position, [0, 0.2, 0]),
-                  posTranslate(itemData.blb.position, [0, 0.12, 0]),
+                  itemData4.sc.position,
+                  posTranslate(itemData4.blb.position, [0, 0.2, 0]),
+                  posTranslate(itemData4.blb.position, [0, 0.12, 0]),
                 ],
                 0.5,
                 3,
@@ -288,7 +288,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       sc: {
-        position: posTranslate(itemData.blb.position, [0, 0.12, 0]),
+        position: posTranslate(itemData4.blb.position, [0, 0.12, 0]),
       },
     },
     interactions: [
@@ -302,17 +302,17 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.lxg.position,
+                  itemData4.lxg.position,
                   watchPoint,
                   { pause: 8 },
-                  posTranslate(itemData.hwsyg.position, [0, 0.2, 0]),
-                  posTranslate(itemData.hwsyg.position, [0, 0.1, 0]),
+                  posTranslate(itemData4.hwsyg.position, [0, 0.2, 0]),
+                  posTranslate(itemData4.hwsyg.position, [0, 0.1, 0]),
                   { pause: 1 },
-                  posTranslate(itemData.lxj.position, [-0.2, 0.5, 0.5]),
-                  posTranslate(itemData.lxj.position, [0, 0.2, 0]),
+                  posTranslate(itemData4.lxj.position, [-0.2, 0.5, 0.5]),
+                  posTranslate(itemData4.lxj.position, [0, 0.2, 0]),
                   { pause: 1 },
-                  posTranslate(itemData.lxj.position, [0.2, 0.5, 0.5]),
-                  itemData.lxg.position,
+                  posTranslate(itemData4.lxj.position, [0.2, 0.5, 0.5]),
+                  itemData4.lxg.position,
                 ],
                 0.5,
               ),
@@ -326,10 +326,10 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.jyq.position,
-                  ...createPostion(itemData.zkcxg.position),
-                  ...createPostion(itemData.sds.position),
-                  itemData.jyq.position,
+                  itemData4.jyq.position,
+                  ...createPostion(itemData4.zkcxg.position),
+                  ...createPostion(itemData4.sds.position),
+                  itemData4.jyq.position,
                 ],
                 0.5,
               ),
@@ -348,7 +348,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       sc: {
-        position: posTranslate(itemData.blb.position, [0, 0.12, 0]),
+        position: posTranslate(itemData4.blb.position, [0, 0.12, 0]),
       },
     },
     interactions: [
@@ -362,9 +362,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.zjj.position,
-                  posTranslate(itemData.dyc.position, [0, 0.3, 0]),
-                  posTranslate(itemData.dyc.position, [0, 0.05, 0]),
+                  itemData4.zjj.position,
+                  posTranslate(itemData4.dyc.position, [0, 0.3, 0]),
+                  posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
                 ],
                 1,
               ),
@@ -376,9 +376,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.blb.position,
-                  posTranslate(itemData.dyc.position, [0, 0.3, 0]),
-                  posTranslate(itemData.dyc.position, [0, 0.05, 0]),
+                  itemData4.blb.position,
+                  posTranslate(itemData4.dyc.position, [0, 0.3, 0]),
+                  posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
                 ],
                 1,
               ),
@@ -390,12 +390,12 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  posTranslate(itemData.blb.position, [0, 0.12, 0]),
-                  posTranslate(itemData.dyc.position, [0, 0.42, 0]),
-                  posTranslate(itemData.dyc.position, [0, 0.17, 0]),
+                  posTranslate(itemData4.blb.position, [0, 0.12, 0]),
+                  posTranslate(itemData4.dyc.position, [0, 0.42, 0]),
+                  posTranslate(itemData4.dyc.position, [0, 0.17, 0]),
                   { pause: 2 },
-                  posTranslate(itemData.dyc.position, [0, 0.3, 0]),
-                  itemData.sc.position,
+                  posTranslate(itemData4.dyc.position, [0, 0.3, 0]),
+                  itemData4.sc.position,
                 ],
                 1,
               ),
@@ -406,7 +406,7 @@ export async function initStep() {
             animation: moveAni(
               "position",
               createKeyframes(
-                [itemData.dyy.position, posTranslate(itemData.dyy.position, [-0.4, 0, 0])],
+                [itemData4.dyy.position, posTranslate(itemData4.dyy.position, [-0.4, 0, 0])],
                 1,
               ),
             ),
@@ -417,11 +417,11 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.zmhcy.position,
-                  posTranslate(itemData.dyc.position, [0, 0.2, +0.5]),
+                  itemData4.zmhcy.position,
+                  posTranslate(itemData4.dyc.position, [0, 0.2, +0.5]),
                   { pause: 2 },
-                  itemData.zmhcy.position,
-                  // posTranslate(itemData.dyc.position, [0, 0.17, 0]),
+                  itemData4.zmhcy.position,
+                  // posTranslate(itemData4.dyc.position, [0, 0.17, 0]),
                 ],
                 1,
               ),
@@ -453,12 +453,12 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.jyq.position,
-                  ...createPosition2(itemData.lxg.position, 0.2, 0.02, 1),
-                  ...createPosition2(itemData.dyc.position, 0.3, 0.15, 2),
-                  ...createPosition2(itemData.yrdb.position, 0.3, 0.02, 1),
-                  ...createPosition2(itemData.dyc.position, 0.3, 0.15, 2),
-                  itemData.jyq.position,
+                  itemData4.jyq.position,
+                  ...createPosition2(itemData4.lxg.position, 0.2, 0.02, 1),
+                  ...createPosition2(itemData4.dyc.position, 0.3, 0.15, 2),
+                  ...createPosition2(itemData4.yrdb.position, 0.3, 0.02, 1),
+                  ...createPosition2(itemData4.dyc.position, 0.3, 0.15, 2),
+                  itemData4.jyq.position,
                 ],
                 0.5,
               ),
@@ -469,7 +469,7 @@ export async function initStep() {
             animation: moveAni(
               "position",
               createKeyframes(
-                [posTranslate(itemData.dyy.position, [-0.4, 0, 0]), itemData.dyy.position],
+                [posTranslate(itemData4.dyy.position, [-0.4, 0, 0]), itemData4.dyy.position],
                 1,
                 12,
               ),
@@ -510,10 +510,10 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.dyy.position,
-                  posTranslate(itemData.dyy.position, [-0.4, 0, 0]),
+                  itemData4.dyy.position,
+                  posTranslate(itemData4.dyy.position, [-0.4, 0, 0]),
                   { pause: 3 },
-                  itemData.dyy.position,
+                  itemData4.dyy.position,
                 ],
                 1,
               ),
@@ -525,9 +525,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  posTranslate(itemData.dyc.position, [0, 0.05, 0]),
-                  posTranslate(itemData.dyc.position, [0, 0.3, 0]),
-                  itemData.zjj.position,
+                  posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
+                  posTranslate(itemData4.dyc.position, [0, 0.3, 0]),
+                  itemData4.zjj.position,
                 ],
                 1,
                 2,
@@ -539,8 +539,8 @@ export async function initStep() {
             animation: moveAni(
               "position",
               createKeyframes([
-                posTranslate(itemData.dyc.position, [0, 0.05, 0]),
-                posTranslate(itemData.dyc.position, [0, 0.3, 0]),
+                posTranslate(itemData4.dyc.position, [0, 0.05, 0]),
+                posTranslate(itemData4.dyc.position, [0, 0.3, 0]),
                 watchPoint,
               ]),
             ),
@@ -551,11 +551,11 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.qjb.position,
+                  itemData4.qjb.position,
                   posTranslate(watchPoint, [+0.01, 0.16, +0.2]),
                   posTranslate(watchPoint, [0.01, 0.16, -0.1]),
                   posTranslate(watchPoint, [+0.01, 0.16, +0.2]),
-                  itemData.qjb.position,
+                  itemData4.qjb.position,
                 ],
                 1,
               ),
@@ -583,9 +583,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.pvdfm.position,
-                  posTranslate(itemData.fbm1.position, [-0.06, 0.2, -0.065]),
-                  posTranslate(itemData.fbm1.position, [-0.06, 0.02, -0.065]),
+                  itemData4.pvdfm.position,
+                  posTranslate(itemData4.fbm1.position, [-0.06, 0.2, -0.065]),
+                  posTranslate(itemData4.fbm1.position, [-0.06, 0.02, -0.065]),
                   { pause: 2 },
                 ],
                 1,
@@ -598,9 +598,9 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.lz.position,
-                  posTranslate(itemData.fbm2.position, [-0.06, 0.2, -0.065]),
-                  posTranslate(itemData.fbm2.position, [-0.06, 0.02, -0.065]),
+                  itemData4.lz.position,
+                  posTranslate(itemData4.fbm2.position, [-0.06, 0.2, -0.065]),
+                  posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
                 ],
                 1,
               ),
@@ -613,12 +613,12 @@ export async function initStep() {
               "position",
               createKeyframes(
                 [
-                  itemData.zmhcy.position,
-                  posTranslate(itemData.zmhcy.position, [0, 0.3, 0]),
-                  posTranslate(itemData.fbm2.position, [0, 0.2, -0.45]),
+                  itemData4.zmhcy.position,
+                  posTranslate(itemData4.zmhcy.position, [0, 0.3, 0]),
+                  posTranslate(itemData4.fbm2.position, [0, 0.2, -0.45]),
                   { pause: 0.5 },
-                  posTranslate(itemData.zmhcy.position, [0, 0.3, 0]),
-                  itemData.zmhcy.position,
+                  posTranslate(itemData4.zmhcy.position, [0, 0.3, 0]),
+                  itemData4.zmhcy.position,
                 ],
                 0.5,
               ),
@@ -643,14 +643,14 @@ export async function initStep() {
         animations: [
           moveAnimation(
             item.hmd.meshes[0],
-            [itemData.hmd.position, posTranslate(itemData.zmy.position, [0.1, 0.21, 0])],
+            [itemData4.hmd.position, posTranslate(itemData4.zmy.position, [0.1, 0.21, 0])],
             1,
           ),
           moveAnimation(
             item.lz.meshes[0],
             [
-              posTranslate(itemData.fbm2.position, [-0.06, 0.02, -0.065]),
-              posTranslate(itemData.zmy.position, [0.05, 0.22, 0]),
+              posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
+              posTranslate(itemData4.zmy.position, [0.05, 0.22, 0]),
             ],
             1,
             2,
@@ -658,17 +658,17 @@ export async function initStep() {
           moveAnimation(
             item.gl.meshes[0],
             [
-              itemData.gl.position,
-              posTranslate(itemData.gl.position, [0, 0.2, 0]),
-              posTranslate(itemData.zmy.position, [0.05, 0.35, 0]),
-              posTranslate(itemData.zmy.position, [0.3, 0.35, 0]),
+              itemData4.gl.position,
+              posTranslate(itemData4.gl.position, [0, 0.2, 0]),
+              posTranslate(itemData4.zmy.position, [0.05, 0.35, 0]),
+              posTranslate(itemData4.zmy.position, [0.3, 0.35, 0]),
               { pause: 2 },
-              posTranslate(itemData.zmy.position, [0.05, 0.36, 0]),
-              posTranslate(itemData.zmy.position, [0.3, 0.36, 0]),
+              posTranslate(itemData4.zmy.position, [0.05, 0.36, 0]),
+              posTranslate(itemData4.zmy.position, [0.3, 0.36, 0]),
               { pause: 2 },
-              posTranslate(itemData.zmy.position, [0.05, 0.37, 0]),
-              posTranslate(itemData.zmy.position, [0.3, 0.37, 0]),
-              itemData.gl.position,
+              posTranslate(itemData4.zmy.position, [0.05, 0.37, 0]),
+              posTranslate(itemData4.zmy.position, [0.3, 0.37, 0]),
+              itemData4.gl.position,
             ],
             1,
             2,
@@ -676,11 +676,11 @@ export async function initStep() {
           moveAnimation(
             item.blb.meshes[0],
             [
-              itemData.blb.position,
-              posTranslate(itemData.blb.position, [0, 0.2, 0]),
-              posTranslate(itemData.zmy.position, [-0.05, 0.25, 0]),
+              itemData4.blb.position,
+              posTranslate(itemData4.blb.position, [0, 0.2, 0]),
+              posTranslate(itemData4.zmy.position, [-0.05, 0.25, 0]),
               { pause: 1 },
-              itemData.blb.position,
+              itemData4.blb.position,
             ],
             1,
             3,
@@ -689,8 +689,8 @@ export async function initStep() {
           moveAnimation(
             item.pvdfm.meshes[0],
             [
-              posTranslate(itemData.fbm1.position, [-0.06, 0.02, -0.065]),
-              posTranslate(itemData.zmy.position, [0.05, 0.225, 0]),
+              posTranslate(itemData4.fbm1.position, [-0.06, 0.02, -0.065]),
+              posTranslate(itemData4.zmy.position, [0.05, 0.225, 0]),
             ],
             1,
             6,
@@ -698,15 +698,15 @@ export async function initStep() {
           moveAnimation(
             item.lz2.meshes[0],
             [
-              posTranslate(itemData.fbm2.position, [-0.06, 0.02, -0.065]),
-              posTranslate(itemData.zmy.position, [0.05, 0.23, 0]),
+              posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
+              posTranslate(itemData4.zmy.position, [0.05, 0.23, 0]),
             ],
             1,
             8,
           ),
           moveAnimation(
             item.hmd2.meshes[0],
-            [itemData.hmd.position, posTranslate(itemData.zmy.position, [0.1, 0.24, 0])],
+            [itemData4.hmd.position, posTranslate(itemData4.zmy.position, [0.1, 0.24, 0])],
             1,
             10,
           ),
@@ -726,10 +726,10 @@ export async function initStep() {
           moveAnimation(
             item.zmhcy.meshes[0],
             [
-              itemData.zmhcy.position,
-              posTranslate(itemData.zmy.position, [0.1, 0.3, -0.4]),
+              itemData4.zmhcy.position,
+              posTranslate(itemData4.zmy.position, [0.1, 0.3, -0.4]),
               { pause: 1 },
-              itemData.zmhcy.position,
+              itemData4.zmhcy.position,
             ],
             1,
           ),
@@ -760,7 +760,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       hcm: {
-        position: posTranslate(itemData.zmy.position, [0.05, 0.22, 0]),
+        position: posTranslate(itemData4.zmy.position, [0.05, 0.22, 0]),
       },
     },
     interactions: [
@@ -771,22 +771,22 @@ export async function initStep() {
           moveAnimation(
             item.nz.meshes[0],
             [
-              itemData.nz.position,
-              posTranslate(itemData.zmy.position, [0.03, 0.22, 0]),
-              posTranslate(itemData.fbm3.position, [-0.1, 0.1, 0]),
-              itemData.nz.position,
+              itemData4.nz.position,
+              posTranslate(itemData4.zmy.position, [0.03, 0.22, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.1, 0]),
+              itemData4.nz.position,
             ],
             1,
           ),
           moveAnimation(
             item.hcm.meshes[0],
             [
-              posTranslate(itemData.zmy.position, [0.05, 0.22, 0]),
-              posTranslate(itemData.fbm3.position, [-0.1, 0.1, 0]),
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
-              posTranslate(itemData.yc.position, [-0.1, 0.25, 0]),
+              posTranslate(itemData4.zmy.position, [0.05, 0.22, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.1, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.yc.position, [-0.1, 0.25, 0]),
               { pause: 2 },
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
             ],
             1,
             1,
@@ -794,10 +794,10 @@ export async function initStep() {
           moveAnimation(
             item.fbm3.meshes[0],
             [
-              itemData.fbm3.position,
-              posTranslate(itemData.yc.position, [0, 0.3, 0]),
+              itemData4.fbm3.position,
+              posTranslate(itemData4.yc.position, [0, 0.3, 0]),
               { pause: 2 },
-              itemData.fbm3.position,
+              itemData4.fbm3.position,
             ],
             1,
             3,
@@ -827,30 +827,30 @@ export async function initStep() {
           moveAnimation(
             item.nz.meshes[0],
             [
-              itemData.nz.position,
-              posTranslate(itemData.fbm3.position, [-0.11, 0.02, 0]),
-              posTranslate(itemData.fbm3.position, [-0.11, 0.2, 0]),
+              itemData4.nz.position,
+              posTranslate(itemData4.fbm3.position, [-0.11, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.11, 0.2, 0]),
               { pause: 1 },
-              posTranslate(itemData.fbm3.position, [-0.11, 0, 0]),
-              itemData.nz.position,
+              posTranslate(itemData4.fbm3.position, [-0.11, 0, 0]),
+              itemData4.nz.position,
             ],
             1,
           ),
           moveAnimation(
             item.hcm.meshes[0],
             [
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
-              posTranslate(itemData.fbm3.position, [-0.1, 0.2, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.2, 0]),
               { pause: 1 },
-              posTranslate(itemData.fbm3.position, [-0.1, 0, 0]),
-              // posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0, 0]),
+              // posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
             ],
             1,
             1,
           ),
           moveAnimation(
             item.fbm3.meshes[0],
-            [itemData.fbm3.position, posTranslate(itemData.fbm2.position, [0, 0, -0.3])],
+            [itemData4.fbm3.position, posTranslate(itemData4.fbm2.position, [0, 0, -0.3])],
             1,
             1,
           ),
@@ -872,14 +872,14 @@ export async function initStep() {
           moveAnimation(
             item.jtdg.meshes[0],
             [
-              itemData.jtdg.position,
-              ...createPosition2(itemData.ecl.position),
-              posTranslate(itemData.fbm3.position, [-0.08, 0.05, 0]),
+              itemData4.jtdg.position,
+              ...createPosition2(itemData4.ecl.position),
+              posTranslate(itemData4.fbm3.position, [-0.08, 0.05, 0]),
               { pause: 1 },
-              posTranslate(itemData.fbm3.position, [-0.04, 0.05, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.04, 0.05, 0]),
               { pause: 1 },
-              posTranslate(itemData.fbm3.position, [0, 0.05, 0]),
-              itemData.jtdg.position,
+              posTranslate(itemData4.fbm3.position, [0, 0.05, 0]),
+              itemData4.jtdg.position,
             ],
             0.5,
           ),
@@ -900,8 +900,8 @@ export async function initStep() {
           moveAnimation(
             item.xsz.meshes[0],
             [
-              itemData.xsz.position,
-              posTranslate(itemData.xsz.position, [0, 0.2, 0]),
+              itemData4.xsz.position,
+              posTranslate(itemData4.xsz.position, [0, 0.2, 0]),
               posTranslate(watchPoint, [0, 0, 0.2]),
             ],
 
@@ -915,10 +915,10 @@ export async function initStep() {
           moveAnimation(
             item.hcm.meshes[0],
             [
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
               posTranslate(watchPoint, [0, 0, 0.2]),
               posTranslate(watchPoint, [0.15, 0, 0.2]),
-              posTranslate(itemData.hxfgcxy.position, [0, 0.1, 0]),
+              posTranslate(itemData4.hxfgcxy.position, [0, 0.1, 0]),
             ],
             1,
             1,
@@ -991,10 +991,10 @@ function commonStep(nameKey: string, audioIndex: number) {
           moveAnimation(
             item.fbm3.meshes[0],
             [
-              itemData.fbm3.position,
+              itemData4.fbm3.position,
               posTranslate(scPoint, [0, 0.1, 0]),
               { pause: 2 },
-              itemData.fbm3.position,
+              itemData4.fbm3.position,
             ],
             1,
           ),
@@ -1002,20 +1002,20 @@ function commonStep(nameKey: string, audioIndex: number) {
           moveAnimation(
             item.hcm.meshes[0],
             [
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
-              posTranslate(itemData.fbm3.position, [-0.1, 0.2, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.2, 0]),
               { pause: 5 },
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
             ],
             0.5,
           ),
           moveAnimation(
             item[nameKey].meshes[0],
             [
-              itemData[nameKey].position,
-              posTranslate(itemData.fbm3.position, [0, 0.1, 0.15]),
+              itemData4[nameKey].position,
+              posTranslate(itemData4.fbm3.position, [0, 0.1, 0.15]),
               { pause: 2 },
-              itemData[nameKey].position,
+              itemData4[nameKey].position,
             ],
             0.5,
             4,
@@ -1040,20 +1040,20 @@ function commonStep(nameKey: string, audioIndex: number) {
           moveAnimation(
             item.hcm.meshes[0],
             [
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
-              posTranslate(itemData.yc.position, [-0.1, 0.25, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.yc.position, [-0.1, 0.25, 0]),
               { pause: 2 },
-              posTranslate(itemData.fbm3.position, [-0.1, 0.02, 0]),
+              posTranslate(itemData4.fbm3.position, [-0.1, 0.02, 0]),
             ],
             1,
           ),
           moveAnimation(
             item.fbm3.meshes[0],
             [
-              itemData.fbm3.position,
-              posTranslate(itemData.yc.position, [0, 0.3, 0]),
+              itemData4.fbm3.position,
+              posTranslate(itemData4.yc.position, [0, 0.3, 0]),
               { pause: 2 },
-              itemData.fbm3.position,
+              itemData4.fbm3.position,
             ],
             1,
           ),
@@ -1115,11 +1115,11 @@ function createPosition2(position: NumberArray, up = 0.3, down = 0.05, pause = 0
   ]
 }
 
-export async function jumpStep() {
-  resetItems(itemData)
+export async function jumpStep4() {
+  resetItems(itemData4)
   if (stepManager) stepManager.goToStep()
 }
-export function disposeStep() {
+export function disposeStep4() {
   if (stepManager) {
     stepManager.dispose()
     stepManager = null

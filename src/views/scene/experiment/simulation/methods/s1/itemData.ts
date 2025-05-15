@@ -1,14 +1,15 @@
 import type { DynamicObject, NumberArray } from "../common/interface"
-
+import { posTranslate } from "../common/action"
 const PI = Math.PI
 
 export const origin = { x: 4.3, y: 1.1, z: -2.4 }
 
-export const itemData = {
+export const itemData1 = {
   sterileSwab: {
     name: "无菌棉签",
     position: [origin.x, origin.y, origin.z - 0.2],
     rotate: [0, 0, PI / 2],
+    visible:false
   },
   disinfectant: {
     name: "消毒液",
@@ -64,30 +65,28 @@ export const itemData = {
   },
 } as DynamicObject
 
-export const step1Position = {
-  bloodTube: [
-    itemData.testTubeRack.position[0] - 0.1,
-    itemData.testTubeRack.position[1] + 0.25,
-    itemData.testTubeRack.position[2] + 0.13,
-  ] as NumberArray,
+const step1 = {
+  bloodTube: posTranslate(itemData1.testTubeRack.position, [-0.1, 0.25, 0.13]),
   tube: [0.6, 0.06, 0] as NumberArray,
-}
-export const step2Position = {
-  bloodTube: [
-    step1Position.bloodTube[0],
-    step1Position.bloodTube[1] - 0.2,
-    step1Position.bloodTube[2],
-  ] as NumberArray,
-}
-export const step3Position = {}
-export const step4Position = {
-  bloodTube: [
-    itemData.centrifuge.position[0],
-    itemData.centrifuge.position[1] + 0.1,
-    itemData.centrifuge.position[2],
-  ] as NumberArray,
-}
-export const step5Position = {}
+};
+
+const step6 = {
+  bloodTube: posTranslate(step1.bloodTube, [0, -0.2, 0]),
+};
+
+export const models = {
+  step1,
+  step4:{
+    bloodTube:{
+      position:[3.97, 1.16, -3.18] as NumberArray
+    }
+  },
+  step6,
+  step3: {},
+  step9: {
+    bloodTube: posTranslate(itemData1.centrifuge.position, [0, 0.1, 0]),
+  },
+};
 
 // 采血针管路径点
 export const tubePoints = [

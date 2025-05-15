@@ -13,12 +13,12 @@ export const useExperimentStore = defineStore(
     }
 
     const activeTab = ref("实验介绍")
-    const isSimulation = ref<number|null>(null)
+    const isSimulation = ref<number | null>(null)
     function getStepList(arr: any) {
       const empty = [] as { name: string; desc: string }[]
       if (!arr?.length) return []
       arr.forEach((e: any) => {
-        if (e["步骤Name"]&& e["步骤Name"].trim()) {
+        if (e["步骤Name"] && e["步骤Name"].trim()) {
           empty.push({
             name: e["步骤Name"],
             desc: e["描述"],
@@ -42,7 +42,6 @@ export const useExperimentStore = defineStore(
       EnglishName,
       activeTab,
       isSimulation,
-
       experimentInfo,
       saveExperimentInfo,
       getExperiment,
@@ -50,3 +49,11 @@ export const useExperimentStore = defineStore(
   },
   { persist: true },
 )
+export const experimentInfo = defineStore("experimentInfo", () => {
+  const tipMessage = ref("")
+  const score = ref(100)
+  return {
+    tipMessage,
+    score,
+  }
+})

@@ -1,5 +1,5 @@
 import { item, resetItems } from "../common/loadModle"
-import { itemData } from "./itemData"
+import { itemData2 } from "./itemData"
 
 import {
   Vector3,
@@ -35,12 +35,12 @@ const frameRate = config.frameRate
 const PI = Math.PI
 
 let stepManager: AnimationStepManager | null = null
-export async function initStep() {
+export async function initStep2() {
   const lxg2 = item.lxg.meshes[0].clone("离心管2", null)
   const lxg3 = item.lxg.meshes[0].clone("离心管3", null)
   if (!lxg2 || !lxg3) return
-  lxg2.position = new Vector3(...posTranslate(itemData.lxg.position, [0.1, 0, 0]))
-  lxg3.position = new Vector3(...posTranslate(itemData.lxg.position, [0.2, 0, 0]))
+  lxg2.position = new Vector3(...posTranslate(itemData2.lxg.position, [0.1, 0, 0]))
+  lxg3.position = new Vector3(...posTranslate(itemData2.lxg.position, [0.2, 0, 0]))
   const hwxm = item.hwx.meshes[1]
   hwxm.rotation = Vector3.Zero()
   // stepManager.registerModel("lxg2", [lxg2])
@@ -48,7 +48,7 @@ export async function initStep() {
   stepManager = new AnimationStepManager()
 
   // 注册模型
-  Object.keys(itemData).forEach((key) => {
+  Object.keys(itemData2).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
   createLiquid(item.zkcxg.meshes[0], 0.05)
@@ -60,10 +60,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       lt: {
-        position: itemData.lt.position,
+        position: itemData2.lt.position,
       },
       lxg: {
-        position: itemData.lxg.position,
+        position: itemData2.lxg.position,
       },
     },
     interactions: [
@@ -76,16 +76,16 @@ export async function initStep() {
           {
             mesh: item.lt.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.lt.position },
+              { frame: 0, value: itemData2.lt.position },
               {
                 frame: frameRate,
-                value: posTranslate(itemData.lt.position, [0, 0.18, -0.2]),
+                value: posTranslate(itemData2.lt.position, [0, 0.18, -0.2]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.lt.position, [0, 0.18, -0.2]),
+                value: posTranslate(itemData2.lt.position, [0, 0.18, -0.2]),
               },
-              { frame: 2.5 * frameRate, value: itemData.lt.position },
+              { frame: 2.5 * frameRate, value: itemData2.lt.position },
             ]),
           },
           {
@@ -119,10 +119,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jyq: {
-        position: itemData.jyq.position,
+        position: itemData2.jyq.position,
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -133,35 +133,35 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.02, 0]),
               },
-              { frame: 1.5 * frameRate, value: posTranslate(itemData.xdy.position, [0, 0.02, 0]) },
+              { frame: 1.5 * frameRate, value: posTranslate(itemData2.xdy.position, [0, 0.02, 0]) },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.1, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.1, 0]),
               },
               {
                 frame: 2.5 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.05, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.05, 0]),
               },
               {
                 frame: 3 * frameRate,
-                value: itemData.jyq.position,
+                value: itemData2.jyq.position,
               },
             ]),
           },
@@ -194,10 +194,10 @@ export async function initStep() {
           {
             mesh: item.lxg.meshes[0],
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: itemData.lxg.position },
-              { frame: 1 * frameRate, value: posTranslate(itemData.lt.position, [-0.5, 0, 0]) },
-              { frame: 2.5 * frameRate, value: posTranslate(itemData.lt.position, [-0.5, 0, 0]) },
-              { frame: 3 * frameRate, value: itemData.lxg.position },
+              { frame: 0 * frameRate, value: itemData2.lxg.position },
+              { frame: 1 * frameRate, value: posTranslate(itemData2.lt.position, [-0.5, 0, 0]) },
+              { frame: 2.5 * frameRate, value: posTranslate(itemData2.lt.position, [-0.5, 0, 0]) },
+              { frame: 3 * frameRate, value: itemData2.lxg.position },
             ]),
           },
         ],
@@ -212,10 +212,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jyq: {
-        position: itemData.jyq.position,
+        position: itemData2.jyq.position,
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -226,60 +226,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.08, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.08, 0]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.08, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.08, 0]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.15, 0]),
               },
               {
                 frame: 3.25 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.03, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.03, 0]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.03, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.03, 0]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.08, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.08, 0]),
               },
               {
                 frame: 4 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.08, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.08, 0]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.08, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.08, 0]),
               },
-              { frame: 5 * frameRate, value: itemData.jyq.position },
+              { frame: 5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -311,10 +311,10 @@ export async function initStep() {
           {
             mesh: lxg2,
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: posTranslate(itemData.lxg.position, [0.1, 0, 0]) },
-              { frame: 1 * frameRate, value: posTranslate(itemData.lt.position, [-0.5, 0, 0]) },
-              { frame: 4.5 * frameRate, value: posTranslate(itemData.lt.position, [-0.5, 0, 0]) },
-              { frame: 5 * frameRate, value: posTranslate(itemData.lxg.position, [0.1, 0, 0]) },
+              { frame: 0 * frameRate, value: posTranslate(itemData2.lxg.position, [0.1, 0, 0]) },
+              { frame: 1 * frameRate, value: posTranslate(itemData2.lt.position, [-0.5, 0, 0]) },
+              { frame: 4.5 * frameRate, value: posTranslate(itemData2.lt.position, [-0.5, 0, 0]) },
+              { frame: 5 * frameRate, value: posTranslate(itemData2.lxg.position, [0.1, 0, 0]) },
             ]),
           },
         ],
@@ -327,11 +327,11 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       lt: {
-        position: itemData.lt.position,
+        position: itemData2.lt.position,
         // visible:false
       },
       lxg: {
-        position: itemData.lxg.position,
+        position: itemData2.lxg.position,
       },
     },
     interactions: [
@@ -341,42 +341,42 @@ export async function initStep() {
           {
             mesh: item.ybxsy.meshes[3],
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: posTranslate(itemData.ybxsy.position, [0, 0.12, 0]) },
+              { frame: 0 * frameRate, value: posTranslate(itemData2.ybxsy.position, [0, 0.12, 0]) },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.2, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0, -0.1]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0, -0.1]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0, -0.1]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0, -0.1]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.2, 0]),
               },
               {
                 frame: 4 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.12, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.12, 0]),
               },
             ]),
           },
           {
             mesh: item.ybxsy.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.ybxsy.position },
+              { frame: 0, value: itemData2.ybxsy.position },
               {
                 frame: frameRate,
-                value: posTranslate(itemData.lt.position, [0, 0.5, -0.14]),
+                value: posTranslate(itemData2.lt.position, [0, 0.5, -0.14]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.lt.position, [0, 0.5, -0.14]),
+                value: posTranslate(itemData2.lt.position, [0, 0.5, -0.14]),
               },
-              { frame: 3.5 * frameRate, value: itemData.ybxsy.position },
+              { frame: 3.5 * frameRate, value: itemData2.ybxsy.position },
             ]),
           },
           {
@@ -397,16 +397,16 @@ export async function initStep() {
           {
             mesh: item.lt.meshes[0],
             animation: moveAni("position", [
-              { frame: 3.5 * frameRate, value: itemData.lt.position },
+              { frame: 3.5 * frameRate, value: itemData2.lt.position },
               {
                 frame: 4 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.13, -0.49]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.13, -0.49]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.13, -0.49]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.13, -0.49]),
               },
-              { frame: 5 * frameRate, value: itemData.lt.position },
+              { frame: 5 * frameRate, value: itemData2.lt.position },
             ]),
           },
           {
@@ -427,32 +427,32 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 5 * frameRate, value: itemData.jyq.position },
+              { frame: 5 * frameRate, value: itemData2.jyq.position },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 5.75 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.1, 0]),
               },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.1, 0]),
               },
               {
                 frame: 6.5 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.15, 0]),
               },
               {
                 frame: 6.75 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.1, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.1, 0]),
               },
               {
                 frame: 7.25 * frameRate,
-                value: posTranslate(itemData.lt.position, [-0.5, 0.1, 0]),
+                value: posTranslate(itemData2.lt.position, [-0.5, 0.1, 0]),
               },
-              { frame: 7.5 * frameRate, value: itemData.jyq.position },
+              { frame: 7.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -484,10 +484,10 @@ export async function initStep() {
           {
             mesh: lxg3,
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: posTranslate(itemData.lxg.position, [0.2, 0, 0]) },
-              { frame: 1 * frameRate, value: posTranslate(itemData.lt.position, [-0.5, 0, 0]) },
-              { frame: 7.25 * frameRate, value: posTranslate(itemData.lt.position, [-0.5, 0, 0]) },
-              { frame: 7.5 * frameRate, value: posTranslate(itemData.lxg.position, [0.2, 0, 0]) },
+              { frame: 0 * frameRate, value: posTranslate(itemData2.lxg.position, [0.2, 0, 0]) },
+              { frame: 1 * frameRate, value: posTranslate(itemData2.lt.position, [-0.5, 0, 0]) },
+              { frame: 7.25 * frameRate, value: posTranslate(itemData2.lt.position, [-0.5, 0, 0]) },
+              { frame: 7.5 * frameRate, value: posTranslate(itemData2.lxg.position, [0.2, 0, 0]) },
             ]),
           },
         ],
@@ -536,124 +536,124 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.jyq.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.jyq.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.4 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.45 * frameRate,
-                value: posTranslate(itemData.ybxsy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.ybxsy.position, [0, 0.15, 0]),
               },
               {
                 frame: 1.6 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]), //空白孔
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]), //空白孔
               },
               {
                 frame: 2.1 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]), //空白孔
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]), //空白孔
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.dz1.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.dz1.position, [0, 0.2, 0]),
               },
               {
                 frame: 2.5 * frameRate,
-                value: posTranslate(itemData.dz1.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.dz1.position, [0, 0.1, 0]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.dz1.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.dz1.position, [0, 0.1, 0]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.dz1.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.dz1.position, [0, 0.2, 0]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]), //阴性对照孔
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]), //阴性对照孔
               },
               {
                 frame: 4 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.dz2.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.dz2.position, [0, 0.2, 0]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.dz2.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.dz2.position, [0, 0.1, 0]),
               },
               {
                 frame: 4.75 * frameRate,
-                value: posTranslate(itemData.dz2.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.dz2.position, [0, 0.1, 0]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.dz2.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.dz2.position, [0, 0.2, 0]),
               },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]), //阳性对照孔
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]), //阳性对照孔
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.2, 0]),
               },
               {
                 frame: 6.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.02, 0]),
               },
               {
                 frame: 7 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.02, 0]),
               },
               {
                 frame: 7.25 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.zkcxg.position, [0, 0.2, 0]),
               },
               {
                 frame: 7.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]), //待测血清孔
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]), //待测血清孔
               },
               {
                 frame: 8 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]), //待测血清孔
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]), //待测血清孔
               },
-              { frame: 8.25 * frameRate, value: itemData.jyq.position },
+              { frame: 8.25 * frameRate, value: itemData2.jyq.position },
             ]),
           },
 
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: itemData.mbbbb.position },
+              { frame: 0 * frameRate, value: itemData2.mbbbb.position },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
               {
                 frame: 8.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
-              { frame: 8.5 * frameRate, value: itemData.mbbbb.position },
+              { frame: 8.5 * frameRate, value: itemData2.mbbbb.position },
             ]),
           },
         ],
@@ -666,10 +666,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       lt: {
-        position: itemData.lt.position,
+        position: itemData2.lt.position,
       },
       lxg: {
-        position: itemData.lxg.position,
+        position: itemData2.lxg.position,
       },
     },
     interactions: [
@@ -682,74 +682,74 @@ export async function initStep() {
           {
             mesh: item.fbm.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.fbm.position },
+              { frame: 0, value: itemData2.fbm.position },
               {
                 frame: 0.25 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.01, 0.013, 0.01]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.01, 0.013, 0.01]),
               },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.01, 0.113, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.01, 0.113, 0.01]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.01, 0.113, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.01, 0.113, 0.01]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 4 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: itemData.fbm.position,
+                value: itemData2.fbm.position,
               },
             ]),
           },
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 0.25 * frameRate, value: itemData.mbbbb.position },
+              { frame: 0.25 * frameRate, value: itemData2.mbbbb.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.5, 0, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.hwx.position, [-0.5, 0, 0]),
               },
-              { frame: 1 * frameRate, value: posTranslate(itemData.hwx.position, [0, 0.1, 0]) },
-              { frame: 3.5 * frameRate, value: posTranslate(itemData.hwx.position, [0, 0.1, 0]) },
+              { frame: 1 * frameRate, value: posTranslate(itemData2.hwx.position, [0, 0.1, 0]) },
+              { frame: 3.5 * frameRate, value: posTranslate(itemData2.hwx.position, [0, 0.1, 0]) },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.hwx.position, [-0.5, 0, 0]),
               },
               {
                 frame: 4 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.5, 0, 0]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
             ]),
           },
@@ -783,10 +783,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jyq: {
-        position: itemData.jyq.position,
+        position: itemData2.jyq.position,
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -797,60 +797,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
-              { frame: 5.5 * frameRate, value: itemData.jyq.position },
+              { frame: 5.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -882,18 +882,18 @@ export async function initStep() {
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 5 * frameRate, value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]) },
+              { frame: 5 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]), //水槽位置
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]), //水槽位置
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
             ]),
           },
@@ -916,10 +916,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -930,60 +930,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.mbek.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.mbek.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
-              { frame: 5.5 * frameRate, value: itemData.jyq.position },
+              { frame: 5.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -1015,70 +1015,70 @@ export async function initStep() {
           {
             mesh: item.fbm.meshes[0],
             animation: moveAni("position", [
-              { frame: 4.75 * frameRate, value: itemData.fbm.position },
+              { frame: 4.75 * frameRate, value: itemData2.fbm.position },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 5.25 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 5.5 * frameRate, //进恒温箱
-                value: posTranslate(itemData.hwx.position, [-0.01, 0.113, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.01, 0.113, 0.01]),
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.01, 0.113, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.01, 0.113, 0.01]),
               },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 6.5 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 6.75 * frameRate,
-                value: itemData.fbm.position,
+                value: itemData2.fbm.position,
               },
             ]),
           },
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 5 * frameRate, value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]) },
+              { frame: 5 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 5.25 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.hwx.position, [-0.5, 0, 0]),
               },
-              { frame: 5.5 * frameRate, value: posTranslate(itemData.hwx.position, [0, 0.1, 0]) },
-              { frame: 6 * frameRate, value: posTranslate(itemData.hwx.position, [0, 0.1, 0]) },
+              { frame: 5.5 * frameRate, value: posTranslate(itemData2.hwx.position, [0, 0.1, 0]) },
+              { frame: 6 * frameRate, value: posTranslate(itemData2.hwx.position, [0, 0.1, 0]) },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.hwx.position, [-0.5, 0, 0]),
               },
               {
                 frame: 6.5 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.5, 0, 0]),
               },
               {
                 frame: 6.75 * frameRate,
-                value: posTranslate(itemData.mbbbb.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.mbbbb.position, [-0.5, 0, 0]),
               },
               {
                 frame: 7 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 7.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 8 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
             ]),
           },
@@ -1115,10 +1115,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       jyq: {
-        position: itemData.jyq.position,
+        position: itemData2.jyq.position,
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -1129,60 +1129,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.xdy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xdy.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
-              { frame: 5.5 * frameRate, value: itemData.jyq.position },
+              { frame: 5.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -1214,18 +1214,18 @@ export async function initStep() {
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 5 * frameRate, value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]) },
+              { frame: 5 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]), //水槽位置
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]), //水槽位置
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
             ]),
           },
@@ -1248,10 +1248,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -1262,60 +1262,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.xsjA.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xsjA.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.xsjA.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.xsjA.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.xsjA.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xsjA.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.xsjA.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xsjA.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.xsjA.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xsjA.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
-              { frame: 5.5 * frameRate, value: itemData.jyq.position },
+              { frame: 5.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -1356,7 +1356,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
     },
     interactions: [
@@ -1367,60 +1367,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.xsjB.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xsjB.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.xsjB.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.xsjB.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.xsjB.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xsjB.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.xsjB.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.xsjB.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.xsjB.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.xsjB.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
-              { frame: 5.5 * frameRate, value: itemData.jyq.position },
+              { frame: 5.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -1459,7 +1459,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
     },
     interactions: [
@@ -1470,42 +1470,42 @@ export async function initStep() {
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 0 * frameRate, value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]) },
+              { frame: 0 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 0.25 * frameRate, //震荡
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, -0.02]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, -0.02]),
               },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0.02]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0.02]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, -0.02]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, -0.02]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0.02]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0.02]),
               },
               {
                 frame: 1.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
 
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.hwx.position, [-0.5, 0, 0]),
               },
-              { frame: 2 * frameRate, value: posTranslate(itemData.hwx.position, [0, 0.1, 0]) }, // 进恒温箱
-              { frame: 2.5 * frameRate, value: posTranslate(itemData.hwx.position, [0, 0.1, 0]) },
+              { frame: 2 * frameRate, value: posTranslate(itemData2.hwx.position, [0, 0.1, 0]) }, // 进恒温箱
+              { frame: 2.5 * frameRate, value: posTranslate(itemData2.hwx.position, [0, 0.1, 0]) },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.hwx.position, [-0.5, 0, 0]),
               },
 
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+                value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
               },
             ]),
           },
@@ -1513,30 +1513,30 @@ export async function initStep() {
           {
             mesh: item.fbm.meshes[0],
             animation: moveAni("position", [
-              { frame: 1 * frameRate, value: itemData.fbm.position },
+              { frame: 1 * frameRate, value: itemData2.fbm.position },
               {
                 frame: 1.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 2 * frameRate, //进恒温箱
-                value: posTranslate(itemData.hwx.position, [-0.01, 0.113, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.01, 0.113, 0.01]),
               },
               {
                 frame: 2.5 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.01, 0.113, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.01, 0.113, 0.01]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.hwx.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.hwx.position, [-0.51, 0.013, 0.01]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.51, 0.013, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.51, 0.013, 0.01]),
               },
             ]),
           },
@@ -1565,10 +1565,10 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
       xdy: {
-        position: itemData.xdy.position,
+        position: itemData2.xdy.position,
       },
     },
     interactions: [
@@ -1579,60 +1579,60 @@ export async function initStep() {
           {
             mesh: item.jyq.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: itemData.jyq.position },
+              { frame: 0, value: itemData2.jyq.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData.zzy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.zzy.position, [0, 0.15, 0]),
               },
               {
                 frame: 0.75 * frameRate,
-                value: posTranslate(itemData.zzy.position, [0, 0.1, 0]),
+                value: posTranslate(itemData2.zzy.position, [0, 0.1, 0]),
               },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.zzy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.zzy.position, [0, 0.02, 0]),
               },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData.zzy.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.zzy.position, [0, 0.02, 0]),
               },
               {
                 frame: 2 * frameRate,
-                value: posTranslate(itemData.zzy.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.zzy.position, [0, 0.15, 0]),
               },
               {
                 frame: 2.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 2.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.07]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.07]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.05]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.05]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.25 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.03]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.03]),
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
               {
                 frame: 5 * frameRate,
-                value: posTranslate(itemData.sjh.position, [-0.47, 0, 0.01]),
+                value: posTranslate(itemData2.sjh.position, [-0.47, 0, 0.01]),
               },
-              { frame: 5.5 * frameRate, value: itemData.jyq.position },
+              { frame: 5.5 * frameRate, value: itemData2.jyq.position },
             ]),
           },
           {
@@ -1673,7 +1673,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
     },
     interactions: [
@@ -1684,16 +1684,16 @@ export async function initStep() {
           {
             mesh: item.mbbbb.meshes[0],
             animation: moveAni("position", [
-              { frame: 0, value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]) },
+              { frame: 0, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 1 * frameRate,
-                value: posTranslate(itemData.mby.position, [0.02, 0.1, 0]),
+                value: posTranslate(itemData2.mby.position, [0.02, 0.1, 0]),
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData.mby.position, [0.02, 0.1, 0]),
+                value: posTranslate(itemData2.mby.position, [0.02, 0.1, 0]),
               },
-              { frame: 4 * frameRate, value: posTranslate(itemData.sjh.position, [-0.5, 0, 0]) },
+              { frame: 4 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
             ]),
           },
         ],
@@ -1708,7 +1708,7 @@ export async function initStep() {
   stepManager.addStep({
     models: {
       mbbbb: {
-        position: posTranslate(itemData.sjh.position, [-0.5, 0, 0]),
+        position: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]),
       },
     },
     interactions: [
@@ -1726,12 +1726,12 @@ export async function initStep() {
 
 // 开始执行
 
-export async function jumpStep() {
-  resetItems(itemData)
+export async function jumpStep2() {
+  resetItems(itemData2)
   if (stepManager) stepManager.goToStep()
 }
 
-export function disposeStep() {
+export function disposeStep2() {
   if (stepManager) {
     stepManager.dispose()
     stepManager = null

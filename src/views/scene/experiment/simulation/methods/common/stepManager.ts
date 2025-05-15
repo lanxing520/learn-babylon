@@ -5,7 +5,7 @@ import type { AnimationItem } from "./animation"
 import { ref } from "vue"
 
 export const stepIndex = ref(1)
-
+export const isFinished = ref(false)
 export class AnimationStepManager {
   private steps: AnimationStep[] = []
   private currentStepIndex = 0
@@ -14,7 +14,9 @@ export class AnimationStepManager {
   private activeAnimations: AnimationGroup[] = []
   // private stepState: Record<number, any> = {}
 
-  constructor() {}
+  constructor() {
+    isFinished.value = false
+  }
 
   // 注册模型
   registerModel(name: string, mesh: AbstractMesh[]) {
@@ -83,7 +85,7 @@ export class AnimationStepManager {
       if (config.position) model[0].position = Vector3.FromArray(config.position)
       if (config.rotation) model[0].rotation = Vector3.FromArray(config.rotation)
       if (config.scaling) model[0].scaling = Vector3.FromArray(config.scaling)
-      if (config?.visible !== undefined) showMeshes(model,config.visible)
+      if (config?.visible !== undefined) showMeshes(model, config.visible)
     })
   }
 
@@ -125,15 +127,23 @@ export class AnimationStepManager {
 
           animGroup.start()
           this.activeAnimations.push(animGroup)
-          if (this.currentStepIndex === this.steps.length - 1) return
+
           animGroup.onAnimationGroupEndObservable.add(async () => {
             if (step?.onEnd && typeof step.onEnd === "function") {
               await step.onEnd()
+            }
+            if (this.currentStepIndex === this.steps.length - 1) {
+              isFinished.value = true
+              return
             }
             this.currentStepIndex++
             stepIndex.value++
             this.goToStep(this.currentStepIndex)
           })
+        } else {
+          if (this.currentStepIndex === this.steps.length - 1) {
+            isFinished.value = true
+          }
         }
       })
     })
