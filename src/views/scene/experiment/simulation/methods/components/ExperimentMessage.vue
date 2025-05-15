@@ -37,6 +37,7 @@
 import { useExperimentStore, experimentInfo } from "@/stores/experimentStore"
 import { Timer } from "@/utils/timer"
 import { isFinished } from "../common/stepManager"
+import http from "@/api/request"
 
 interface Step {
   index: null | number
@@ -96,13 +97,28 @@ watch(
   },
 )
 
-const submitScore = () => {
+const submitScore = async () => {
   dialogVisible.value = false
+  await uploadScore()
   if (store.isSimulation !== null) {
     store.isSimulation = null
     store.activeTab = "实验模拟"
-    return
   }
+}
+
+async function uploadScore() {
+  await http.post("/data_upload", {
+    appid: "",
+    expId: "",
+    reportData: "",
+    expScoreDetails: [{
+      trueOrFalse: true,
+      startTime: myTimer.getStartTime(),
+      expectTime: myTimer.getEndTime(),
+      Score: expInfo.score,
+      maxScore: 100,
+    }],
+  })
 }
 </script>
 

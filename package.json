@@ -19,6 +19,7 @@
     "@babylonjs/loaders": "^8.2.0",
     "@babylonjs/materials": "^8.2.0",
     "@babylonjs/procedural-textures": "8.2.0",
+    "axios": "^1.9.0",
     "cannon": "^0.6.2",
     "element-plus": "^2.9.7",
     "lodash": "^4.17.21",
