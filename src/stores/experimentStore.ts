@@ -1,16 +1,16 @@
-import { ref, computed } from "vue"
 import { defineStore } from "pinia"
+import { defaultExperimentInfo } from "./staticData"
 
 export const useExperimentStore = defineStore(
   "experiment",
   () => {
-    const name = ref("")
-    const EnglishName = ref("")
+    const name = ref("人类免疫缺陷病毒（HIV）的筛查")
+    const EnglishName = ref("Screening for Human Immunodeficiency Virus (HIV)")
 
-    const experimentInfo = ref<any>({})
-    function saveExperimentInfo(val: any) {
-      experimentInfo.value = val
-    }
+    const experimentInfo = shallowRef<any>(defaultExperimentInfo)
+    // function saveExperimentInfo(val: any) {
+    //   experimentInfo.value = val
+    // }
 
     const activeTab = ref("实验介绍")
     const isSimulation = ref<number | null>(null)
@@ -43,7 +43,7 @@ export const useExperimentStore = defineStore(
       activeTab,
       isSimulation,
       experimentInfo,
-      saveExperimentInfo,
+      // saveExperimentInfo,
       getExperiment,
     }
   },

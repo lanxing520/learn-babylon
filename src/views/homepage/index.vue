@@ -49,7 +49,7 @@ const getFileData = (data: any) => {
 }
 const onConfirm = () => {
   dialogVisible.value = false
-  store.saveExperimentInfo(fileData.value)
+  // store.saveExperimentInfo(fileData.value)
 }
 </script>
 <style scoped lang="scss">
