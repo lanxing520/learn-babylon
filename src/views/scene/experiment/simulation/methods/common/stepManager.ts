@@ -2,8 +2,10 @@ import { AbstractMesh, AnimationGroup, Vector3, Mesh } from "@babylonjs/core"
 import { addHighlight, removeHighlight, click, showMeshes } from "./action"
 import { createAnimeGroup } from "./animation"
 import type { AnimationItem } from "./animation"
-import { ref } from "vue"
+import { experimentScore } from "@/stores/experimentStore.ts"
+import { formatDate } from "@/utils/timer.ts"
 
+const store = experimentScore()
 export const stepIndex = ref(1)
 export const isFinished = ref(false)
 export class AnimationStepManager {
@@ -14,6 +16,15 @@ export class AnimationStepManager {
   private activeAnimations: AnimationGroup[] = []
   // private stepState: Record<number, any> = {}
 
+  // 新增计分系统相关属性
+  private stepScores: {
+    startTime: string | null
+    endTime: string | null
+    score: number
+    maxScore: number
+    repeatCount: number
+  }[] = []
+  private totalScore = 100
   constructor() {
     isFinished.value = false
   }
@@ -26,14 +37,26 @@ export class AnimationStepManager {
   // 添加步骤
   addStep(step: AnimationStep) {
     this.steps.push(step)
+    const stepIndex = this.steps.length - 1
+    this.stepScores.push({
+      startTime: null,
+      endTime: null,
+      score: 0,
+      maxScore: 0, // 分配分数
+      repeatCount: 1,
+    })
   }
-
+  // Math.floor(this.totalScore / this.steps.length)
   // 跳转到指定步骤
   async goToStep(targetIndex = stepIndex.value - 1) {
     if (targetIndex < 0 || targetIndex >= this.steps.length) return
+
+    if (this.stepScores[this.currentStepIndex]) {
+      this.stepScores[this.currentStepIndex].startTime = formatDate(new Date())
+    }
+
     // 停止当前所有动画
     this.stopAllAnimations()
-
     // 执行离开当前步骤的清理
     const currentStep = this.steps[this.currentStepIndex]
     if (
@@ -64,6 +87,18 @@ export class AnimationStepManager {
     // 设置交互事件
     this.setupInteractions(targetStep)
   }
+  // 新增方法：获取分数报告
+  getScoreReport() {
+    store.report = []
+    this.stepScores.forEach((e, i) => {
+      store.report.push({
+        index: Number(i),
+        ...e,
+      })
+    })
+  }
+
+  // 在步骤完成时更新分数（示例）
 
   private stopAllAnimations() {
     this.activeAnimations.forEach((anim) => anim.stop())
@@ -91,7 +126,6 @@ export class AnimationStepManager {
 
   private setupInteractions(step: AnimationStep) {
     // 清除旧的高亮和点击事件
-    // ...
     removeHighlight()
 
     // 设置新的交互
@@ -104,52 +138,61 @@ export class AnimationStepManager {
       addHighlight(mesh as Mesh[])
 
       // 添加点击事件
-      click(mesh as Mesh[], async () => {
-        if (interaction.onClick) {
-          await interaction.onClick()
-        }
-        // 执行关联动画
-        if (interaction.animations && interaction.animations.length) {
-          const animGroup = createAnimeGroup(
-            `step-${this.currentStepIndex}-${interaction.modelName}-ani`,
-            interaction.animations,
-          )
-          if (interaction.animationRange && interaction.animationRange.length === 2) {
-            animGroup.normalize(...interaction.animationRange)
-          } else {
-            animGroup.normalize(0)
+      click(
+        mesh as Mesh[],
+        async () => {
+          if (interaction.onClick) {
+            await interaction.onClick()
           }
-
-          // if (interaction.animationSpeedRatio) {
-          //   animGroup.speedRatio = interaction.animationSpeedRatio
-          // }
-
-          animGroup.start()
-          this.activeAnimations.push(animGroup)
-
-          animGroup.onAnimationGroupEndObservable.add(async () => {
-            if (step?.onEnd && typeof step.onEnd === "function") {
-              await step.onEnd()
+          // 执行关联动画
+          if (interaction.animations && interaction.animations.length) {
+            const animGroup = createAnimeGroup(
+              `step-${this.currentStepIndex}-${interaction.modelName}-ani`,
+              interaction.animations,
+            )
+            if (interaction.animationRange && interaction.animationRange.length === 2) {
+              animGroup.normalize(...interaction.animationRange)
+            } else {
+              animGroup.normalize(0)
             }
-            if (this.currentStepIndex === this.steps.length - 1) {
-              isFinished.value = true
-              return
-            }
-            this.currentStepIndex++
-            stepIndex.value++
-            this.goToStep(this.currentStepIndex)
-          })
-        } else {
-          if (this.currentStepIndex === this.steps.length - 1) {
-            isFinished.value = true
+
+            // if (interaction.animationSpeedRatio) {
+            //   animGroup.speedRatio = interaction.animationSpeedRatio
+            // }
+
+            animGroup.start()
+            this.activeAnimations.push(animGroup)
+
+            animGroup.onAnimationGroupEndObservable.add(async () => {
+              if (step?.onEnd && typeof step.onEnd === "function") {
+                await step.onEnd()
+              }
+              await this.handleStepCompletion(step) // 判断是否结束并执行方法
+            })
           } else {
-            this.currentStepIndex++
-            stepIndex.value++
-            this.goToStep(this.currentStepIndex)
+            await this.handleStepCompletion(step) // 判断是否结束并执行方法
           }
-        }
-      })
+        },
+        () => {
+          this.stepScores[this.currentStepIndex].score--
+          this.stepScores[this.currentStepIndex].repeatCount++
+        },
+      )
     })
+  }
+
+  private async handleStepCompletion(step: AnimationStep) {
+    // 可以根据完成情况调整分数
+    // 例如：如果用户操作正确可以给满分，错误可以扣分
+    this.stepScores[this.currentStepIndex].endTime = formatDate(new Date())
+    if (this.currentStepIndex === this.steps.length - 1) {
+      this.getScoreReport()
+      isFinished.value = true
+    } else {
+      this.currentStepIndex++
+      stepIndex.value++
+      this.goToStep(this.currentStepIndex)
+    }
   }
   dispose() {
     // 停止并释放所有激活的动画组
@@ -194,6 +237,7 @@ interface AnimationStep {
     animationSpeedRatio?: number
     nextStep?: number
   }[]
+
   onEnter?: () => Promise<void>
   onEnd?: () => Promise<void>
   onExit?: () => Promise<void>

@@ -49,11 +49,14 @@ export const useExperimentStore = defineStore(
   },
   { persist: true },
 )
-export const experimentInfo = defineStore("experimentInfo", () => {
+export const experimentScore = defineStore("experimentScore", () => {
   const tipMessage = ref("")
-  const score = ref(100)
+  const totalScore = ref(0)
+  const report = ref<any[]>([])
+
   return {
     tipMessage,
-    score,
+    totalScore,
+    report,
   }
 })

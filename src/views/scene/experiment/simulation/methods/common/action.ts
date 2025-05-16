@@ -3,8 +3,8 @@ import * as BABYLON from "@babylonjs/core"
 import { AudioPlayer } from "@/utils/audioPlayer"
 import { getAssetUrl } from "@/utils/assetHelper"
 import type { NumberArray } from "./interface"
-import { experimentInfo } from "@/stores/experimentStore"
-const expInfo = experimentInfo()
+import { experimentScore } from "@/stores/experimentStore"
+const expInfo = experimentScore()
 let highlightLayer = null as null | BABYLON.HighlightLayer
 export function addHighlight(meshes: BABYLON.Mesh[]) {
   if (!scene) return
@@ -24,7 +24,7 @@ const activeClickHandlers = new Map<
   (evt: any, pickResult: BABYLON.PickingInfo) => void
 >()
 
-export function click(meshes: BABYLON.Mesh[], event: () => void) {
+export function click(meshes: BABYLON.Mesh[], event: () => void, missEvent: () => void) {
   if (!scene) return
 
   // 先清理之前的处理器（如果存在）
@@ -37,7 +37,7 @@ export function click(meshes: BABYLON.Mesh[], event: () => void) {
     if (!pickResult.hit || !pickResult.pickedMesh) return
 
     if (meshes.includes(pickResult.pickedMesh as BABYLON.Mesh)) {
-      expInfo.tipMessage = ''
+      expInfo.tipMessage = ""
       event()
       removeHighlight()
 
@@ -47,7 +47,7 @@ export function click(meshes: BABYLON.Mesh[], event: () => void) {
         activeClickHandlers.delete(scene)
       }
     } else {
-      expInfo.score--
+      missEvent()
       expInfo.tipMessage = "请点击" + meshes[0].name
     }
   }

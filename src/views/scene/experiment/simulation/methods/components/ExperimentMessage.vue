@@ -1,6 +1,4 @@
 <template>
-  <div class="score-container">分数:{{ expInfo.score }}</div>
-  <div class="time">用时:{{ time }}秒</div>
   <div class="now-step">当前步骤:{{ active?.name }}</div>
   <div class="left-button-wrapper">
     <div class="animation-list hide-scrollbar">
@@ -21,9 +19,7 @@
   </div>
   <el-button class="end-button" v-if="isFinished" @click="endExperiment">结束并提交</el-button>
   <el-dialog v-model="dialogVisible" title="" width="500" align-center>
-    <span style="font-size: 20px">
-      你的成绩为{{ expInfo.score }},用时{{ formatSeconds(time) }}</span
-    >
+    <span style="font-size: 20px"> 你的成绩为{{ expInfo.totalScore }}</span>
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
@@ -34,9 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import { useExperimentStore, experimentInfo } from "@/stores/experimentStore"
-import { Timer } from "@/utils/timer"
+import { useExperimentStore, experimentScore } from "@/stores/experimentStore"
+
 import { isFinished } from "../common/stepManager"
+import { upload } from "@/api/rainier.ts"
 import http from "@/api/request"
 
 interface Step {
@@ -51,12 +48,9 @@ const props = defineProps<{
 const emit = defineEmits(["stepChange"])
 
 const store = useExperimentStore()
-const expInfo = experimentInfo()
+const expInfo = experimentScore()
 const active = ref<Step>({ index: null, name: "", desc: "" })
 
-const myTimer = new Timer()
-myTimer.start()
-const time = myTimer.getTime()
 function formatSeconds(seconds: number) {
   if (seconds < 0) seconds = 0 // 处理负数
   const mins = Math.floor(seconds / 60) // 计算分钟数（取整）
@@ -65,7 +59,6 @@ function formatSeconds(seconds: number) {
 }
 const dialogVisible = ref(false)
 const endExperiment = () => {
-  myTimer.pause()
   dialogVisible.value = true
 }
 
@@ -105,20 +98,49 @@ const submitScore = async () => {
     store.activeTab = "实验模拟"
   }
 }
-
+onMounted(() => {})
 async function uploadScore() {
-  await http.post("/data_upload", {
-    appid: "",
-    expId: "",
-    reportData: "",
-    expScoreDetails: [{
-      trueOrFalse: true,
-      startTime: myTimer.getStartTime(),
-      expectTime: myTimer.getEndTime(),
-      Score: expInfo.score,
-      maxScore: 100,
-    }],
-  })
+  if (expInfo?.report && expInfo?.report?.length > 0) {
+    expInfo.totalScore = 0
+    const arr = expInfo.report.map((item: any) => {
+      const maxScore = Math.floor(100 / expInfo.report.length)
+      const score = item.score + maxScore > 0 ? item.score + maxScore : 0
+      expInfo.totalScore += score
+      return {
+        moduleFlag: "实验成绩",
+        questionNumber: 1,
+        questionStem: "学生操作成绩",
+        trueOrFalse: "True",
+        expectTime: 20, //步骤合理用时 秒
+        evaluation: "", //实验步骤评价 200
+        scoringModel: "", //考察点
+        remarks: "", //备注 非必填
+        startTime: item.startTime,
+        endTime: item.endTime,
+        score,
+        maxScore,
+        repeatCount: item.repeatCount,
+      }
+    })
+    // console.log("总分", expInfo.totalScore)
+    // console.log("上传数据", arr)
+    upload(arr)
+  }
+
+  // console.log(expInfo.report)
+
+  // await http.post("/data_upload", {
+  //   appid: "",
+  //   expId: "",
+  //   reportData: "",
+  //   expScoreDetails: [{
+  //     trueOrFalse: true,
+  //     startTime: myTimer.getStartTime(),
+  //     expectTime: myTimer.getEndTime(),
+  //     Score: expInfo.score,
+  //     maxScore: 100,
+  //   }],
+  // })
 }
 </script>
 
