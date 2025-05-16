@@ -22,8 +22,7 @@
     <span style="font-size: 20px"> 你的成绩为{{ expInfo.totalScore }}</span>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitScore"> 提交成绩 </el-button>
+        <el-button type="primary" @click="submitScore"> 关闭 </el-button>
       </div>
     </template>
   </el-dialog>
@@ -59,6 +58,36 @@ function formatSeconds(seconds: number) {
 }
 const dialogVisible = ref(false)
 const endExperiment = () => {
+  if (expInfo?.report && expInfo?.report?.length > 0) {
+    expInfo.totalScore = 0
+    const arr = expInfo.report.map((item: any) => {
+      const maxScore = Math.floor(100 / expInfo.report.length)
+      const score =
+        item.score + maxScore > 0 && item.startTime !== "" && item.endTime !== ""
+          ? item.score + maxScore
+          : 0
+      expInfo.totalScore += score
+      return {
+        moduleFlag: "实验成绩",
+        questionNumber: 1,
+        questionStem: "学生操作成绩",
+        trueOrFalse: "True",
+        expectTime: 20, //步骤合理用时 秒
+        evaluation: "", //实验步骤评价 200
+        scoringModel: "", //考察点
+        remarks: "", //备注 非必填
+        startTime: item.startTime,
+        endTime: item.endTime,
+        score,
+        maxScore,
+        repeatCount: item.repeatCount,
+      }
+    })
+    // console.log("总分", expInfo.totalScore)
+    // console.log("上传数据", arr)
+    upload(arr)
+  }
+
   dialogVisible.value = true
 }
 
@@ -92,56 +121,12 @@ watch(
 
 const submitScore = async () => {
   dialogVisible.value = false
-  await uploadScore()
   if (store.isSimulation !== null) {
     store.isSimulation = null
     store.activeTab = "实验模拟"
   }
 }
 onMounted(() => {})
-async function uploadScore() {
-  if (expInfo?.report && expInfo?.report?.length > 0) {
-    expInfo.totalScore = 0
-    const arr = expInfo.report.map((item: any) => {
-      const maxScore = Math.floor(100 / expInfo.report.length)
-      const score = item.score + maxScore > 0 ? item.score + maxScore : 0
-      expInfo.totalScore += score
-      return {
-        moduleFlag: "实验成绩",
-        questionNumber: 1,
-        questionStem: "学生操作成绩",
-        trueOrFalse: "True",
-        expectTime: 20, //步骤合理用时 秒
-        evaluation: "", //实验步骤评价 200
-        scoringModel: "", //考察点
-        remarks: "", //备注 非必填
-        startTime: item.startTime,
-        endTime: item.endTime,
-        score,
-        maxScore,
-        repeatCount: item.repeatCount,
-      }
-    })
-    // console.log("总分", expInfo.totalScore)
-    // console.log("上传数据", arr)
-    upload(arr)
-  }
-
-  // console.log(expInfo.report)
-
-  // await http.post("/data_upload", {
-  //   appid: "",
-  //   expId: "",
-  //   reportData: "",
-  //   expScoreDetails: [{
-  //     trueOrFalse: true,
-  //     startTime: myTimer.getStartTime(),
-  //     expectTime: myTimer.getEndTime(),
-  //     Score: expInfo.score,
-  //     maxScore: 100,
-  //   }],
-  // })
-}
 </script>
 
 <style scoped lang="scss">

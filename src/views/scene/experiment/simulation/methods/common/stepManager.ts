@@ -18,8 +18,8 @@ export class AnimationStepManager {
 
   // 新增计分系统相关属性
   private stepScores: {
-    startTime: string | null
-    endTime: string | null
+    startTime: string
+    endTime: string
     score: number
     maxScore: number
     repeatCount: number
@@ -39,8 +39,8 @@ export class AnimationStepManager {
     this.steps.push(step)
     const stepIndex = this.steps.length - 1
     this.stepScores.push({
-      startTime: null,
-      endTime: null,
+      startTime: '',
+      endTime: '',
       score: 0,
       maxScore: 0, // 分配分数
       repeatCount: 1,

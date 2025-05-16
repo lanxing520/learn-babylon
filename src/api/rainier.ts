@@ -1,6 +1,6 @@
 let baseInfo = {} as any
 
-export async function upload(expScoreDetails:Record<string, any>[]) {
+export async function upload(expScoreDetails: Record<string, any>[]) {
   if (Object.keys(baseInfo).length === 0) {
     await getBaseInfo({
       success: function (res) {
