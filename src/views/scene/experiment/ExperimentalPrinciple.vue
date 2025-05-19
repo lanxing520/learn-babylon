@@ -30,19 +30,19 @@
 </template>
 
 <script setup lang="ts">
-import { useExperimentStore } from '@/stores/experimentStore'
-import { getAssetUrl } from '@/utils/assetHelper'
+import { useExperimentStore } from "@/stores/experimentStore"
+import { getAssetUrl } from "@/utils/assetHelper"
 
 const getUrl = (name: string) => {
-  const path = 'img/experiment/one/' + name
+  const path = "img/experiment/one/" + name
   const url = getAssetUrl(path)
   return url
 }
 const assets = [
-  { img: getUrl('图片4.png'), audio: getUrl('2.mp3') },
-  { img: getUrl('图片5.png'), audio: getUrl('3.mp3') },
-  { img: getUrl('图片6.jpg'), audio: getUrl('4.mp3') },
-  { img: getUrl('图片7.jpg'), audio: getUrl('5.mp3') },
+  { img: getUrl("图片4.png"), audio: getUrl("2.mp3") },
+  { img: getUrl("图片5.png"), audio: getUrl("3.mp3") },
+  { img: getUrl("图片6.jpg"), audio: getUrl("4.mp3") },
+  { img: getUrl("图片7.jpg"), audio: getUrl("5.mp3") },
 ]
 
 interface Data {
@@ -53,11 +53,11 @@ const store = useExperimentStore()
 const data = ref<Data[]>([])
 const activeIndex = ref<number>(0)
 
-if (store.experimentInfo?.['实验原理']?.length) {
-  store.experimentInfo['实验原理'].forEach((e: any) => {
+if (store.experimentInfo?.["实验原理"]?.length) {
+  store.experimentInfo["实验原理"].forEach((e: any) => {
     data.value.push({
-      name: e['实验原理Name'],
-      desc: e['ExpArticlesText'],
+      name: e["实验原理Name"],
+      desc: e["ExpArticlesText"],
     })
   })
 }
@@ -67,7 +67,7 @@ const stepClick = (i: number) => {
 }
 
 const goNext = () => {
-  store.activeTab = '实验模拟'
+  store.activeTab = "实验模拟"
 }
 </script>
 
@@ -90,7 +90,7 @@ const goNext = () => {
         height: 4rem;
         line-height: 4rem;
         text-align: center;
-        background: no-repeat center url('@/assets/img/experiment/左侧导航1.png');
+        background: no-repeat center url("@/assets/img/experiment/左侧导航1.png");
         background-size: 100% 100%;
         color: #75d2fa;
         cursor: pointer;
@@ -101,7 +101,7 @@ const goNext = () => {
         }
 
         &.active {
-          background-image: url('@/assets/img/experiment/左侧导航2.png');
+          background-image: url("@/assets/img/experiment/左侧导航2.png");
         }
       }
     }
@@ -114,8 +114,7 @@ const goNext = () => {
     .block {
       width: 100%;
       height: 45%;
-      border: 1px solid;
-      background: no-repeat center url('@/assets/img/experiment/原理框1.png');
+      background: no-repeat center url("@/assets/img/experiment/原理框1.png");
       background-size: 100% 100%;
     }
 

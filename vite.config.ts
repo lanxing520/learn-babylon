@@ -10,7 +10,7 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./", // 改为相对路径
+  base: "/", // 改为相对路径
   plugins: [
     vue(),
     vueDevTools(),
