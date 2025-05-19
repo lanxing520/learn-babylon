@@ -6,7 +6,7 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "auto-imports.d.ts" // 添加这一行
+    "src/auto-imports.d.ts" // 添加这一行
   ],
   "compilerOptions": {
     "noEmit": true,
