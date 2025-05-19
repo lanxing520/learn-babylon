@@ -67,7 +67,7 @@ coverage/
 
 # 类型Script 编译输出
 *.js.map
-*.d.ts
+
 
 # Vite 特定文件
 *.env
