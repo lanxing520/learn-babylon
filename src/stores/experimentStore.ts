@@ -47,7 +47,7 @@ export const useExperimentStore = defineStore(
       getExperiment,
     }
   },
-  { persist: true },
+
 )
 export const experimentScore = defineStore("experimentScore", () => {
   const tipMessage = ref("")

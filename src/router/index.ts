@@ -23,14 +23,12 @@ const router = createRouter({
       name: "experiment-page",
       component: ExperimentPage,
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue'),
-    // },
+
+    // 添加通配符路由用于跳转到首页
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/",
+    },
   ],
 })
 
