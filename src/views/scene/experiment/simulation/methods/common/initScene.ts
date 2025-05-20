@@ -1,5 +1,5 @@
 import * as BABYLON from "@babylonjs/core/Legacy/legacy"
-import { optimizeMesh } from "./optimzae"
+
 import { disposeAllModle } from "./loadModle"
 import { ref } from "vue"
 import applyConfig from "./config"
@@ -106,7 +106,7 @@ export async function loadLab() {
   if (!scene) return
   try {
     const labRes = await BABYLON.ImportMeshAsync("/model/scene/lab.glb", scene)
-    optimizeMesh(labRes.meshes)
+
     labRes.meshes.forEach((mesh) => {
       mesh.isPickable = false
     })
@@ -156,6 +156,7 @@ export function dispose() {
   camera = null
   light = null
   window.removeEventListener("resize", resize)
+  location.reload()
 }
 
 const resize = () => {

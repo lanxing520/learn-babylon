@@ -797,5 +797,11 @@ export function disposeStep1() {
       tube.dispose()
       tube = null
     }
+    if (person) {
+      person.meshes.forEach((e) => {
+        e.dispose()
+      })
+      person = null
+    }
   }
 }

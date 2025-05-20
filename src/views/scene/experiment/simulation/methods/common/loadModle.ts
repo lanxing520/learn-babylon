@@ -96,10 +96,22 @@ export function resetItems(itemData: DynamicObject) {
 }
 
 export function disposeAllModle() {
-  Object.keys(item).forEach(async (e) => {
-    item[e].meshes.forEach((e: any) => {
-      e.dispose()
-      disposeMouseOverInfo(e)
+  Object.keys(item).forEach((key) => {
+    const result = item[key]
+    // 清理 mesh
+    result.meshes.forEach((mesh) => {
+      mesh.dispose()
+      disposeMouseOverInfo(mesh as BABYLON.Mesh)
     })
+    result.geometries.forEach((e) => {
+      e.dispose()
+    })
+    // 清理动画组
+    if (result.animationGroups) {
+      result.animationGroups.forEach((group) => group.dispose())
+    }
   })
+
+  // 清空 item 对象
+  item = {}
 }
