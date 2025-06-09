@@ -11,15 +11,29 @@ import {
   moveLid,
   createPositionKey,
 } from "../common/animation"
-import { ref } from "vue"
+
 import { playAudio, posTranslate, createLiquid } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
 import { config } from "../common/config"
+import { questionStore } from "@/stores/expQuestionStore"
+const stroe = questionStore()
+
 const frameRate = config.frameRate
 
 const PI = Math.PI
 
 let stepManager: AnimationStepManager | null
+async function setQuestion(index: number) {
+  return await stroe.setQuestion(
+    "exp5",
+    "step" + index,
+    true,
+    () => {},
+    () => {
+      stepManager?.reduceStepScore(index)
+    },
+  )
+}
 export async function initStep5() {
   stepManager = new AnimationStepManager()
   // 注册模型
@@ -41,6 +55,7 @@ export async function initStep5() {
       {
         modelName: "jyq",
         onClick: async () => {
+          await setQuestion(1)
           playAudio(40)
         },
         animations: [
@@ -72,6 +87,7 @@ export async function initStep5() {
       {
         modelName: "jyq",
         onClick: async () => {
+          await setQuestion(2)
           playAudio(41)
         },
         animations: [
@@ -434,6 +450,7 @@ export async function initStep5() {
       {
         modelName: "lsg",
         onClick: async () => {
+          await setQuestion(9)
           playAudio(48)
         },
         animations: [

@@ -1,18 +1,29 @@
 import { item, resetItems } from "../common/loadModle"
 import { itemData3 } from "./itemData"
-
 import { Vector3, Mesh } from "@babylonjs/core"
-
 import { changeSizeAni, moveAni, rotateAni } from "../common/animation"
-import { ref } from "vue"
 import { playAudio, posTranslate, createLiquid } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
 import { config } from "../common/config"
+import { questionStore } from "@/stores/expQuestionStore"
+const stroe = questionStore()
+
 const frameRate = config.frameRate
 
 const PI = Math.PI
 
 let stepManager: AnimationStepManager | null
+async function setQuestion(index: number) {
+  return await stroe.setQuestion(
+    "exp3",
+    "step" + index,
+    true,
+    () => {},
+    () => {
+      stepManager?.reduceStepScore(index)
+    },
+  )
+}
 export async function initStep3() {
   stepManager = new AnimationStepManager()
   // 注册模型
@@ -21,7 +32,7 @@ export async function initStep3() {
   })
 
   // const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05) as Mesh
-  // 定义步骤1,稀释
+  // 定义步骤1,加样
   stepManager.addStep({
     models: {
       jtdg: {
@@ -32,6 +43,7 @@ export async function initStep3() {
       {
         modelName: "jtdg",
         onClick: async () => {
+          await setQuestion(1)
           playAudio(19)
         },
         animations: [
@@ -178,7 +190,14 @@ export async function initStep3() {
         position: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
       },
     },
-    interactions: [{ modelName: "jtjsz" }],
+    interactions: [
+      {
+        modelName: "jtjsz",
+        onClick: async () => {
+          await setQuestion(3)
+        },
+      },
+    ],
     onEnter: async () => {
       playAudio(21)
     },
@@ -190,7 +209,14 @@ export async function initStep3() {
         position: posTranslate(itemData3.jtjsz.position, [-0.5, 0, 0]),
       },
     },
-    interactions: [{ modelName: "jtjsz" }],
+    interactions: [
+      {
+        modelName: "jtjsz",
+        onClick: async () => {
+          await setQuestion(4)
+        },
+      },
+    ],
     onEnter: async () => {},
   })
 }

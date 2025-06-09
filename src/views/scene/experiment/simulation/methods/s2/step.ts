@@ -8,7 +8,6 @@ import {
   AnimationEvent,
   PointerEventTypes,
 } from "@babylonjs/core"
-import type { ISceneLoaderAsyncResult } from "@babylonjs/core"
 import {
   createAnimeGroup,
   changeSizeAni,
@@ -29,12 +28,26 @@ import {
 } from "../common/action"
 import { AnimationStepManager } from "../common/stepManager"
 import { config } from "../common/config"
-import type { Mesh } from "three"
+import { questionStore } from "@/stores/expQuestionStore"
+const stroe = questionStore()
 const frameRate = config.frameRate
 
 const PI = Math.PI
 
 let stepManager: AnimationStepManager | null = null
+
+async function setQuestion(index: number) {
+  return await stroe.setQuestion(
+    "exp2",
+    "step" + index,
+    true,
+    () => {},
+    () => {
+      stepManager?.reduceStepScore(index)
+    },
+  )
+}
+
 export async function initStep2() {
   const lxg2 = item.lxg.meshes[0].clone("离心管2", null)
   const lxg3 = item.lxg.meshes[0].clone("离心管3", null)
@@ -56,7 +69,6 @@ export async function initStep2() {
   if (!water19) return
 
   // 定义步骤1,稀释
-
   stepManager.addStep({
     models: {
       lt: {
@@ -71,6 +83,7 @@ export async function initStep2() {
         modelName: "lt",
         onClick: async () => {
           playAudio(11)
+          await setQuestion(1)
         },
         animations: [
           {
@@ -676,6 +689,7 @@ export async function initStep2() {
       {
         modelName: "fbm",
         onClick: async () => {
+          await setQuestion(6)
           playAudio(13)
         },
         animations: [
@@ -926,7 +940,9 @@ export async function initStep2() {
     interactions: [
       {
         modelName: "jyq",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(8)
+        },
         animations: [
           {
             mesh: item.jyq.meshes[0],
@@ -1259,7 +1275,9 @@ export async function initStep2() {
     interactions: [
       {
         modelName: "xsjA",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(10)
+        },
         animations: [
           {
             mesh: item.jyq.meshes[0],
@@ -1716,7 +1734,9 @@ export async function initStep2() {
     interactions: [
       {
         modelName: "mbbbb",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(15)
+        },
         animations: [],
       },
     ],

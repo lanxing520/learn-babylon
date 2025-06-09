@@ -2,7 +2,6 @@ import { item, resetItems } from "../common/loadModle"
 import { itemData4 } from "./itemData"
 
 import { Vector3, Mesh, AnimationEvent, AbstractMesh } from "@babylonjs/core"
-
 import {
   moveAnimation,
   rotateAnimation,
@@ -10,7 +9,6 @@ import {
   rotateAni,
   createKeyframes,
 } from "../common/animation"
-import { ref } from "vue"
 import {
   playAudio,
   posTranslate,
@@ -22,7 +20,9 @@ import { AnimationStepManager, stepIndex } from "../common/stepManager"
 import { config } from "../common/config"
 import { watchPoint, scPoint, model } from "./itemData"
 import type { NumberArray } from "../common/interface"
-import { create } from "lodash"
+import { questionStore } from "@/stores/expQuestionStore"
+const stroe = questionStore()
+
 type PathPoint = NumberArray | { pause: number } | number
 
 const frameRate = config.frameRate
@@ -30,6 +30,17 @@ const frameRate = config.frameRate
 const PI = Math.PI
 
 let stepManager: AnimationStepManager | null
+async function setQuestion(index: number) {
+  return await stroe.setQuestion(
+    "exp4",
+    "step" + index,
+    true,
+    () => {},
+    () => {
+      stepManager?.reduceStepScore(index)
+    },
+  )
+}
 export async function initStep4() {
   stepManager = new AnimationStepManager()
   // 注册模型
@@ -71,6 +82,7 @@ export async function initStep4() {
       {
         modelName: "zls",
         onClick: async () => {
+          await setQuestion(1)
           playAudio(22)
         },
         animations: [
@@ -95,7 +107,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "jyq",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(2)
+        },
         animations: [
           {
             mesh: item.jyq.meshes[0],
@@ -142,7 +156,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "jyq",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(3)
+        },
         animations: [
           moveAnimation(item.lxg2.meshes[0], [itemData4.lxg2.position, watchPoint]),
           {
@@ -435,7 +451,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "jyq",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(8)
+        },
         animations: [
           {
             mesh: item.jyq.meshes[0],
@@ -614,7 +632,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "zmy",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(12)
+        },
         animations: [
           moveAnimation(
             item.hmd.meshes[0],
@@ -696,7 +716,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "zmhcy",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(13)
+        },
         animations: [
           moveAnimation(
             item.zmhcy.meshes[0],
@@ -741,7 +763,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "nz",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(15)
+        },
         animations: [
           moveAnimation(
             item.nz.meshes[0],
@@ -797,7 +821,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "nz",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(22)
+        },
         animations: [
           moveAnimation(
             item.nz.meshes[0],
@@ -909,7 +935,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "hxfgcxy",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(25)
+        },
         animations: [],
       },
     ],
@@ -923,7 +951,9 @@ export async function initStep4() {
     interactions: [
       {
         modelName: "hxfgcxy",
-        onClick: async () => {},
+        onClick: async () => {
+          await setQuestion(26)
+        },
         animations: [],
       },
     ],
@@ -961,7 +991,11 @@ function commonStep(nameKey: string, audioIndex: number) {
     interactions: [
       {
         modelName: "fbm3",
-        onClick: async () => {},
+        onClick: async () => {
+          if (audioIndex === 36) {
+            await setQuestion(20)
+          }
+        },
         animations: [
           moveAnimation(
             item.fbm3.meshes[0],

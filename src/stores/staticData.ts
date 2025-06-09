@@ -420,7 +420,7 @@ export const expQuestionData = {
         question: "采血时消毒皮肤的正确方式是？",
         answer: "A",
         type: "radio",
-        tips:'以穿刺点为中心，由内向外螺旋式消毒（直径≥5cm），避免重复污染区域。',
+        tips: "以穿刺点为中心，由内向外螺旋式消毒（直径≥5cm），避免重复污染区域。",
         options: [
           {
             label: "A. 由内向外螺旋式擦拭",
@@ -468,101 +468,606 @@ export const expQuestionData = {
       },
     ],
   },
-  exp3: {
-    step2: [
+  exp2: {
+    step1: [
       {
-        question: "请选择血管",
-        answer: "静脉",
+        question: "ELISA检测HIV抗体常采用的方法是？",
+        answer: "B",
         type: "radio",
         options: [
           {
-            label: "动脉",
-            value: "动脉",
+            label: "A. 直接法",
+            value: "A",
           },
           {
-            label: "静脉",
-            value: "静脉",
+            label: "B. 双抗原夹心法",
+            value: "B",
+          },
+          {
+            label: "C. 竞争法",
+            value: "C",
+          },
+          {
+            label: "D. 捕获法",
+            value: "D",
+          },
+        ],
+        tips: "双抗原夹心法:用已知抗原捕获待测抗体，再用酶标抗原检测，灵敏度高，是HIV抗体筛查的金标准。",
+      },
+    ],
+    step6: [
+      {
+        question: "若ELISA阴性对照孔出现显色，可能的原因是？",
+        answer: "D",
+        type: "radio",
+        tips: "洗板不彻底 会导致未结合的酶标抗体残留，催化底物显色，造成假阳性或背景升高。",
+        options: [
+          {
+            label: "A. 酶标抗体失效",
+            value: "A",
+          },
+          {
+            label: "B. 样本浓度过高",
+            value: "B",
+          },
+          {
+            label: "C. 底物被污染",
+            value: "C",
+          },
+          {
+            label: "D. 洗板不充分",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step8: [
+      {
+        question: "ELISA技术中，最常用的标记酶是？",
+        answer: "A",
+        type: "radio",
+        tips: "辣根过氧化物酶（HRP） 因其稳定性高、底物显色灵敏且成本低，成为ELISA最常用的标记酶。",
+        options: [
+          {
+            label: "A. 辣根过氧化物酶（HRP）",
+            value: "A",
+          },
+          {
+            label: "B. 碱性磷酸酶（AP）",
+            value: "B",
+          },
+          {
+            label: "C. β-半乳糖苷酶",
+            value: "C",
+          },
+          {
+            label: "D. 葡萄糖氧化酶",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step10: [
+      {
+        question: "ELISA实验显色的直接作用是？",
+        answer: "C",
+        type: "radio",
+        tips: "底物被酶催化后 产生颜色变化，使肉眼或仪器可定量检测抗原-抗体结合强度。",
+        options: [
+          {
+            label: "A. 激活标记酶",
+            value: "A",
+          },
+          {
+            label: "B. 增强信号强度",
+            value: "B",
+          },
+          {
+            label: "C. 使抗原-抗体复合物可视化",
+            value: "C",
+          },
+          {
+            label: "D. 终止酶反应",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step15: [
+      {
+        question: "下列哪项是ELISA结果的判读依据？",
+        answer: "C",
+        type: "radio",
+        tips: "使用 酶标仪测定OD值，通过与标准曲线比较计算待测物浓度，实现定量/定性分析。",
+        options: [
+          {
+            label: "A. 反应孔的温度变化",
+            value: "A",
+          },
+          {
+            label: "B. 显色液的pH值",
+            value: "B",
+          },
+          {
+            label: "C. 反应终止后的吸光度（OD值）",
+            value: "C",
+          },
+          {
+            label: "D. 抗原-抗体复合物大小",
+            value: "D",
+          },
+        ],
+      },
+    ],
+  },
+  exp3: {
+    step1: [
+      {
+        question: "胶体金法检测 HIV 抗体的核心原理是？",
+        answer: "D",
+        type: "radio",
+        tips: "胶体金法属于 免疫层析技术，利用 胶体金标记的 HIV 抗原 与待测血清中的 HIV 抗体结合，形成复合物在试纸条上迁移并显色。",
+        options: [
+          {
+            label: "A. 抗原-抗体结合后的凝集反应",
+            value: "A",
+          },
+          {
+            label: "B. 荧光标记物的信号放大",
+            value: "B",
+          },
+          {
+            label: "C. 酶催化底物显色",
+            value: "C",
+          },
+          {
+            label: "D. 胶体金标记抗原的免疫层析",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step3: [
+      {
+        question: "检测结果中“T线”（测试线）显色的意义是？",
+        answer: "C",
+        type: "radio",
+        tips: "T线显色 表示 样本中的 HIV 抗体 与胶体金标记抗原结合，被固定在 T 线的捕获抗原二次结合，形成肉眼可见的红色/紫色条带。",
+        options: [
+          {
+            label: "A. 试纸条有效",
+            value: "A",
+          },
+          {
+            label: "B. 样本中无 HIV 抗体",
+            value: "B",
+          },
+          {
+            label: "C. 样本中存在 HIV 抗体",
+            value: "C",
+          },
+          {
+            label: "D. 操作过程有误",
+            value: "D",
           },
         ],
       },
     ],
     step4: [
       {
-        question: "请选择穿刺部位",
-        answer: "远心端",
+        question: "若仅“C线”（质控线）显色，结果应判读为？",
+        answer: "B",
         type: "radio",
+        tips: "C线显色 证明试纸条有效且操作正确，T线不显色 表明 未检出 HIV 抗体，结果为阴性。",
         options: [
           {
-            label: "中端",
-            value: "中端",
-          },
-          {
-            label: "近心端",
-            value: "近心端",
-          },
-          {
-            label: "远心端",
-            value: "远心端",
-          },
-        ],
-      },
-    ],
-    step7: [
-      {
-        question: "在家兔的麻醉过程中,可根据哪几项来判断麻醉的深浅(多选)",
-        answer: ["A", "C", "E"],
-        type: "checkbox",
-        options: [
-          {
-            label: "A.呼吸",
+            label: "A. 阳性",
             value: "A",
           },
           {
-            label: "B.血压",
+            label: "B. 阴性",
             value: "B",
           },
           {
-            label: "C.夹捏皮肤反应",
+            label: "C. 无效",
             value: "C",
           },
           {
-            label: "D.心率",
+            label: "D. 需重复检测",
             value: "D",
           },
+        ],
+      },
+      {
+        question: "与 ELISA 相比，胶体金法筛查 HIV 的主要优势是？",
+        answer: "C",
+        type: "radio",
+        tips: "胶体金法 15~30分钟出结果，操作简单，无需仪器，适用于现场快速筛查。",
+        options: [
           {
-            label: "E.角膜反射",
-            value: "E",
+            label: "A. 灵敏度更高",
+            value: "A",
+          },
+          {
+            label: "B. 可同时检测多种病原体",
+            value: "B",
+          },
+          {
+            label: "C. 操作快速且无需设备",
+            value: "C",
+          },
+          {
+            label: "D. 适合大批量样本筛查",
+            value: "D",
           },
         ],
       },
     ],
   },
-  exp8: {
-    step2: [
+  exp4: {
+    step1: [
       {
-        question: "肝素抗凝作用的主要机制是()",
-        answer: "A",
+        question: "免疫印迹试验中，SDS-PAGE 电泳的主要目的是什么？",
+        answer: "B",
         type: "radio",
+        tips: "SDS-PAGE（十二烷基硫酸钠聚丙烯酰胺凝胶电泳）是 Western Blot 的第一步，利用 SDS 使蛋白质带负电荷，在电场中按分子量大小分离蛋白质。",
         options: [
           {
-            label: "A、促进抗凝血酶正的活性",
+            label: "A. 将蛋白质转移到固相膜上",
             value: "A",
           },
           {
-            label: "B、与钙离子形成络合物",
+            label: "B. 根据蛋白质的分子量大小进行分离",
             value: "B",
           },
           {
-            label: "C、收缩血管",
+            label: "C. 封闭膜上的非特异性结合位点",
             value: "C",
           },
           {
-            label: "D、对抗维生素K的作用",
+            label: "D. 检测目标蛋白的特异性结合",
             value: "D",
           },
+        ],
+      },
+    ],
+    step2: [
+      {
+        question: "灌制分离胶时，加速凝胶聚合的关键试剂是？",
+        answer: "A",
+        type: "radio",
+        tips: "TEMED引发丙烯酰胺聚合反应。SDS 用于蛋白变性；甘油增加密度防止对流；溴酚蓝是电泳指示剂。",
+        options: [
           {
-            label: "E、激活纤溶系统",
-            value: "E",
+            label: "A. TEMED",
+            value: "A",
+          },
+          {
+            label: "B. 甘油",
+            value: "B",
+          },
+          {
+            label: "C. SDS",
+            value: "C",
+          },
+          {
+            label: "D. 溴酚蓝",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step3: [
+      {
+        question: "浓缩胶（积层胶）的主要功能是？",
+        answer: "D",
+        type: "radio",
+        tips: "浓缩胶 pH 较低（6.8），孔径大，利用 不连续缓冲系统 将样品压缩成狭窄条带，提高分离胶分辨率。",
+        options: [
+          {
+            label: "A. 按分子量精细分离蛋白",
+            value: "A",
+          },
+          {
+            label: "B. 提高转膜效率",
+            value: "B",
+          },
+          {
+            label: "C. 增强抗体结合",
+            value: "C",
+          },
+          {
+            label: "D. 浓缩样品蛋白成一条细线再进入分离胶",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step8: [
+      {
+        question: "蛋白上样量过多可能导致的结果是？",
+        answer: "C",
+        type: "radio",
+        tips: "过量蛋白会超出凝胶分离能力，导致条带 变宽、拖尾，甚至泳道间弥散，影响定量准确性。",
+        options: [
+          {
+            label: "A. 无信号",
+            value: "A",
+          },
+          {
+            label: "B. 背景降低",
+            value: "B",
+          },
+          {
+            label: "C. 条带拖尾或弥散",
+            value: "C",
+          },
+          {
+            label: "D. 条带变窄",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step12: [
+      {
+        question: "在转膜步骤中，常用的固相支持膜是？",
+        answer: "A",
+        type: "radio",
+        tips: "硝酸纤维素膜（NC膜）或聚偏二氟乙烯膜（PVDF膜）因高蛋白结合能力和低背景噪音，广泛用于转膜。",
+        options: [
+          {
+            label: "A. 硝酸纤维素膜（NC膜）",
+            value: "A",
+          },
+          {
+            label: "B. 琼脂糖凝胶",
+            value: "B",
+          },
+          {
+            label: "C. 聚苯乙烯板",
+            value: "C",
+          },
+          {
+            label: "D. 硅胶板",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step13: [
+      {
+        question: "检测磷酸化蛋白时，Western Blot 缓冲液中常需添加什么？",
+        answer: "A",
+        type: "radio",
+        tips: "磷酸化蛋白易被磷酸酶降解，因此在裂解液和缓冲液中需添加磷酸酶抑制剂（如NaF、β-甘油磷酸钠）以维持磷酸化状态。",
+        options: [
+          {
+            label: "A. 磷酸酶抑制剂",
+            value: "A",
+          },
+          {
+            label: "B. DNA酶",
+            value: "B",
+          },
+          {
+            label: "C. 高浓度盐溶液",
+            value: "C",
+          },
+          {
+            label: "D. 还原剂（如DTT）",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step15: [
+      {
+        question: "封闭步骤的目的是？",
+        answer: "D",
+        type: "radio",
+        tips: "封闭是用非特异性蛋白（如脱脂奶粉或BSA）覆盖膜上未结合蛋白的位点，减少后续抗体非特异性结合，降低背景噪音。",
+        options: [
+          {
+            label: "A. 增强抗体与抗原的结合",
+            value: "A",
+          },
+          {
+            label: "B. 提高蛋白质的电泳分离效果",
+            value: "B",
+          },
+          {
+            label: "C. 加速显色反应",
+            value: "C",
+          },
+          {
+            label: "D. 防止膜的非特异性蛋白吸附",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step20: [
+      {
+        question: "二抗孵育后过度洗涤可能导致？",
+        answer: "C",
+        type: "radio",
+        tips: "过度洗涤会洗脱 特异性结合的二抗，导致目标信号减弱（尤其低丰度蛋白）。",
+        options: [
+          {
+            label: "A. 非特异性条带增多",
+            value: "A",
+          },
+          {
+            label: "B. 膜变干裂",
+            value: "B",
+          },
+          {
+            label: "C. 目标条带信号丢失",
+            value: "C",
+          },
+          {
+            label: "D. 背景信号增强",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step22: [
+      {
+        question: "显影后膜上出现整片黑色背景，最可能的原因是？",
+        answer: "D",
+        type: "radio",
+        tips: "高背景 通常因 封闭不足（未覆盖非特异位点）或 二抗浓度过高 引起非特异性结合。",
+        options: [
+          {
+            label: "A. 一抗浓度过低",
+            value: "A",
+          },
+          {
+            label: "B. 未加发光底物",
+            value: "B",
+          },
+          {
+            label: "C. 转膜时间不足",
+            value: "C",
+          },
+          {
+            label: "D. 封闭不充分或二抗浓度过高",
+            value: "D",
+          },
+        ],
+      },
+    ],
+
+    step25: [
+      {
+        question: "目标条带出现在50 kDa位置，但已知该蛋白实际分子量为75 kDa。最可能的原因是？",
+        answer: "A",
+        type: "radio",
+        tips: "蛋白降解会导致条带变小或出现多条带；若降解成50 kDa片段，则主条带位置下移。",
+        options: [
+          {
+            label: "A. 蛋白发生降解",
+            value: "A",
+          },
+          {
+            label: "B. 抗体特异性差",
+            value: "B",
+          },
+          {
+            label: "C. 封闭时间不足",
+            value: "C",
+          },
+          {
+            label: "D. 转膜不充分",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step26: [
+      {
+        question: "化学发光法检测Western Blot结果的原理是？",
+        answer: "B",
+        type: "radio",
+        tips: "常用 HRP标记二抗，催化底物产生化学发光，通过X光片或成像系统捕获信号。",
+        options: [
+          {
+            label: "A. 放射性同位素标记抗体",
+            value: "A",
+          },
+          {
+            label: "B. 酶催化底物产生发光信号",
+            value: "B",
+          },
+          {
+            label: "C. 荧光标记抗体直接显像",
+            value: "C",
+          },
+          {
+            label: "D. 染色剂沉淀显色",
+            value: "D",
+          },
+        ],
+      },
+    ],
+  },
+  exp5: {
+    step1: [
+      {
+        question: "检测人外周血CD4⁺/CD8⁺ T细胞的首选样本类型是？",
+        answer: "D",
+        type: "radio",
+        tips: "抗凝全血（肝素/EDTA）可保持淋巴细胞活性，直接用于表面标记染色，避免分离过程造成细胞损失。血清无细胞；石蜡组织需消化处理，破坏表面抗原；尿液极少含淋巴细胞。",
+        options: [
+          {
+            label: "A. 血清",
+            value: "A",
+          },
+          {
+            label: "B. 尿液",
+            value: "B",
+          },
+          {
+            label: "C. 石蜡包埋组织",
+            value: "C",
+          },
+          {
+            label: "D. 肝素或EDTA抗凝全血",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step2: [
+      {
+        question: "流式细胞术检测CD4⁺/CD8⁺细胞时，最关键的抗体标记策略是？V",
+        answer: "C",
+        type: "radio",
+        tips: "CD3 是T细胞共同标记，用于圈定T细胞群；CD4⁺ 和 CD8⁺ 需在CD3⁺细胞中区分，避免将单核细胞（部分表达CD4）误判为T细胞。",
+        options: [
+          {
+            label: "A. 用同位素标记抗体",
+            value: "A",
+          },
+          {
+            label: "B. 仅标记CD8抗体",
+            value: "B",
+          },
+          {
+            label: "C. 同时使用CD3、CD4、CD8的荧光标记抗体",
+            value: "C",
+          },
+          {
+            label: "D. 仅用单一荧光标记的CD4抗体",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step9: [
+      {
+        question: "在HIV感染者监测中，CD4⁺ T细胞计数的临床意义是？",
+        answer: "B",
+        type: "radio",
+        tips: "CD4⁺T细胞是HIV主要靶细胞，其数量直接反映免疫系统损伤程度，用于：决定是否启动抗病毒治疗（如<350个/μL需治疗）；监测治疗疗效和疾病进展。",
+        options: [
+          {
+            label: "A. 诊断HIV感染",
+            value: "A",
+          },
+          {
+            label: "B. 评估免疫缺陷程度和疾病分期",
+            value: "B",
+          },
+          {
+            label: "C. 预测病毒载量",
+            value: "C",
+          },
+          {
+            label: "D. 判断抗生素耐药性",
+            value: "D",
           },
         ],
       },
