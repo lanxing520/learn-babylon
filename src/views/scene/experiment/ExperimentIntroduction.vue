@@ -9,7 +9,7 @@
 
     <img
       class="go-next"
-      @click="store.activeTab = '实验原理'"
+      @click="store.activeTabIndex = 1"
       src="@/assets/img/experiment/标题原理开.png"
       alt=""
     />

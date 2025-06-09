@@ -9,7 +9,7 @@ export const itemData1 = {
     name: "无菌棉签",
     position: [origin.x, origin.y, origin.z - 0.2],
     rotate: [0, 0, PI / 2],
-    visible:false
+    visible: false,
   },
   disinfectant: {
     name: "消毒液",
@@ -49,6 +49,12 @@ export const itemData1 = {
     scaling: [0.5, 0.5, 0.5],
     rotate: [0, 0, PI / 2],
   },
+  lxg: {
+    name: "离心管",
+    rotate: [0, PI / 2, 0],
+    position: [origin.x - 0.5, origin.y, origin.z - 2.4],
+    scaling: 10,
+  },
   testTubeRack: {
     name: "试管架",
     position: [origin.x, origin.y - 0.02, origin.z - 1.6],
@@ -68,25 +74,25 @@ export const itemData1 = {
 const step1 = {
   bloodTube: posTranslate(itemData1.testTubeRack.position, [-0.1, 0.25, 0.13]),
   tube: [0.6, 0.06, 0] as NumberArray,
-};
+}
 
 const step6 = {
   bloodTube: posTranslate(step1.bloodTube, [0, -0.2, 0]),
-};
+}
 
 export const models = {
   step1,
-  step4:{
-    bloodTube:{
-      position:[3.97, 1.16, -3.18] as NumberArray
-    }
+  step4: {
+    bloodTube: {
+      position: [3.97, 1.16, -3.18] as NumberArray,
+    },
   },
   step6,
   step3: {},
   step9: {
     bloodTube: posTranslate(itemData1.centrifuge.position, [0, 0.1, 0]),
   },
-};
+}
 
 // 采血针管路径点
 export const tubePoints = [

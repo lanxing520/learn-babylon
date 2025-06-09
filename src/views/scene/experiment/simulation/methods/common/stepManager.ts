@@ -1,12 +1,13 @@
 import { AbstractMesh, AnimationGroup, Vector3, Mesh } from "@babylonjs/core"
 import { addHighlight, removeHighlight, click, showMeshes } from "./action"
 import { createAnimeGroup } from "./animation"
-import type { AnimationItem } from "./animation"
+import type { AnimationStep } from "./interface"
 import { experimentScore } from "@/stores/experimentStore.ts"
 import { formatDate } from "@/utils/timer.ts"
 
 const store = experimentScore()
 export const stepIndex = ref(1)
+export const warmTips = ref("")
 export const isFinished = ref(false)
 export class AnimationStepManager {
   private steps: AnimationStep[] = []
@@ -39,8 +40,8 @@ export class AnimationStepManager {
     this.steps.push(step)
     const stepIndex = this.steps.length - 1
     this.stepScores.push({
-      startTime: '',
-      endTime: '',
+      startTime: "",
+      endTime: "",
       score: 0,
       maxScore: 0, // 分配分数
       repeatCount: 1,
@@ -66,7 +67,7 @@ export class AnimationStepManager {
     ) {
       await currentStep.onExit()
     }
-
+    if (warmTips.value) warmTips.value = ""
     // 更新当前步骤索引
     this.currentStepIndex = targetIndex
     const targetStep = this.steps[targetIndex]
@@ -79,6 +80,9 @@ export class AnimationStepManager {
     // 执行步骤进入逻辑
     if (targetStep.onEnter) {
       await targetStep.onEnter()
+      if (targetStep.warmTips) {
+        warmTips.value = targetStep.warmTips
+      }
     }
 
     // 设置模型初始状态
@@ -97,7 +101,9 @@ export class AnimationStepManager {
       })
     })
   }
-
+  public reduceStepScore(index: number) {
+    this.stepScores[index - 1].score--
+  }
   // 在步骤完成时更新分数（示例）
 
   private stopAllAnimations() {
@@ -217,28 +223,4 @@ export class AnimationStepManager {
     // 移除高亮和交互
     removeHighlight() // 假设这个函数可以安全调用多次
   }
-}
-
-interface AnimationStep {
-  models: Record<
-    string,
-    {
-      position?: [number, number, number]
-      rotation?: [number, number, number]
-      scaling?: [number, number, number]
-      visible?: boolean
-    }
-  >
-  interactions?: {
-    modelName?: string
-    onClick?: () => Promise<void>
-    animations?: AnimationItem[]
-    animationRange?: [number, number]
-    animationSpeedRatio?: number
-    nextStep?: number
-  }[]
-
-  onEnter?: () => Promise<void>
-  onEnd?: () => Promise<void>
-  onExit?: () => Promise<void>
 }

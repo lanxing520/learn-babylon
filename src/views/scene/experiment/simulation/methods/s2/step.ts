@@ -51,10 +51,10 @@ export async function initStep2() {
   Object.keys(itemData2).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
-  createLiquid(item.zkcxg.meshes[0], 0.05)
+
   const water19 = createLiquid(item.lt.meshes[0], 0.05, 0.06, 0.05, [1, 1, 1], 0.1)
   if (!water19) return
-  item.zkcxg.meshes[2].isVisible = false
+
   // 定义步骤1,稀释
 
   stepManager.addStep({
@@ -257,19 +257,19 @@ export async function initStep2() {
               },
               {
                 frame: 3 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.15, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.15, 0]),
               },
               {
                 frame: 3.25 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.03, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.03, 0]),
               },
               {
                 frame: 3.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.03, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.03, 0]),
               },
               {
                 frame: 3.75 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.08, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.08, 0]),
               },
               {
                 frame: 4 * frameRate,
@@ -615,19 +615,19 @@ export async function initStep2() {
               },
               {
                 frame: 6.25 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.2, 0]),
               },
               {
                 frame: 6.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.02, 0]),
               },
               {
                 frame: 7 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.02, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.02, 0]),
               },
               {
                 frame: 7.25 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [0, 0.2, 0]),
+                value: posTranslate(itemData2.dcxq.position, [0, 0.2, 0]),
               },
               {
                 frame: 7.5 * frameRate,
@@ -741,11 +741,11 @@ export async function initStep2() {
               },
               {
                 frame: 4.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 6 * frameRate,
@@ -885,11 +885,11 @@ export async function initStep2() {
               { frame: 5 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]), //水槽位置
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]), //水槽位置
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 6.25 * frameRate,
@@ -908,6 +908,7 @@ export async function initStep2() {
         ],
       },
     ],
+    warmTips: "重复洗涤5次",
     onEnter: async () => {},
     onExit: async () => {},
   })
@@ -1070,11 +1071,11 @@ export async function initStep2() {
               },
               {
                 frame: 7 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 7.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 8 * frameRate,
@@ -1217,11 +1218,11 @@ export async function initStep2() {
               { frame: 5 * frameRate, value: posTranslate(itemData2.sjh.position, [-0.5, 0, 0]) },
               {
                 frame: 5.5 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]), //水槽位置
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]), //水槽位置
               },
               {
                 frame: 6 * frameRate,
-                value: posTranslate(itemData2.zkcxg.position, [-0.3, 0, 0.4]),
+                value: posTranslate(itemData2.dcxq.position, [-0.3, 0, 0.4]),
               },
               {
                 frame: 6.25 * frameRate,
@@ -1240,6 +1241,7 @@ export async function initStep2() {
         ],
       },
     ],
+    warmTips: "重复5次",
     onEnter: async () => {},
     onExit: async () => {},
   })

@@ -5,7 +5,7 @@ import { ref } from "vue"
 import applyConfig from "./config"
 import { disposeAllClickHandlers, disposeAudio } from "./action"
 
-export let scene: BABYLON.Scene | null
+export let scene: BABYLON.Scene | undefined
 export let engine: BABYLON.AbstractEngine | null
 export let camera: BABYLON.ArcRotateCamera | null
 export let light: BABYLON.Light | null
@@ -151,7 +151,7 @@ export function dispose() {
   scene.dispose()
   // console.log("销毁完成",engine,scene);
 
-  scene = null
+  scene = undefined
   engine = null
   camera = null
   light = null

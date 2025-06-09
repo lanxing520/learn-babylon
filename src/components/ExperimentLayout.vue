@@ -8,10 +8,10 @@
       <div class="tab-container">
         <div
           class="tab-item normal-title"
-          :class="{ active: item === store.activeTab }"
+          :class="{ active: i === store.activeTabIndex }"
           v-for="(item, i) in tabs"
           :key="i"
-          @click="clickTab(item)"
+          @click="clickTab(i)"
         >
           {{ item }}
         </div>
@@ -38,6 +38,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue"
 import { useRouter } from "vue-router"
 import { useExperimentStore } from "@/stores/experimentStore"
+import { ElMessageBox } from "element-plus"
 const store = useExperimentStore()
 
 const tabs = ["实验介绍", "实验原理", "实验模拟"]
@@ -63,8 +64,20 @@ function updateClock() {
     day: "2-digit",
   })
 }
-const clickTab = (item: string) => {
-  store.activeTab = item
+
+const clickTab = (i: number) => {
+  if (store.activeTabIndex === 2 && i !== 2 && store.isSimulation !== null) {
+    ElMessageBox.confirm("当前实验数据不会保存", "确认要离开当前实验?", {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+    }).then(() => {
+      store.activeTabIndex = i
+      store.isSimulation = null
+    })
+  } else {
+    store.activeTabIndex = i
+  }
 }
 // 初始化并启动定时器
 updateClock()
@@ -75,10 +88,17 @@ onBeforeUnmount(() => {
 })
 
 const router = useRouter()
+
 const back = () => {
   if (store.isSimulation !== null) {
-    store.isSimulation = null
-    store.activeTab = "实验模拟"
+    ElMessageBox.confirm("当前实验数据不会保存", "确认要离开当前实验?", {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+    }).then(() => {
+      store.isSimulation = null
+      store.activeTabIndex = 2
+    })
     return
   }
   router.push("/")

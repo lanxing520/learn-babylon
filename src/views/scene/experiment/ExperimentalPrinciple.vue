@@ -67,7 +67,7 @@ const stepClick = (i: number) => {
 }
 
 const goNext = () => {
-  store.activeTab = "实验模拟"
+  store.activeTabIndex = 2
 }
 </script>
 

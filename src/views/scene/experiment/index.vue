@@ -1,9 +1,9 @@
 <template>
   <ExperimentLayout>
     <div class="experiment-page">
-      <ExperimentIntroduction v-show="store.activeTab === '实验介绍'" />
-      <ExperimentalPrinciple v-show="store.activeTab === '实验原理'" />
-      <Simulation v-if="store.activeTab === '实验模拟'" />
+      <ExperimentIntroduction v-show="store.activeTabIndex === 0" />
+      <ExperimentalPrinciple v-show="store.activeTabIndex === 1" />
+      <Simulation v-if="store.activeTabIndex === 2" />
 
       <div class="fps">{{ fps }}</div>
     </div>

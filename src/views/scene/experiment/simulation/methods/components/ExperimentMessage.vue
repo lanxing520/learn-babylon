@@ -1,12 +1,13 @@
 <template>
   <div class="now-step">当前步骤:{{ active?.name }}</div>
   <div class="left-button-wrapper">
-    <div class="animation-list hide-scrollbar">
+    <div ref="scrollRef" class="animation-list hide-scrollbar">
       <div
-        class="animation-item"
+        class="animation-item text-truncate"
         :class="{ finish: i === active.index }"
         v-for="(item, i) in store.getExperiment"
         :key="i"
+        :title="item.name"
         @click="stepClick(i)"
       >
         {{ item.name }}
@@ -15,8 +16,12 @@
   </div>
   <div class="center-bottom-desc">
     <div class="tips-container" v-show="expInfo.tipMessage">{{ expInfo.tipMessage }}</div>
+    <div v-show="warmTips" class="warm-tips-container">
+      {{ warmTips }}
+    </div>
     <span>{{ active?.desc }} </span>
   </div>
+
   <el-button class="end-button" v-if="isFinished" @click="endExperiment">结束并提交</el-button>
   <el-dialog v-model="dialogVisible" title="" width="500" align-center>
     <span style="font-size: 20px"> 你的成绩为{{ expInfo.totalScore }}</span>
@@ -26,12 +31,13 @@
       </div>
     </template>
   </el-dialog>
+  <ExpQuestion />
 </template>
 
 <script setup lang="ts">
 import { useExperimentStore, experimentScore } from "@/stores/experimentStore"
-
-import { isFinished } from "../common/stepManager"
+import ExpQuestion from "./ExpQuestion.vue"
+import { isFinished, warmTips } from "../common/stepManager"
 import { upload } from "@/api/rainier.ts"
 import http from "@/api/request"
 
@@ -49,7 +55,7 @@ const emit = defineEmits(["stepChange"])
 const store = useExperimentStore()
 const expInfo = experimentScore()
 const active = ref<Step>({ index: null, name: "", desc: "" })
-
+const scrollRef = useTemplateRef("scrollRef")
 function formatSeconds(seconds: number) {
   if (seconds < 0) seconds = 0 // 处理负数
   const mins = Math.floor(seconds / 60) // 计算分钟数（取整）
@@ -109,6 +115,7 @@ watch(
     // 只有当索引确实变化时才更新
     if (mappedIndex !== undefined) {
       active.value.index = +mappedIndex
+      if (typeof +mappedIndex === "number") scrollToActiveItem(+mappedIndex)
       active.value.name = store.getExperiment[+mappedIndex].name
       active.value.desc = store.getExperiment[+mappedIndex].desc
       emit("stepChange")
@@ -123,7 +130,20 @@ const submitScore = async () => {
   dialogVisible.value = false
   if (store.isSimulation !== null) {
     store.isSimulation = null
-    store.activeTab = "实验模拟"
+    store.activeTabIndex = 2
+  }
+}
+function scrollToActiveItem(index: number) {
+  if (!scrollRef.value) return
+  const container = scrollRef.value
+  const item = container.children[index] as HTMLDivElement
+  if (item) {
+    // 让元素滚动到容器可视区域中
+    item.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    })
   }
 }
 onMounted(() => {})
@@ -152,13 +172,14 @@ onMounted(() => {})
   left: 1rem;
   top: 4rem;
   color: #fff;
-  background: no-repeat center url("src/assets/img/experiment/当前步骤.png");
+  background: no-repeat center url("@/assets/img/experiment/当前步骤.png");
   background-size: 100% 100%;
   width: 10rem;
   height: 3rem;
   line-height: 3rem;
   text-align: center;
 }
+
 .left-button-wrapper {
   position: absolute;
   display: flex;
@@ -167,15 +188,15 @@ onMounted(() => {})
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 150px;
-  height: 100%;
+  width: 12rem;
+  height: 55%;
 
   .animation-list {
-    height: 55%;
+    height: 100%;
     overflow: hidden auto;
 
     .animation-item {
-      width: 8rem;
+      width: 12rem;
       height: 3rem;
       line-height: 3rem;
       text-align: center;
@@ -216,6 +237,16 @@ onMounted(() => {})
     padding: 2rem 1.5rem 1rem 1.5rem;
     background: no-repeat center url("@/assets/img/experiment/提示.png");
     background-size: 100% 100%;
+  }
+  .warm-tips-container {
+    position: absolute;
+    bottom: calc(100% + 1rem);
+    right: 0;
+    min-width: 26rem;
+    padding: 2rem 1.5rem 1rem 1.5rem;
+    background-size: 100% 100%;
+    background: no-repeat center url("@/assets/img/experiment/温馨提醒.png");
+    z-index: 99;
   }
 }
 </style>

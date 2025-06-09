@@ -14,7 +14,13 @@ import {
 } from "@babylonjs/core"
 import type { ISceneLoaderAsyncResult } from "@babylonjs/core"
 import { AnimationStepManager } from "../common/stepManager"
-import { changeSizeAni, moveAni, rotateAni, customRotate } from "../common/animation"
+import {
+  changeSizeAni,
+  moveAni,
+  moveAnimation,
+  rotateAni,
+  translateMove,
+} from "../common/animation"
 import { createBezierPath } from "../common/curvePath"
 import { createTube } from "./tube"
 import {
@@ -25,11 +31,13 @@ import {
   playAudio,
   createLiquid,
   showMeshes,
+  posTranslate,
 } from "../common/action"
 
 import { stepIndex } from "../common/stepManager"
 import { config } from "../common/config"
 import type { NumberArray } from "../common/interface"
+import { questionStore } from "@/stores/expQuestionStore"
 
 const frameRate = config.frameRate
 const PI = Math.PI
@@ -65,12 +73,14 @@ let needle1: AbstractMesh | null = null
 let needle2: AbstractMesh | null = null
 const xds = itemData1.disinfectant
 const wwt = itemData1.wasteBucket
+let dcxq: Mesh | undefined //待测血清
 let stepManager: AnimationStepManager | null = null
-
+const stroe = questionStore()
 export async function initStep1() {
   await loadTester()
   stepManager = new AnimationStepManager()
-
+  dcxq = createLiquid(item.bloodTube.meshes[0], 0.05)
+  if (dcxq) dcxq.scaling.y = 0
   // 注册模型
   Object.keys(itemData1).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
@@ -106,6 +116,15 @@ export async function initStep1() {
       {
         modelName: "sterileSwab",
         onClick: async () => {
+          await stroe.setQuestion(
+            "exp1",
+            "step1",
+            true,
+            () => {},
+            () => {
+              stepManager?.reduceStepScore(1)
+            },
+          )
           playAudio(6)
         },
         animations: [
@@ -194,6 +213,15 @@ export async function initStep1() {
       {
         modelName: "bloodNeedle",
         onClick: async () => {
+          await stroe.setQuestion(
+            "exp1",
+            "step2",
+            true,
+            () => {},
+            () => {
+              stepManager?.reduceStepScore(1)
+            },
+          )
           showNeedle()
         },
         animations: [
@@ -540,10 +568,11 @@ export async function initStep1() {
   })
   const bxm = item.refrigerator.meshes[1]
 
-  const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05)
+  const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05, [1, 240 / 255, 200 / 255])
   if (blood) {
     blood.scaling = new Vector3(1, 0, 1)
   }
+
   // 定义步骤9,保存
   stepManager.addStep({
     models: {
@@ -553,10 +582,11 @@ export async function initStep1() {
     },
     onEnter: async () => {
       item.bloodTube.meshes[0].rotation = new Vector3(0, 0, 0)
-
       bxm.rotation = Vector3.Zero()
-
+      item.bloodTube.meshes[2].isVisible = false
       playAudio(10)
+
+      if (dcxq) dcxq.material = createDhMat()
     },
     interactions: [
       {
@@ -564,106 +594,72 @@ export async function initStep1() {
         onClick: async () => {},
         animations: [
           //移动采血管
-          {
-            mesh: item.bloodTube.meshes[0],
-            animation: moveAni("position", [
-              {
-                frame: 0,
-                value: models.step9.bloodTube,
-              },
-              {
-                frame: 1 * frameRate,
-                value: [
-                  models.step9.bloodTube[0],
-                  models.step9.bloodTube[1] + 0.35,
-                  models.step9.bloodTube[2] + 0.6,
-                ],
-              },
-              {
-                frame: 3 * frameRate,
-                value: [
-                  models.step9.bloodTube[0],
-                  models.step9.bloodTube[1] + 0.35,
-                  models.step9.bloodTube[2] + 0.6,
-                ],
-              },
-              {
-                frame: 4 * frameRate,
-                value: models.step6.bloodTube,
-              },
-            ]),
-          },
-          {
-            mesh: item.jtdg.meshes[0],
-            animation: moveAni("position", [
-              {
-                frame: 0,
-                value: itemData1.jtdg.position,
-              },
-              {
-                frame: 1 * frameRate,
-                value: [
-                  models.step9.bloodTube[0],
-                  models.step9.bloodTube[1] + 0.55,
-                  models.step9.bloodTube[2] + 0.6,
-                ],
-              },
-              {
-                frame: 1.5 * frameRate,
-                value: [
-                  models.step9.bloodTube[0],
-                  models.step9.bloodTube[1] + 0.35,
-                  models.step9.bloodTube[2] + 0.6,
-                ],
-              },
-              {
-                frame: 2.5 * frameRate,
-                value: [
-                  models.step9.bloodTube[0],
-                  models.step9.bloodTube[1] + 0.35,
-                  models.step9.bloodTube[2] + 0.6,
-                ],
-              },
-              {
-                frame: 3 * frameRate,
-                value: [
-                  models.step9.bloodTube[0],
-                  models.step9.bloodTube[1] + 0.55,
-                  models.step9.bloodTube[2] + 0.6,
-                ],
-              },
-              {
-                frame: 4 * frameRate,
-                value: [
-                  itemData1.refrigerator.position[0],
-                  itemData1.refrigerator.position[1] + 0.2,
-                  itemData1.refrigerator.position[2],
-                ],
-              },
-            ]),
-          },
+
+          moveAnimation(
+            item.bloodTube.meshes[0],
+            [
+              models.step9.bloodTube,
+              posTranslate(models.step9.bloodTube, [0, 0.35, 0.6]),
+              { pause: 2 },
+              models.step6.bloodTube,
+            ],
+            1,
+          ),
+          moveAnimation(
+            item.jtdg.meshes[0],
+            [
+              itemData1.jtdg.position,
+              posTranslate(models.step9.bloodTube, [0, 0.55, 0.6]),
+              posTranslate(models.step9.bloodTube, [0, 0.35, 0.6]),
+              posTranslate(models.step9.bloodTube, [0, 0.55, 0.6]),
+              posTranslate(itemData1.lxg.position, [0, 0.1, 0]),
+              { pause: 1 },
+              itemData1.jtdg.position,
+            ],
+            1,
+          ),
           {
             mesh: blood as Mesh,
             animation: changeSizeAni("scaling.y", [
               { frame: 1.5 * frameRate, value: 0 },
               { frame: 2.5 * frameRate, value: 1 },
+              { frame: 3 * frameRate, value: 1 },
+              { frame: 3.5 * frameRate, value: 0 },
             ]),
           },
+          moveAnimation(
+            item.lxg.meshes[0],
+            [
+              itemData1.lxg.position,
+              posTranslate(itemData1.lxg.position, [0, 0.1, 0]),
+              posTranslate(itemData1.refrigerator.position, [0, 0.2, 0]),
+            ],
+            1,
+            5,
+          ),
           {
             mesh: bxm,
             animation: rotateAni("rotation.y", [
-              { frame: 3 * frameRate, value: 0 }, // 起始状态
-              { frame: 4 * frameRate, value: PI / 2 }, // 旋转0.6弧度
-              { frame: 5 * frameRate, value: 0 },
+              { frame: 6 * frameRate, value: 0 }, // 起始状态
+              { frame: 7 * frameRate, value: PI / 2 }, // 旋转0.6弧度
+              { frame: 8 * frameRate, value: 0 },
             ]),
           },
         ],
       },
     ],
-    onExit: async () => {},
+    onExit: async () => {
+      item.bloodTube.meshes[2].isVisible = true
+    },
   })
 }
 
+function createDhMat() {
+  const mat = new StandardMaterial("liquidMat", scene)
+  mat.diffuseColor = new Color3(1, 240 / 255, 200 / 255)
+  mat.alpha = 0.95
+  return mat
+}
 async function createMyNeedle() {
   if (!scene) return
   const curve = createBezierPath(tubePoints, 10)
@@ -750,7 +746,7 @@ function startTubeAnimation() {
       } else {
         // 动画完成时停止
         if (animationId !== null) {
-          const blood = createLiquid(item.bloodTube.meshes[0], 0.05)
+          if (dcxq) dcxq.scaling.y = 1
           // generateBlood(item.bloodTube.meshes)
 
           cancelAnimationFrame(animationId)

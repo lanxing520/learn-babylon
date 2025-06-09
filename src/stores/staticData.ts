@@ -203,14 +203,14 @@ export const defaultExperimentInfo = {
       模拟Name: "免疫印迹试验",
       序号: 2,
       步骤Name: "灌制分离胶",
-      描述: "用加样器往一个50ml离心管中加入4ml的丙烯酰胺混合液、2.5ml的1.5M Tris-HCl、100μL的10% SDS，然后用加样器混匀10次再加入100μL0%过硫酸铵和10μl的TEMED，然后混匀用加样器吸取胶液1ml，然后沿玻璃板一侧缓慢地注入灌至距梳齿底部1cm处停止，然后用水封顶，用电泳缓慢加入500μL的异丙醇后，等待30min",
+      描述: "用加样器往一个50ml离心管中加入4ml的丙烯酰胺混合液、2.5ml的1.5M Tris-HCl、100μL的10% SDS，然后用加样器混匀10次再加入100μL0%过硫酸铵和10μl的TEMED，然后混匀用加样器吸取胶液1ml，然后沿玻璃板一侧缓慢地注入底部1cm处停止，用加样器缓慢加入500μL的异丙醇后，等待30min",
       音频: 23,
     },
     {
       模拟Name: "免疫印迹试验",
       序号: 3,
       步骤Name: "灌制浓缩胶",
-      描述: "用加样器吸取0.67ml的30%丙烯酰胺、1.25ml的1.0M Tris-HCl、50μl 10% SDS，50μl的10%过硫酸铵和5μl TEMED，然后混匀倒掉分离胶上的异丙醇，用滤纸吸干残留液体，缓慢地注入到浓缩胶至玻璃板的顶端，然后立即插入梳齿缓慢地插入，然后等待20min",
+      描述: "用加样器往离心管加入0.67ml的30%丙烯酰胺、1.25ml的1.0M Tris-HCl、50μl 10% SDS，50μl的10%过硫酸铵和5μl TEMED，然后混匀倒掉分离胶上的异丙醇，用滤纸吸干残留液体，缓慢地注入到浓缩胶至玻璃板的顶端，然后立即插入梳齿缓慢地插入，然后等待20min",
       音频: 24,
     },
     {
@@ -388,3 +388,184 @@ export const defaultExperimentInfo = {
     },
   ],
 }
+import type { QuestionData } from "@/interface/index"
+export const expQuestionData = {
+  exp1: {
+    step1: [
+      {
+        question: "使用止血带的时间不宜超过多久？",
+        answer: "B",
+        type: "radio",
+        options: [
+          {
+            label: "A. 30秒",
+            value: "A",
+          },
+          {
+            label: "B. 1分钟",
+            value: "B",
+          },
+          {
+            label: "C. 2分钟",
+            value: "C",
+          },
+          {
+            label: "D. 5分钟",
+            value: "D",
+          },
+        ],
+        tips: "止血带绑扎时间 ≤1分钟，过长会导致血液浓缩、局部淤血或溶血。",
+      },
+      {
+        question: "采血时消毒皮肤的正确方式是？",
+        answer: "A",
+        type: "radio",
+        tips:'以穿刺点为中心，由内向外螺旋式消毒（直径≥5cm），避免重复污染区域。',
+        options: [
+          {
+            label: "A. 由内向外螺旋式擦拭",
+            value: "A",
+          },
+          {
+            label: "B. 由外向内画圈擦拭",
+            value: "B",
+          },
+          {
+            label: "C. 来回擦拭",
+            value: "C",
+          },
+          {
+            label: "D. 点状涂抹",
+            value: "D",
+          },
+        ],
+      },
+    ],
+    step2: [
+      {
+        question: "静脉采血时，穿刺针头与皮肤的最佳角度是？",
+        answer: "B",
+        type: "radio",
+        options: [
+          {
+            label: "A. 10°～15°",
+            value: "A",
+          },
+          {
+            label: "B. 15°～30°",
+            value: "B",
+          },
+          {
+            label: "C. 30°～45°",
+            value: "C",
+          },
+          {
+            label: "D. 45°～60°",
+            value: "D",
+          },
+        ],
+        tips: "针头斜面向上，以 15°～30° 角度快速刺入皮肤，可减少疼痛和血管损伤。",
+      },
+    ],
+  },
+  exp3: {
+    step2: [
+      {
+        question: "请选择血管",
+        answer: "静脉",
+        type: "radio",
+        options: [
+          {
+            label: "动脉",
+            value: "动脉",
+          },
+          {
+            label: "静脉",
+            value: "静脉",
+          },
+        ],
+      },
+    ],
+    step4: [
+      {
+        question: "请选择穿刺部位",
+        answer: "远心端",
+        type: "radio",
+        options: [
+          {
+            label: "中端",
+            value: "中端",
+          },
+          {
+            label: "近心端",
+            value: "近心端",
+          },
+          {
+            label: "远心端",
+            value: "远心端",
+          },
+        ],
+      },
+    ],
+    step7: [
+      {
+        question: "在家兔的麻醉过程中,可根据哪几项来判断麻醉的深浅(多选)",
+        answer: ["A", "C", "E"],
+        type: "checkbox",
+        options: [
+          {
+            label: "A.呼吸",
+            value: "A",
+          },
+          {
+            label: "B.血压",
+            value: "B",
+          },
+          {
+            label: "C.夹捏皮肤反应",
+            value: "C",
+          },
+          {
+            label: "D.心率",
+            value: "D",
+          },
+          {
+            label: "E.角膜反射",
+            value: "E",
+          },
+        ],
+      },
+    ],
+  },
+  exp8: {
+    step2: [
+      {
+        question: "肝素抗凝作用的主要机制是()",
+        answer: "A",
+        type: "radio",
+        options: [
+          {
+            label: "A、促进抗凝血酶正的活性",
+            value: "A",
+          },
+          {
+            label: "B、与钙离子形成络合物",
+            value: "B",
+          },
+          {
+            label: "C、收缩血管",
+            value: "C",
+          },
+          {
+            label: "D、对抗维生素K的作用",
+            value: "D",
+          },
+          {
+            label: "E、激活纤溶系统",
+            value: "E",
+          },
+        ],
+      },
+    ],
+  },
+} as Record<string, Record<string, QuestionData[]>>

@@ -19,8 +19,8 @@ export async function initStep3() {
   Object.keys(itemData3).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
-  createLiquid(item.zkcxg.meshes[0], 0.05)
-  const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05) as Mesh
+
+  // const blood = createLiquid(item.jtdg.meshes[0], 0.08, 0.003, 0.05) as Mesh
   // 定义步骤1,稀释
   stepManager.addStep({
     models: {
@@ -41,16 +41,16 @@ export async function initStep3() {
               { frame: 0, value: itemData3.jtdg.position },
               {
                 frame: 0.5 * frameRate,
-                value: posTranslate(itemData3.zkcxg.position, [0, 0.3, 0]),
+                value: posTranslate(itemData3.lxg.position, [0, 0.3, 0]),
               },
-              { frame: 1 * frameRate, value: posTranslate(itemData3.zkcxg.position, [0, 0.03, 0]) },
+              { frame: 1 * frameRate, value: posTranslate(itemData3.lxg.position, [0, 0.03, 0]) },
               {
                 frame: 1.5 * frameRate,
-                value: posTranslate(itemData3.zkcxg.position, [0, 0.03, 0]),
+                value: posTranslate(itemData3.lxg.position, [0, 0.03, 0]),
               },
               {
                 frame: 1.75 * frameRate,
-                value: posTranslate(itemData3.zkcxg.position, [0, 0.3, 0]),
+                value: posTranslate(itemData3.lxg.position, [0, 0.3, 0]),
               },
               {
                 frame: 2 * frameRate,
@@ -63,29 +63,16 @@ export async function initStep3() {
               { frame: 3 * frameRate, value: itemData3.jtdg.position },
             ]),
           },
-          {
-            mesh: blood,
-            animation: changeSizeAni("scaling.y", [
-              { frame: 1 * frameRate, value: 0 },
-              { frame: 1.5 * frameRate, value: 1 },
-              { frame: 2 * frameRate, value: 1 },
-              { frame: 2.5 * frameRate, value: 0.8 },
-            ]),
-          },
-          {
-            mesh: item.zkcxg.meshes[2],
-            animation: moveAni("position", [
-              { frame: 0 * frameRate, value: posTranslate(itemData3.zkcxg.position, [0, 0.1, 0]) },
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData3.zkcxg.position, [0, 0.1, 0.1]),
-              },
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData3.zkcxg.position, [0, -0.28, 0.1]),
-              },
-            ]),
-          },
+          // {
+          //   mesh: blood,
+          //   animation: changeSizeAni("scaling.y", [
+          //     { frame: 1 * frameRate, value: 0 },
+          //     { frame: 1.5 * frameRate, value: 1 },
+          //     { frame: 2 * frameRate, value: 1 },
+          //     { frame: 2.5 * frameRate, value: 0.8 },
+          //   ]),
+          // },
+
           {
             mesh: item.jtjsz.meshes[0],
             animation: moveAni("position", [
@@ -104,9 +91,7 @@ export async function initStep3() {
         ],
       },
     ],
-    onEnter: async () => {
-      item.zkcxg.meshes[2].setParent(null)
-    },
+    onEnter: async () => {},
   })
   // 定义步骤2
   stepManager.addStep({
@@ -208,7 +193,6 @@ export async function initStep3() {
     interactions: [{ modelName: "jtjsz" }],
     onEnter: async () => {},
   })
- 
 }
 
 export async function jumpStep3() {

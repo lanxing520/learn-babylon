@@ -12,7 +12,7 @@ export const useExperimentStore = defineStore(
     //   experimentInfo.value = val
     // }
 
-    const activeTab = ref("实验介绍")
+     const activeTabIndex = ref(0)
     const isSimulation = ref<number | null>(null)
     function getStepList(arr: any) {
       const empty = [] as { name: string; desc: string }[]
@@ -40,7 +40,7 @@ export const useExperimentStore = defineStore(
     return {
       name,
       EnglishName,
-      activeTab,
+      activeTabIndex,
       isSimulation,
       experimentInfo,
       // saveExperimentInfo,

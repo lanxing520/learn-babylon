@@ -8,7 +8,7 @@ export const itemData2 = {
   sjh: {
     name: "试剂盒",
     position: [origin.x, origin.y, origin.z - 0.8],
-    scaling: [0.8, 0.6, 0.8],
+    scaling: [0.8, 0.6, -0.8],
     rotate: [0, PI, 0],
   },
   fbm: {
@@ -75,10 +75,10 @@ export const itemData2 = {
     rotate: [0, 0, 0],
     position: [origin.x, origin.y, origin.z - 0.2],
   },
-  zkcxg: {
-    name: "真空采血管",
+  dcxq: {
+    name: "待测血清",
     position: [origin.x, origin.y, origin.z + 0.2],
-    scaling: [0.5, 0.3, 0.5],
+    scaling:10
   },
   lxg: {
     name: "离心管",

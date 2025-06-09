@@ -222,42 +222,38 @@ export async function initStep5() {
           playAudio(44)
         },
         animations: [
-          {
-            mesh: item.lsg.meshes[0],
-            animation: moveAni("position", [
-              {
-                frame: 0 * frameRate,
-                value: itemData5.lsg.position,
-              },
-              {
-                frame: 0.5 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.5, 0]),
-              },
-              {
-                frame: 1 * frameRate,
-                value: posTranslate(itemData5.lxj.position, [0, 0.3, 0]),
-              },
-              {
-                frame: 3 * frameRate,
-                value: posTranslate(itemData5.lxj.position, [0, 0.3, 0]),
-              },
-              {
-                frame: 4 * frameRate,
-                value: posTranslate(itemData5.lsg.position, [0, 0.5, 0]),
-              },
-              {
-                frame: 4.25 * frameRate,
-                value: itemData5.lsg.position,
-              },
-            ]),
-          },
+          moveAnimation(
+            item.lsg.meshes[0],
+            [
+              itemData5.lsg.position,
+              posTranslate(itemData5.lsg.position, [0, 0.5, 0]),
+              posTranslate(itemData5.lxj.position, [0, 0.3, 0]),
+              { pause: 2 },
+              posTranslate(itemData5.lsg.position, [0, 0.5, 0]),
+              itemData5.lsg.position,
+            ],
+            1,
+          ),
+          moveAnimation(
+            item.jyq.meshes[0],
+            [
+              itemData5.jyq.position,
+              posTranslate(itemData5.lsg.position, [0, 0.3, 0]),
+              posTranslate(itemData5.lsg.position, [0, 0.05, 0]),
+              { pause: 2 },
+              posTranslate(itemData5.lsg.position, [0, 0.3, 0]),
+            ],
+            1,
+            5,
+          ),
+          moveLid(item.lsg.meshes[2], [0, 0, 0.1], 5, 3),
           {
             mesh: item.lxj.meshes[1],
             animation: rotateAni("rotation.x", [
-              { frame: 1 * frameRate, value: -0.6 }, // 起始状态
-              { frame: 2 * frameRate, value: 0 },
+              { frame: 2 * frameRate, value: -0.6 }, // 起始状态
               { frame: 3 * frameRate, value: 0 },
-              { frame: 3.25 * frameRate, value: -0.6 },
+              { frame: 4 * frameRate, value: 0 },
+              { frame: 4.25 * frameRate, value: -0.6 },
             ]),
           },
         ],

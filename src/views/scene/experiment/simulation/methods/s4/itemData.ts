@@ -22,7 +22,7 @@ export const itemData4 = {
   sjh: {
     name: "试剂盒",
     position: [origin.x, origin.y, origin.z - 0.8],
-    scaling: [0.8, 0.6, 0.8],
+    scaling: [0.8, 0.6, -0.8],
     rotate: [0, PI, 0],
   },
   bxxa: {
@@ -163,6 +163,12 @@ export const itemData4 = {
     name: "离心管",
     rotate: [0, PI / 2, 0],
     position: [origin.x - 0.2, origin.y, origin.z - 0.33],
+    scaling: 10,
+  },
+  lxg2: {
+    name: "离心管",
+    rotate: [0, PI / 2, 0],
+    position: [origin.x - 0.2, origin.y, origin.z - 0.43],
     scaling: 10,
   },
   zls: {

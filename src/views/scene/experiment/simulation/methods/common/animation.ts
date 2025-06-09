@@ -3,25 +3,18 @@ import {
   Vector3,
   Mesh,
   Animation,
+  AnimationEvent,
   AnimationGroup,
   Quaternion,
-} from "@babylonjs/core"
+} from "@babylonjs/core/Legacy/legacy"
 import { scene } from "./initScene"
 import { config } from "../common/config"
-import type { NumberArray } from "./interface"
+import type { NumberArray, AnimationItem, AnimationKey } from "./interface"
 import { posTranslate } from "./action"
 
 const frameRate = config.frameRate
 const PI = Math.PI
 
-export interface AnimationItem {
-  animation: Animation
-  mesh: AbstractMesh
-}
-interface Key {
-  frame: number
-  value: number | number[] | Vector3
-}
 export function createAnimeGroup(groupName: string, animationList: AnimationItem[], option?: any) {
   const animeGroup = new AnimationGroup(groupName)
   animationList.forEach((e: AnimationItem, i) => {
@@ -39,7 +32,7 @@ type PathPoint = NumberArray | { pause: number } | number
  * @returns {Array} 关键帧数组，格式 [{ frame, value }]
  */
 export function createKeyframes(pathList: PathPoint[], step = 0.5, start = 0) {
-  const keyframes = [] as Key[]
+  const keyframes = [] as AnimationKey[]
   const frameRate = 30
   let currentFrame = (start - step) * frameRate
 
@@ -71,7 +64,7 @@ export function createKeyframes(pathList: PathPoint[], step = 0.5, start = 0) {
  * @param key 关键帧
  * @returns 动画
  */
-export function changeSizeAni(targetProperty: string, key: Key[]) {
+export function changeSizeAni(targetProperty: string, key: AnimationKey[]) {
   const changeSize = new Animation(
     "changeSize",
     targetProperty,
@@ -108,7 +101,7 @@ export function addWaterAni() {
  * @returns 动画
  */
 
-export function moveAni(targetProperty: string, key: Key[]) {
+export function moveAni(targetProperty: string, key: AnimationKey[]) {
   const movein = new Animation(
     "move",
     targetProperty,
@@ -126,7 +119,7 @@ export function moveAni(targetProperty: string, key: Key[]) {
  * @param key 关键帧
  * @returns 动画
  */
-export function rotateAni(targetProperty: string, key: Key[]) {
+export function rotateAni(targetProperty: string, key: AnimationKey[]) {
   const rotate = new Animation(
     "rotate",
     targetProperty,
@@ -134,7 +127,6 @@ export function rotateAni(targetProperty: string, key: Key[]) {
     Animation.ANIMATIONTYPE_FLOAT,
     Animation.ANIMATIONLOOPMODE_CONSTANT,
   )
-
   rotate.setKeys(getKey(key))
   return rotate
 }
@@ -204,7 +196,7 @@ export function customRotate(mesh: any, axis: number[]) {
   scene.beginAnimation(mesh, 0, totalFrames, true)
 }
 
-function getKey(key: Key[]) {
+function getKey(key: AnimationKey[]) {
   return key.map((e) => {
     if (Array.isArray(e.value)) {
       return {
@@ -253,12 +245,36 @@ export function moveLid(mesh: Mesh | AbstractMesh, translate: NumberArray, start
   }
 }
 
+export function translateMove(
+  mesh: Mesh | AbstractMesh,
+  translate: NumberArray,
+  speed = 1,
+  start = 0,
+) {
+  const position = mesh.position.clone()
+
+  return {
+    mesh,
+    animation: moveAni(
+      "position",
+      createKeyframes(
+        [
+          [position.x, position.y, position.z],
+          [position.x + translate[0], position.y + translate[1], position.z + translate[2]],
+        ],
+        speed,
+        start,
+      ),
+    ),
+  }
+}
 export function moveAnimation(
   mesh: Mesh | AbstractMesh,
   pathList: PathPoint[],
   step = 0.5,
   start = 0,
 ) {
+  
   return {
     mesh,
     animation: moveAni("position", createKeyframes(pathList, step, start)),
@@ -274,7 +290,7 @@ export function createPositionKey(position: NumberArray, up = 0.3, down = 0.05, 
 }
 export function rotateAnimation(
   mesh: Mesh | AbstractMesh,
-  axis = "x",
+  axis: string,
   pause?: number,
   start = 0,
   angle = PI / 2,
@@ -288,4 +304,86 @@ export function rotateAnimation(
     mesh: mesh,
     animation: rotateAni("rotation." + axis, createKeyframes(key, 1, start)),
   }
+}
+
+export function rotateAllAnimation(mesh: Mesh | AbstractMesh, range: PathPoint[], start = 0) {
+  const key = createKeyframes(range, 1, start)
+  const rotate = new Animation(
+    "rotation",
+    "rotation",
+    frameRate,
+    Animation.ANIMATIONTYPE_VECTOR3,
+    Animation.ANIMATIONLOOPMODE_CYCLE,
+  )
+  rotate.setKeys(getKey(key))
+
+  return {
+    mesh: mesh,
+    animation: rotate,
+  }
+}
+
+/**
+ * 移动瓶盖
+ * @param mesh  目标
+ * @param targetProperty 根据x或y或z轴缩小
+ * @param sizeChange 大小变化范围 [0,1]
+ * @param start 开始时间
+ * @returns 动画
+ */
+export function changeSizeAnimation(
+  mesh: Mesh | AbstractMesh,
+  targetProperty: string,
+  sizeChange: number[],
+  start?: number,
+) {
+  return {
+    mesh: mesh,
+    animation: changeSizeAni("scaling." + targetProperty, createKeyframes(sizeChange, 1, start)),
+  }
+}
+
+/**
+ * 控制动画组播放并绑定帧事件
+ * @param animationGroup 动画组对象
+ * @param handlerList 帧事件列表
+ * @param speedRatio 播放速度比例，默认为 0.2
+ */
+export function controlAnimationGroup(
+  animationGroup: AnimationGroup,
+  handlerList: {
+    frame: number
+    handler: (currentFrame: number) => void
+  }[],
+  speedRatio = 0.2,
+) {
+  // 参数校验
+  if (!animationGroup) {
+    console.warn("controlAnimationGroup: animationGroup is null or undefined")
+    return
+  }
+
+  // 获取目标动画对象
+  const targetAnimation = animationGroup.children?.[0].animation
+
+  if (!targetAnimation) {
+    console.warn("controlAnimationGroup: target animation is missing")
+    return
+  }
+
+  // 绑定事件
+  if (handlerList.length) {
+    handlerList.forEach((item) => {
+      try {
+        const evt = new AnimationEvent(item.frame, item.handler, true)
+        targetAnimation.addEvent(evt)
+      } catch (error) {
+        console.error("controlAnimationGroup: failed to create AnimationEvent", error)
+      }
+    })
+  }
+
+  // 启动动画
+  animationGroup.start()
+  animationGroup.speedRatio = speedRatio
 }
