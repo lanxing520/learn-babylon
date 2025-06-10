@@ -7,7 +7,7 @@ import { ref } from "vue"
 export const config = {
   frameRate:30,
   showFps: false,
-  debugger: false,
+  debugger: true,
   HavokPhysics: false,
   sceneOptimize: true,
 }

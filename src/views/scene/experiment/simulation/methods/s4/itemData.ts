@@ -284,9 +284,9 @@ export const itemData4 = {
   },
   zmy: {
     name: "转膜仪",
-    rotate: [0, 0, 0],
-    position: [origin.x - 1, origin.y, origin.z - 2.7],
-    scaling: 1.5,
+    rotate: [0, -PI / 2, 0],
+    position: [origin.x - 0.9, origin.y + 0.1, origin.z - 3],
+    scaling: 0.7,
   },
   lxj: {
     name: "离心机",
@@ -362,22 +362,27 @@ export const model = {
   },
   state13: {
     hmd: {
-      position: posTranslate(itemData4.zmy.position, [0.1, 0.21, 0]),
+      visible: false,
+      // position: posTranslate(watchPoint, [0.1, 0.01, 0]),
     },
     hmd2: {
-      position: posTranslate(itemData4.zmy.position, [0.1, 0.24, 0]),
+      visible: false,
+      // position: posTranslate(watchPoint, [0.1, 0.04, 0]),
     },
     lz: {
-      position: posTranslate(itemData4.zmy.position, [0.05, 0.22, 0]),
-      rotation: [PI / 2, PI / 2, 0] as NumberArray,
+      visible: false,
+      // position: posTranslate(watchPoint, [0.05, 0.02, 0]),
+      // rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
     lz2: {
-      position: posTranslate(itemData4.zmy.position, [0.05, 0.23, 0]),
-      rotation: [PI / 2, PI / 2, 0] as NumberArray,
+      visible: false,
+      // position: posTranslate(watchPoint, [0.05, 0.03, 0]),
+      // rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
     pvdfm: {
-      position: posTranslate(itemData4.zmy.position, [0.05, 0.225, 0]),
-      rotation: [PI / 2, PI / 2, 0] as NumberArray,
+      visible: false,
+      // position: posTranslate(watchPoint, [0.05, 0.005, 0]),
+      // rotation: [PI / 2, PI / 2, 0] as NumberArray,
     },
   },
   state16: {

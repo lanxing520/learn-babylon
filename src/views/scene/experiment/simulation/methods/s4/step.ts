@@ -8,6 +8,7 @@ import {
   moveAni,
   rotateAni,
   createKeyframes,
+  translateMove,
 } from "../common/animation"
 import {
   playAudio,
@@ -47,7 +48,7 @@ export async function initStep4() {
   Object.keys(itemData4).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
-  stepIndex.value = 12
+  stepIndex.value = 15
   // item.blb.meshes[0].setParent(item.zjj.meshes[0])
   const pourWaterAni = moveAni(
     "position",
@@ -576,6 +577,7 @@ export async function initStep4() {
       playAudio(29)
     },
   })
+
   //步骤11,转膜1
   stepManager.addStep({
     models: {},
@@ -584,7 +586,7 @@ export async function initStep4() {
         modelName: "pvdfm",
         onClick: async () => {},
         animations: [
-          rotateAnimation(item.pvdfm.meshes[0], "z"),
+          rotateAnimation(item.pvdfm.meshes[0], "x"),
           moveAnimation(
             item.pvdfm.meshes[0],
             [
@@ -604,7 +606,7 @@ export async function initStep4() {
             ],
             1,
           ),
-          rotateAnimation(item.lz.meshes[0], "z"),
+          rotateAnimation(item.lz.meshes[0], "x"),
           moveAnimation(
             item.zmhcy.meshes[0],
             [
@@ -626,6 +628,11 @@ export async function initStep4() {
       playAudio(30)
     },
   })
+  // 转膜仪盖子,盒子
+  const gz = item.zmy.meshes[1]
+  const hz = item.zmy.meshes[2]
+  const gzPos = gz.absolutePosition
+  const hzPos = hz.absolutePosition
   //步骤12,转膜2
   stepManager.addStep({
     models: model.state12,
@@ -637,15 +644,45 @@ export async function initStep4() {
         },
         animations: [
           moveAnimation(
+            gz,
+            [
+              [gzPos.x, gzPos.y, gzPos.z],
+              posTranslate(watchPoint, [0.15, 0.05, 0]),
+              { pause: 1 },
+              posTranslate(itemData4.zmy.position, [0.15, 0.1, 0.1]),
+            ],
+            0.5,
+            15,
+          ),
+          moveAnimation(hz, [
+            [hzPos.x, hzPos.y, hzPos.z],
+            posTranslate(watchPoint, [0.15, 0, 0]),
+            { pause: 16 },
+            posTranslate(itemData4.zmy.position, [0.15, 0.1, 0.1]),
+          ]),
+
+          rotateAnimation(hz, "z", undefined, 17, PI / 2),
+          rotateAnimation(gz, "z", undefined, 17, PI / 2),
+
+          moveAnimation(
             item.hmd.meshes[0],
-            [itemData4.hmd.position, posTranslate(itemData4.zmy.position, [0.1, 0.21, 0])],
+            [
+              itemData4.hmd.position,
+              posTranslate(watchPoint, [0.1, 0.31, 0]),
+              posTranslate(watchPoint, [0.1, 0.01, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.1, -0.05, 0]),
+            ],
             1,
           ),
           moveAnimation(
             item.lz.meshes[0],
             [
               posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
-              posTranslate(itemData4.zmy.position, [0.05, 0.22, 0]),
+              posTranslate(watchPoint, [0.05, 0.32, 0]),
+              posTranslate(watchPoint, [0.05, 0.02, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.1, -0.05, 0]),
             ],
             1,
             2,
@@ -655,14 +692,14 @@ export async function initStep4() {
             [
               itemData4.gl.position,
               posTranslate(itemData4.gl.position, [0, 0.2, 0]),
-              posTranslate(itemData4.zmy.position, [0.05, 0.35, 0]),
-              posTranslate(itemData4.zmy.position, [0.3, 0.35, 0]),
-              { pause: 2 },
-              posTranslate(itemData4.zmy.position, [0.05, 0.36, 0]),
-              posTranslate(itemData4.zmy.position, [0.3, 0.36, 0]),
-              { pause: 2 },
-              posTranslate(itemData4.zmy.position, [0.05, 0.37, 0]),
-              posTranslate(itemData4.zmy.position, [0.3, 0.37, 0]),
+              posTranslate(watchPoint, [0.05, 0.15, 0]),
+              posTranslate(watchPoint, [0.2, 0.15, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.05, 0.16, 0]),
+              posTranslate(watchPoint, [0.2, 0.16, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.05, 0.17, 0]),
+              posTranslate(watchPoint, [0.2, 0.17, 0]),
               itemData4.gl.position,
             ],
             1,
@@ -673,7 +710,8 @@ export async function initStep4() {
             [
               itemData4.blb.position,
               posTranslate(itemData4.blb.position, [0, 0.2, 0]),
-              posTranslate(itemData4.zmy.position, [-0.05, 0.25, 0]),
+              posTranslate(watchPoint, [-0.05, 0.35, 0]),
+              posTranslate(watchPoint, [-0.05, 0.05, 0]),
               { pause: 1 },
               itemData4.blb.position,
             ],
@@ -685,7 +723,10 @@ export async function initStep4() {
             item.pvdfm.meshes[0],
             [
               posTranslate(itemData4.fbm1.position, [-0.06, 0.02, -0.065]),
-              posTranslate(itemData4.zmy.position, [0.05, 0.225, 0]),
+              posTranslate(watchPoint, [0.05, 0.305, 0]),
+              posTranslate(watchPoint, [0.05, 0.003, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.1, -0.05, 0]),
             ],
             1,
             6,
@@ -694,22 +735,39 @@ export async function initStep4() {
             item.lz2.meshes[0],
             [
               posTranslate(itemData4.fbm2.position, [-0.06, 0.02, -0.065]),
-              posTranslate(itemData4.zmy.position, [0.05, 0.23, 0]),
+              posTranslate(watchPoint, [0.05, 0.33, 0]),
+              posTranslate(watchPoint, [0.05, 0.02, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.1, -0.05, 0]),
             ],
             1,
             8,
           ),
           moveAnimation(
             item.hmd2.meshes[0],
-            [itemData4.hmd.position, posTranslate(itemData4.zmy.position, [0.1, 0.24, 0])],
+            [
+              itemData4.hmd.position,
+              posTranslate(watchPoint, [0.1, 0.34, 0]),
+              posTranslate(watchPoint, [0.1, 0.03, 0]),
+              { pause: 3 },
+              posTranslate(watchPoint, [0.1, -0.05, 0]),
+            ],
             1,
             10,
           ),
         ],
       },
     ],
-    onEnter: async () => {},
+    onEnter: async () => {
+      gz.setParent(null)
+      hz.setParent(null)
+      gz.rotation = new Vector3(0, 0, 0)
+      hz.rotation = new Vector3(0, 0, 0)
+      gz.position = new Vector3(3.5, 1.084, -4.5)
+      hz.position = new Vector3(3.5, 1.079, -4.5)
+    },
   })
+
   //步骤13,加转膜缓冲液
   stepManager.addStep({
     models: model.state13,
