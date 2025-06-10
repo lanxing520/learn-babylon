@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="now-step">{{ active?.name }}</div> -->
   <div class="left-button-wrapper" :class="{ 'hide-left': isHideLeft }">
     <div ref="scrollRef" class="animation-list hide-scrollbar">
       <div
@@ -60,12 +59,7 @@ const store = useExperimentStore()
 const expInfo = experimentScore()
 const active = ref<Step>({ index: null, name: "", desc: "" })
 const scrollRef = useTemplateRef("scrollRef")
-function formatSeconds(seconds: number) {
-  if (seconds < 0) seconds = 0 // 处理负数
-  const mins = Math.floor(seconds / 60) // 计算分钟数（取整）
-  const secs = seconds % 60 // 计算剩余秒数
-  return `${mins}分${secs}秒` // 返回格式化字符串
-}
+
 const dialogVisible = ref(false)
 const endExperiment = () => {
   if (expInfo?.report && expInfo?.report?.length > 0) {
@@ -160,7 +154,6 @@ const hideDown = () => {
   isHideDown.value = !isHideDown.value
 }
 
-onMounted(() => {})
 </script>
 
 <style scoped lang="scss">
@@ -180,18 +173,6 @@ onMounted(() => {})
   position: absolute;
   right: 1rem;
   bottom: 2rem;
-}
-.now-step {
-  position: absolute;
-  right: 1rem;
-  top: 4rem;
-  color: #fff;
-  background: no-repeat center url("@/assets/img/experiment/步骤.png");
-  background-size: 100% 100%;
-  width: 10rem;
-  height: 3rem;
-  line-height: 3rem;
-  text-align: center;
 }
 
 .left-button-wrapper {
