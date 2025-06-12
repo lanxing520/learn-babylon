@@ -56,8 +56,8 @@ const isDev = computed(() => {
     position: absolute;
     left: 14%;
     bottom: 20%;
-    width: 20vw;
-    height: 11vh;
+    width: 17vw;
+    height: 10vh;
     line-height: 5rem;
     text-align: center;
     cursor: pointer;

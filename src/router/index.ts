@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router"
 const HomePage = () => import("@/views/homepage/index.vue")
 const ExperimentPage = () => import("@/views/scene/experiment/index.vue")
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(), // 修改为 hash 模式
   routes: [
     {
       path: "/",

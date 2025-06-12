@@ -7,10 +7,14 @@ import { viteStaticCopy } from "vite-plugin-static-copy"
 import AutoImport from "unplugin-auto-import/vite"
 import Components from "unplugin-vue-components/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
+import path from 'path' // 明确导入 path 模块
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/", // 改为相对路径
+  base: "./", // 改为相对路径
+  build: {
+    outDir: path.resolve(__dirname, "../build/exp6-dist"), // 现在应该可以正常工作了
+  },
   plugins: [
     vue(),
     vueDevTools(),
