@@ -48,7 +48,6 @@ export async function initStep4() {
   Object.keys(itemData4).forEach((key) => {
     stepManager?.registerModel(key, item[key].meshes)
   })
-  stepIndex.value = 15
   // item.blb.meshes[0].setParent(item.zjj.meshes[0])
   const pourWaterAni = moveAni(
     "position",
